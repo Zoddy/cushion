@@ -31,6 +31,32 @@ nodecouch.prototype.getVersion = function(callback) {
 
 
 /**
+ * retrieving a list of databases
+ *
+ * @param {function(error, response)} callback function that will be called
+ *     after retrieving a list of databases, or at an error
+ * @param {boolean} noCouchRelated filters all couch related db's, so the list
+ *     has only database which a user has set up
+ */
+nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
+  this.request('GET', '_all_dbs', function (error, response) {
+    var i;
+
+    if (error === null && response !== null && noCouchRelated === true) {
+      for (i = 0; response[i]; ++i) {
+        if (response[i].substr(0, 1) === '_') {
+          response.splice(i, 1);
+          --i;
+        }
+      }
+    }
+
+    callback(error, response);
+  });
+};
+
+
+/**
  * wrapper function for any request to the couchdb
  *
  * @param {Function} callback function that will be called after all data events
@@ -46,7 +72,7 @@ nodecouch.prototype._request = function(callback, response) {
   });
 
   response.on('end', function() {
-    callback(null, JSON.parse(content).version);
+    callback(null, JSON.parse(content));
   });
 };
 
@@ -67,7 +93,7 @@ nodecouch.prototype.request = function(method, path, callback) {
         'host': this._options.host,
         'port': this._options.port,
         'method': method,
-        'path': path,
+        'path': '/' + path,
         'auth': this._options.username + ':' + this._options.password
       },
       request = http.request(options, this._request.bind(this, callback));
