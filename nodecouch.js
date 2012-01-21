@@ -61,7 +61,13 @@ nodecouch.prototype.deleteDatabase = function(name, callback) {
  * @param {Function(version)} callback function that will be called after
  */
 nodecouch.prototype.getVersion = function(callback) {
-  this.request('GET', '', callback);
+  this.request('GET', '', function(error, response) {
+    if (response !== null && error === null) {
+      response = response.version;
+    }
+
+    callback(error, response);
+  });
 };
 
 
