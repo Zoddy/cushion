@@ -56,12 +56,25 @@ database.prototype.getInfo = function(callback) {
  * @param {string} viewName name of the view
  * @param {function(error, result)} callback function that will be called
  *     after getting a result or there was an error
+ * @param {Object} options additional view options as key-value-pairs,
+ *     look at the couchdb view api documentation for correct parameters
  */
 database.prototype.view = function(designDoc, viewName, callback, options) {
+  var method = (options && options.keys instanceof Array) ? 'POST' : 'GET',
+      path = this._name + '/_design/' + designDoc + '/_view/' + viewName,
+      query = '',
+      options = options || {},
+      optionKey;
+
+  for (optionKey in options) {
+    query += ((query.length > 0) ? '&' : '?') +
+             optionKey + '=' +
+             encodeURIComponent(options[optionKey]);
+  }
+
   this._connection.request(
-    'GET',
-    this._name + '/_design/' + designDoc +
-    '/_view/' + viewName,
+    method,
+    path + query,
     callback
   );
 };
