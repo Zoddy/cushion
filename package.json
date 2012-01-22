@@ -1,0 +1,24 @@
+{ "name" : "nodecouch"
+, "version" : "0.0.1"
+, "description" : "A CouchDB Interface for Node.js"
+, "keywords" : [ "couchdb" ]
+, "preferGlobal" : true
+, "private": true
+, "author" : { "name" : "André Kussmann"
+             , "email" : "zoddy@zoddy.de"
+             }
+, "contributors" :
+  [ { "name" : "Patrick Venetz"
+    , "email" : "mail@patrickvenetz.com"
+    }
+  ]
+, "repository" :
+  { "type" : "git"
+  , "url" : "git://github.com/nodecouch/nodecouch.git"
+  }
+, "bugs" :
+  { "url" : "http://github.com/meecrom/nodecouch/issues"
+  }
+, "main" : "./nodecouch"
+, "engines" : { "node" : ">=0.4" }
+}
