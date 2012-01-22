@@ -143,6 +143,18 @@ db.createDocument(
 );
 ```
 
+### delete document ###
+
+``` js
+db.deleteDocument(
+  'foobar', // document id
+  '1-4c6114c65e295552ab1019e2b046b10e', // revision
+  function(error, confirmation) { //callback
+    console.log(error || confirmation);
+  }
+);
+```
+
 ### retrieving a view ###
 
 ``` js
