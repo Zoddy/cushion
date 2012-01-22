@@ -102,6 +102,10 @@ db.getInfo(function(error, info) {
 
 ### get all documents ###
 
+As second parameter you can add additional options, the same that you can set at
+the view function, because the getAll function retrieves a special view at the
+couchdb: `_all_docs`.
+
 ``` js
 db.getAll(function(error, allDocs) {
   console.log(error || allDocs);
