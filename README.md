@@ -125,6 +125,7 @@ this are all the query parameters that are documented at the couchdb view api
 http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options
 
 This skips the first five documents and limits the output to 10 results.
+
 ``` js
 db.view(
   'foo',
