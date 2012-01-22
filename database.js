@@ -13,7 +13,7 @@ var database = function(name, connection) {
 database.prototype.exists = function(callback) {
   this.getInfo(function(error, response) {
     if (response !== null) {
-      if (response.error === 'not_found') {
+      if (response.error) {
         response = false;
       } else {
         response = true;
@@ -23,6 +23,19 @@ database.prototype.exists = function(callback) {
     callback(error, response);
   });
 };
+
+
+/**
+ * gets a single document
+ *
+ * @param {string} documentID id for the couch document
+ * @param {function(error, document)} callback function that will be called,
+ *     after we have the document, or there was an error
+ */
+database.prototype.get = function(documentID, callback) {
+  this._connection.request('GET', this._name + '/' + documentID, callback);
+};
+
 
 /**
  * gets info about a database
