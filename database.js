@@ -29,11 +29,25 @@ database.prototype.exists = function(callback) {
  * gets a single document
  *
  * @param {string} documentID id for the couch document
+ * @param {string|function(error, document)} revisionOrCallback
+ *     document revision id or function that will be called, after we have the
+ *     document, or there was an error
  * @param {function(error, document)} callback function that will be called,
  *     after we have the document, or there was an error
  */
-database.prototype.get = function(documentID, callback) {
-  this._connection.request('GET', this._name + '/' + documentID, callback);
+database.prototype.get = function(documentID, revisionOrCallback, callback) {
+  var callback = (typeof(revisionOrCallback) === 'function') ?
+                 revisionOrCallback :
+                 callback,
+      revision = (typeof(revisionOrCallback) === 'string') ?
+                 '?rev=' + revisionOrCallback :
+                 '';
+
+  this._connection.request(
+    'GET',
+    this._name + '/' + documentID + revision,
+    callback
+  );
 };
 
 
