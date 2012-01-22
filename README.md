@@ -5,10 +5,10 @@ Node.js CouchDB Interface
 
 
 connection api
-==============
+--------------
 
-create new connection
----------------------
+### create new connection ###
+
 ``` js
 var nodecouch = new (require('nodecouch').Connection)(
                   '127.0.0.1', // host
@@ -18,28 +18,28 @@ var nodecouch = new (require('nodecouch').Connection)(
                 );
 ```
 
-error handling
---------------
+### error handling ###
+
 you can choose between two error handlings. if you set a fifth argument at a new
 connection object, you can switch between them.
 
 set to `true` means, that in the error object at each callback there are also
 couchdb errors
 
-set to `false` means, that only connection errors (e.g. wrong port) are written
+set to false` means, that only connection errors (e.g. wrong port) are written
 in the error object, couchdb errors will be hold in the response object
 "true" is the default entry
 
-create database
----------------
+### create database ###
+
 ``` js
 nodecouch.createDatabase('foo', function(error, response) {
   console.log(error || response);
 });
 ```
 
-get a list of databases
------------------------
+### get a list of databases ###
+
 ``` js
 // the second (boolean) argument can be set to true (default false), if you want
 // to filter the couchdb related databases (e.g. _user)
@@ -48,24 +48,24 @@ nodecouch.listDatabases(function(error, databases) {
 }, true);
 ```
 
-delete database
----------------
+### delete database ###
+
 ``` js
 nodecouch.deleteDatabase('foo', function(error, response) {
   console.log(error || response);
 });
 ```
 
-get version of couchdb
-----------------------
+### get version of couchdb ###
+
 ``` js
 nodecouch.getVersion(function(error, version) {
   console.log(error || version);
 });
 ```
 
-make a lowlevel request
------------------------
+### make a lowlevel request ###
+
 ``` js
 nodecouch.request(
   'GET' // http method GET, PUT, POST or DELETE
@@ -78,10 +78,10 @@ nodecouch.request(
 
 
 database api
-============
+------------
 
-connect to a specific database
-------------------------------
+### connect to a specific database ###
+
 ``` js
 var nodecouch = new (require('nodecouch').Connection)(
                   '127.0.0.1', // host
@@ -92,24 +92,24 @@ var nodecouch = new (require('nodecouch').Connection)(
     db = nodecouch.database('foo'); // returns the database api object
 ```
 
-get informations about the database
------------------------------------
+### get informations about the database ###
+
 ``` js
 db.getInfo(function(error, info) {
   console.log(error || info);
 });
 ```
 
-get a specific document
------------------------
+### get a specific document ###
+
 `` js
 db.get('foo', function(error, document) {
   console.log(error || document);
 });
 ```
 
-retrieving a view
------------------
+### retrieving a view ###
+
 ``` js
 db.view(
   'foo', // design document, after the "_design/"
