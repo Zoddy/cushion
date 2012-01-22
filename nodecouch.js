@@ -152,16 +152,22 @@ nodecouch.prototype._request = function(callback, response) {
  *     the error argument will only be filled, if there is an error at the
  *     connection, it doesn't show errors that relating to the couchdb, this
  *     information will be find in the response argument
- * @param {?Object} body additional http body
+ * @param {?Object|null} body additional http body
+ * @param {?Object} headers additional headers as key-value-pairs
  */
-nodecouch.prototype.request = function(method, path, callback, body) {
+nodecouch.prototype.request = function(method, path, callback, body, headers) {
+  headers = headers || {};
+  headers['Content-Type'] = 'application/json';
+
+  console.log(headers);
+
   var options = {
         'host': this._options.host,
         'port': this._options.port,
         'method': method,
         'path': '/' + path,
         'auth': this._options.username + ':' + this._options.password,
-        'headers': {'Content-Type': 'application/json'}
+        'headers': headers
       },
       request = http.request(options, this._request.bind(this, callback)),
       context = this;
