@@ -33,14 +33,13 @@ nodecouch.prototype.createDatabase = function(name, callback) {
 
 
 /**
- * gets info about a database
+ * gives a connection to a specific database
  *
  * @param {string} name name of the database
- * @param {function(error, response)} callback function that will be called
- *     after response or error
+ * @return {Object} the database object
  */
-nodecouch.prototype.databaseInfo = function(name, callback) {
-  this.request('GET', name, callback);
+nodecouch.prototype.database = function(name) {
+  return new (require('./database.js').database)(name, this);
 };
 
 
