@@ -49,4 +49,22 @@ database.prototype.getInfo = function(callback) {
 };
 
 
+/**
+ * retrieves a view
+ *
+ * @param {string} designDoc name of the design document (after the "_design/")
+ * @param {string} viewName name of the view
+ * @param {function(error, result)} callback function that will be called
+ *     after getting a result or there was an error
+ */
+database.prototype.view = function(designDoc, viewName, callback) {
+  this._connection.request(
+    'GET',
+    this._name + '/_design/' + designDoc +
+    '/_view/' + viewName,
+    callback
+  );
+};
+
+
 exports.database = database;
