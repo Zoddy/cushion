@@ -7,11 +7,11 @@ var http = require('http');
  * @param {number} [port=this._options.port] port
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
- * @param {string} [errorHandling=this._options.errorHandling]
- *     "full" = handles couch errors like connection errors
- *     "connection"= handles couch error in the response
+ * @param {string} [errorHandling=this._options.fullErrorHandling]
+ *     true = handles couch errors like connection errors
+ *     false = handles couch error in the response
  */
-var nodecouch = function(host, port, username, password, errorHandling) {
+var nodecouch = function(host, port, username, password, fullErrorHandling) {
   var defaultOptions = require('./config.js');
 
   this._options = {
@@ -19,7 +19,7 @@ var nodecouch = function(host, port, username, password, errorHandling) {
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
     'password': password || defaultOptions.password,
-    'errorHandling': errorHandling || defaultOptions.errorHandling
+    'fullErrorHandling': fullErrorHandling || defaultOptions.fullErrorHandling
   };
 };
 
@@ -108,7 +108,11 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
  * @param {Object} response request response data
  */
 nodecouch.prototype._responseHandler = function(callback, error, response) {
-  if (this._options.errorHandling === 'full' && response && response.error) {
+  if (
+    this._options.fullErrorHandling === true &&
+    response &&
+    response.error
+  ) {
     error = response;
     response = null;
   }
