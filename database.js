@@ -33,6 +33,28 @@ database.prototype.createDocument = function(
 
 
 /**
+ * updates a document body
+ *
+ * @param {string} docId id of the document, which will be updated
+ * @param {string} revision current revision of the document
+ * @param {Object} body new content of the document
+ * @param {function(error, confirmation)} callback function that will be called,
+ *     after document was updated, or if there was an error
+ */
+database.prototype.updateDocument = function(docId, revision, body, callback) {
+  body._id = docId;
+  body._rev = revision;
+
+  this._connection.request(
+    'PUT',
+    this._name + '/' + docId,
+    callback,
+    body
+  );
+};
+
+
+/**
  * deletes a document
  *
  * @param {string} docId document id which you want to delete
