@@ -119,6 +119,17 @@ database.prototype.get = function(documentID, revisionOrCallback, callback) {
 
 
 /**
+ * get all documents in this database
+ *
+ * @param {function(error, allDocs)} callback function that will be called,
+ *     after getting the documents, or if there was an error
+ */
+database.prototype.getAll = function(callback) {
+  this._connection.request('GET', this._name + '/_all_docs', callback);
+};
+
+
+/**
  * gets info about a database
  *
  * @param {string} name name of the database
