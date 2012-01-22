@@ -7,8 +7,9 @@ var http = require('http');
  * @param {number} [port=this._options.port] port
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
+ * @param {string} [errorHandling=this._options.errorHandling] "full" = handles couch errors like connection errors
  */
-var nodecouch = function(host, port, username, password) {
+var nodecouch = function(host, port, username, password, errorHandling) {
   var defaultOptions = require('./config.js');
 
   this._options = {
@@ -16,6 +17,7 @@ var nodecouch = function(host, port, username, password) {
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
     'password': password || defaultOptions.password,
+    'errorHandling': errorHandling || defaultOptions.errorHandling
   };
 };
 
@@ -97,13 +99,31 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
 
 
 /**
+ * request response handler
+ *
+ * @param {Function} callback function that will be called after all data events
+ * @param {Object} error error data
+ * @param {Object} response request response data
+ */
+nodecouch.prototype._responseHandler = function(callback, error, response) {
+  if (this._options.errorHandling === 'full' && response.error !== null) {
+    error = response;
+    response = null;
+  }
+
+  callback(error, response);
+}
+
+
+/**
  * wrapper function for any request to the couchdb
  *
  * @param {Function} callback function that will be called after all data events
  * @param {http.ClientResponse} response the http response object
  */
 nodecouch.prototype._request = function(callback, response) {
-  var content = '';
+  var content = '',
+      context = this;
 
   response.setEncoding('utf8');
 
@@ -112,7 +132,7 @@ nodecouch.prototype._request = function(callback, response) {
   });
 
   response.on('end', function() {
-    callback(null, JSON.parse(content));
+    context._responseHandler(callback, null, JSON.parse(content));
   });
 };
 
@@ -136,10 +156,11 @@ nodecouch.prototype.request = function(method, path, callback) {
         'path': '/' + path,
         'auth': this._options.username + ':' + this._options.password
       },
-      request = http.request(options, this._request.bind(this, callback));
+      request = http.request(options, this._request.bind(this, callback)),
+      context = this;
 
   request.on('error', function(error) {
-    callback(error, null);
+    context._responseHandler(callback, error);
   });
 
   request.end();
