@@ -119,3 +119,19 @@ db.view(
   }
 );
 ```
+
+you can set a fourth argument, which sets up additional arguments to the views.
+this are all the query parameters that are documented at the couchdb view api
+http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options
+
+This skips the first five documents and limits the output to 10 results.
+``` js
+db.view(
+  'foo',
+  'bar',
+  function(error, result) {
+    console.log(error || result);
+  },
+  {skip: 5, limit: 10}
+);
+```
