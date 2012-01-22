@@ -100,6 +100,14 @@ db.getInfo(function(error, info) {
 });
 ```
 
+### get all documents ###
+
+``` js
+db.getAll(function(error, allDocs) {
+  console.log(error || allDocs);
+});
+```
+
 ### get a specific document ###
 
 current revision
