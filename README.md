@@ -14,3 +14,12 @@ var nodecouch = new (require('nodecouch').Connection)(
                   'bar' // password
                 );
 ```
+
+create database
+---------------
+``` js
+nodecouch.createDatabase('foo', function(error, response) {
+  console.log(error || response);
+});
+```
+
