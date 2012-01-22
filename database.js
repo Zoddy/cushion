@@ -5,6 +5,34 @@ var database = function(name, connection) {
 
 
 /**
+ * copy a document
+ *
+ * @param {string|Object} source id of the document, that will be copied or
+ *     object with id and revision
+ * @param {string|Object} target id of the target document or object with id and
+ *     revision
+ * @param {function(error, confirmation)} callback function that will be called,
+ *     after document was copied, or if there was an error
+ */
+database.prototype.copyDocument = function(source, target, callback) {
+  var sourceRevision = (typeof(source) === 'object') ?
+                       '?rev=' + source.revision :
+                       '',
+      targetRevision = (typeof(target) === 'object') ?
+                       '?rev=' + target.revision :
+                       '';
+
+  this._connection.request(
+    'COPY',
+    this._name + '/' + (source.id || source) + sourceRevision,
+    callback,
+    null,
+    {'Destination': (target.id || target) + targetRevision}
+  );
+};
+
+
+/**
  * create a document
  *
  * @param {string|Object} docIdOrContent document id, if you have a own id, or
