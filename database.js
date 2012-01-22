@@ -60,8 +60,7 @@ database.prototype.getInfo = function(callback) {
  *     look at the couchdb view api documentation for correct parameters
  */
 database.prototype.view = function(designDoc, viewName, callback, options) {
-  var method = (options && options.keys instanceof Array) ? 'POST' : 'GET',
-      path = this._name + '/_design/' + designDoc + '/_view/' + viewName,
+  var path = this._name + '/_design/' + designDoc + '/_view/' + viewName,
       query = '',
       options = options || {},
       optionKey;
@@ -73,7 +72,7 @@ database.prototype.view = function(designDoc, viewName, callback, options) {
   }
 
   this._connection.request(
-    method,
+    'GET',
     path + query,
     callback
   );
