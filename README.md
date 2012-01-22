@@ -102,19 +102,45 @@ db.getInfo(function(error, info) {
 
 ### get a specific document ###
 
+current revision
+
 ``` js
 db.get('foo', function(error, document) {
   console.log(error || document);
 });
 ```
 
-### get a specific document revision ###
+specific revision
 
 ``` js
 db.get('foo', '2-8157185549b948cc544f5574f073240b', function(error, document) {
   console.log(error || document);
 });
 ```
+
+### create document ###
+
+create a document, which id will be created by couchdb
+
+``` js
+db.createDocument(
+  {'foo': 'bar'}, // document body
+  function(error, confirmation) { // callback
+    console.log(error || confirmation);
+  }
+);
+```
+
+create a document with a user generated document id
+
+``` js
+db.createDocument(
+  'foobar', // document id
+  {'foo': 'bar'}, // document body
+  function (error, confirmation) { // callback
+    console.log(error || confirmation);
+  }
+);
 
 ### retrieving a view ###
 
