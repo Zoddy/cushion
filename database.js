@@ -5,6 +5,34 @@ var database = function(name, connection) {
 
 
 /**
+ * create a document
+ *
+ * @param {string|Object} docIdOrContent document id, if you have a own id, or
+ *     content of the document, if you want to create a id by the couchdb
+ * @param {Object|function(error, info)} contentOrCallback content of the
+ *     document, if first argument was a own document id or
+ *     function that will call, after created the document, or if there was an
+ *     error
+ * @param {?function(error, info)} callback function that will be called, after
+ *     created the document, or if there was an error, only optional if second
+ *     argument was the callback
+ */
+database.prototype.createDocument = function(
+  docIdOrContent,
+  contentOrCallback,
+  callback
+) {
+  var docId = (typeof(docIdOrContent) === 'string') ? docIdOrContent : null,
+      content = (docId === null) ? docIdOrContent : contentOrCallback,
+      callback = (docId === null) ? contentOrCallback : callback,
+      method = (docId === null) ? 'POST': 'PUT',
+      path = this._name + '/' + ((docId === null) ? '' : docId);
+
+  this._connection.request(method, path, callback, content);
+};
+
+
+/**
  * checks if a database exists
  *
  * @param {function(error, exists)} callback function that will be called,
