@@ -168,6 +168,31 @@ db.updateDocument(
 );
 ```
 
+### copy document ###
+
+``` js
+db.copyDocument(
+  'foo', // source document id
+  'bar', // target document id
+  function(error, confirmation) { // callback
+    console.log(error || confirmation);
+  }
+);
+```
+
+you can also copy a specific revision and if the target currently exists, you
+have to specify the target revision
+
+``` js
+db.copyDocument(
+  {id: 'foo', revision: '1-4c6114c65e295552ab1019e2b046b10e'}, // source
+  {id: 'bar', revision: '3-1c26eb9bb45a9cf6991ddc900f5f5508'}, // target
+  function(error, confirmation) { // callback
+    console.log(error || confirmation);
+  }
+);
+```
+
 ### delete document ###
 
 ``` js
