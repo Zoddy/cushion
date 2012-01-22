@@ -23,3 +23,40 @@ nodecouch.createDatabase('foo', function(error, response) {
 });
 ```
 
+get a list of databases
+-----------------------
+``` js
+// the second (boolean) argument can be set to true (default false), if you want
+// to filter the couchdb related databases (e.g. _user)
+nodecouch.listDatabases(function(error, databases) {
+  console.log(error || databases);
+}, true);
+```
+
+delete database
+---------------
+``` js
+nodecouch.deleteDatabase('foo', function(error, response) {
+  console.log(error || response);
+});
+```
+
+get version of couchdb
+----------------------
+``` js
+nodecouch.getVersion(function(error, version) {
+  console.log(error || version);
+});
+```
+
+make a lowlevel request
+-----------------------
+``` js
+nodecouch.request(
+  'GET' // http method GET, PUT, POST or DELETE
+  'test/_design/foo/_view/bar' // complete path after the uri
+  function(error, response) { // and finally the callback
+    console.log(error || response);
+  }
+);
+```
