@@ -90,7 +90,7 @@ db.getInfo(function(error, info) {
 
 get a specific document
 -----------------------
-´´´ js
+``` js
 db.get('foo', function(error, document) {
   console.log(error || document);
 });
