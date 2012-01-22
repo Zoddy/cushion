@@ -18,6 +18,16 @@ var nodecouch = new (require('nodecouch').Connection)(
                 );
 ```
 
+error handling
+--------------
+you can choose between two error handlings. if you set a fifth argument at a new
+connection object, you can switch between them.
+set to "true" means, that in the error object at each callback there are also
+couchdb errors
+set to "false" means, that only connection errors (e.g. wrong port) are written
+in the error object, couchdb errors will be hold in the response object
+"true" is the default entry
+
 create database
 ---------------
 ``` js
@@ -90,7 +100,7 @@ db.getInfo(function(error, info) {
 
 get a specific document
 -----------------------
-``` js
+`` js
 db.get('foo', function(error, document) {
   console.log(error || document);
 });
