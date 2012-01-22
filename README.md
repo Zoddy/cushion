@@ -143,6 +143,19 @@ db.createDocument(
 );
 ```
 
+### update document ###
+
+``` js
+db.updateDocument(
+  'foobar', // document id
+  '3-1c26eb9bb45a9cf6991ddc900f5f5508', // revision
+  {'bar': 'foo'}, // new body
+  function(error, confirmation) { // callback
+    console.log(error || confirmation);
+  }
+);
+```
+
 ### delete document ###
 
 ``` js
