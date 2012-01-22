@@ -102,8 +102,16 @@ db.getInfo(function(error, info) {
 
 ### get a specific document ###
 
-`` js
+``` js
 db.get('foo', function(error, document) {
+  console.log(error || document);
+});
+```
+
+### get a specific document revision ###
+
+``` js
+db.get('foo', '2-8157185549b948cc544f5574f073240b', function(error, document) {
   console.log(error || document);
 });
 ```
