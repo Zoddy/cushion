@@ -22,9 +22,11 @@ error handling
 --------------
 you can choose between two error handlings. if you set a fifth argument at a new
 connection object, you can switch between them.
-set to "true" means, that in the error object at each callback there are also
+
+set to _true_ means, that in the error object at each callback there are also
 couchdb errors
-set to "false" means, that only connection errors (e.g. wrong port) are written
+
+set to _false_ means, that only connection errors (e.g. wrong port) are written
 in the error object, couchdb errors will be hold in the response object
 "true" is the default entry
 
