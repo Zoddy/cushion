@@ -1,7 +1,7 @@
 nodecouch
 =========
 
-nodejs couchdb adapter
+Node.js CouchDB Interface
 
 
 create new connection
