@@ -141,6 +141,7 @@ db.createDocument(
     console.log(error || confirmation);
   }
 );
+```
 
 ### retrieving a view ###
 
