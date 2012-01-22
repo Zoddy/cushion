@@ -123,9 +123,22 @@ database.prototype.get = function(documentID, revisionOrCallback, callback) {
  *
  * @param {function(error, allDocs)} callback function that will be called,
  *     after getting the documents, or if there was an error
+ * @param {Object} options additional options as key-value-pairs that are the
+ *     same at the views, look at the couchdb view api documentation for correct
+ *     parameters
  */
-database.prototype.getAll = function(callback) {
-  this._connection.request('GET', this._name + '/_all_docs', callback);
+database.prototype.getAll = function(callback, options) {
+  var options = options || {},
+      query = '',
+      optionKey;
+
+  for (optionKey in options) {
+    query += ((query.length > 0) ? '&' : '?') +
+             optionKey + '=' +
+             encodeURIComponent(options[optionKey]);
+  }
+
+  this._connection.request('GET', this._name + '/_all_docs/' + query, callback);
 };
 
 
