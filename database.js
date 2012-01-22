@@ -57,7 +57,7 @@ database.prototype.getInfo = function(callback) {
  * @param {function(error, result)} callback function that will be called
  *     after getting a result or there was an error
  */
-database.prototype.view = function(designDoc, viewName, callback) {
+database.prototype.view = function(designDoc, viewName, callback, options) {
   this._connection.request(
     'GET',
     this._name + '/_design/' + designDoc +

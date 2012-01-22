@@ -7,7 +7,9 @@ var http = require('http');
  * @param {number} [port=this._options.port] port
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
- * @param {string} [errorHandling=this._options.errorHandling] "full" = handles couch errors like connection errors
+ * @param {string} [errorHandling=this._options.errorHandling]
+ *     "full" = handles couch errors like connection errors
+ *     "connection"= handles couch error in the response
  */
 var nodecouch = function(host, port, username, password, errorHandling) {
   var defaultOptions = require('./config.js');
@@ -63,7 +65,7 @@ nodecouch.prototype.deleteDatabase = function(name, callback) {
  */
 nodecouch.prototype.getVersion = function(callback) {
   this.request('GET', '', function(error, response) {
-    if (response !== null && error === null) {
+    if (response !== null) {
       response = response.version;
     }
 
@@ -106,7 +108,7 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
  * @param {Object} response request response data
  */
 nodecouch.prototype._responseHandler = function(callback, error, response) {
-  if (this._options.errorHandling === 'full' && response.error !== null) {
+  if (this._options.errorHandling === 'full' && response && response.error) {
     error = response;
     response = null;
   }
@@ -122,8 +124,7 @@ nodecouch.prototype._responseHandler = function(callback, error, response) {
  * @param {http.ClientResponse} response the http response object
  */
 nodecouch.prototype._request = function(callback, response) {
-  var content = '',
-      context = this;
+  var content = '';
 
   response.setEncoding('utf8');
 
@@ -131,9 +132,9 @@ nodecouch.prototype._request = function(callback, response) {
     content += chunk;
   });
 
-  response.on('end', function() {
-    context._responseHandler(callback, null, JSON.parse(content));
-  });
+  response.on('end', (function() {
+    this._responseHandler(callback, null, JSON.parse(content));
+  }).bind(this));
 };
 
 
@@ -160,7 +161,7 @@ nodecouch.prototype.request = function(method, path, callback) {
       context = this;
 
   request.on('error', function(error) {
-    context._responseHandler(callback, error);
+    context._responseHandler(callback, error, null);
   });
 
   request.end();
