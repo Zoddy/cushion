@@ -33,6 +33,23 @@ database.prototype.createDocument = function(
 
 
 /**
+ * deletes a document
+ *
+ * @param {string} docId document id which you want to delete
+ * @param {string} revision revision id of the document
+ * @param {function(error, confirmation)} callback function that will be called
+ *     after document was deleted, or if there was an error
+ */
+database.prototype.deleteDocument = function(docId, revision, callback) {
+  this._connection.request(
+    'DELETE',
+    this._name + '/' + docId + '?rev=' + revision,
+    callback
+  );
+};
+
+
+/**
  * checks if a database exists
  *
  * @param {function(error, exists)} callback function that will be called,
