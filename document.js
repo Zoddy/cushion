@@ -38,4 +38,24 @@ Document.prototype.create = function(body, callback) {
 };
 
 
+/**
+ * loads the document, the id have to set before, without it you will get an
+ * error
+ *
+ * @param {function(error, nodecouch.Document)} callback function that will be
+ *     called, after loading the document or if there was an error
+ */
+Document.prototype.load = function(callback) {
+  if (this._id === null) {
+    callback({'error': 'no_create', 'reason': 'no document id was set'}, null);
+  } else {
+    this._connection.request(
+      'GET',
+      this._database.name() + '/' + this._id,
+      callback
+    );
+  }
+};
+
+
 exports.Document = Document;
