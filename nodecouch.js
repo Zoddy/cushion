@@ -159,8 +159,6 @@ nodecouch.prototype.request = function(method, path, callback, body, headers) {
   headers = headers || {};
   headers['Content-Type'] = 'application/json';
 
-  console.log(headers);
-
   var options = {
         'host': this._options.host,
         'port': this._options.port,

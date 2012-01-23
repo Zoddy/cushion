@@ -5,6 +5,45 @@ var database = function(name, connection) {
 
 
 /**
+ * create a document
+ *
+ * @param {string|Object} docIdOrContent document id, if you have a own id, or
+ *     content of the document, if you want to create a id by the couchdb
+ * @param {Object|function(error, nodecouch.Document)} contentOrCallback content
+ *     of the document, if first argument was a own document id or function that
+ *     will call, after created the document, or if there was an error
+ * @param {?function(error, nodecouch.Document)} callback function that will be
+ *     called, after created the document, or if there was an error, only
+ *     optional if second argument was the callback
+ */
+database.prototype.createDocument = function(
+  docIdOrContent,
+  contentOrCallback,
+  callback
+) {
+  var docId = (typeof(docIdOrContent) === 'string') ? docIdOrContent : null,
+      content = (docId === null) ? docIdOrContent : contentOrCallback,
+      callback = (docId === null) ? contentOrCallback : callback,
+      callbackWrapper = (function(error, response) {
+        if (response && !response.error) {
+          response = new (require('./document.js').Document)(
+            response.id,
+            response.rev,
+            this._connection,
+            this
+          );
+        }
+
+        callback(error, response);
+      }).bind(this),
+      method = (docId === null) ? 'POST': 'PUT',
+      path = this._name + '/' + ((docId === null) ? '' : docId);
+
+  this._connection.request(method, path, callbackWrapper, content);
+};
+
+
+/**
  * copy a document
  *
  * @param {string|Object} source id of the document, that will be copied or
@@ -32,32 +71,7 @@ database.prototype.copyDocument = function(source, target, callback) {
 };
 
 
-/**
- * create a document
- *
- * @param {string|Object} docIdOrContent document id, if you have a own id, or
- *     content of the document, if you want to create a id by the couchdb
- * @param {Object|function(error, info)} contentOrCallback content of the
- *     document, if first argument was a own document id or
- *     function that will call, after created the document, or if there was an
- *     error
- * @param {?function(error, info)} callback function that will be called, after
- *     created the document, or if there was an error, only optional if second
- *     argument was the callback
- */
-database.prototype.createDocument = function(
-  docIdOrContent,
-  contentOrCallback,
-  callback
-) {
-  var docId = (typeof(docIdOrContent) === 'string') ? docIdOrContent : null,
-      content = (docId === null) ? docIdOrContent : contentOrCallback,
-      callback = (docId === null) ? contentOrCallback : callback,
-      method = (docId === null) ? 'POST': 'PUT',
-      path = this._name + '/' + ((docId === null) ? '' : docId);
 
-  this._connection.request(method, path, callback, content);
-};
 
 
 /**
@@ -73,6 +87,21 @@ database.prototype.deleteDocument = function(docId, revision, callback) {
     'DELETE',
     this._name + '/' + docId + '?rev=' + revision,
     callback
+  );
+};
+
+
+/**
+ * creates a document object
+ *
+ * @param {?string} docId if you have a document id, then set it here
+ * @return {nodecouch.Document} the document object
+ */
+database.prototype.document = function(docId) {
+  return new (require('./document.js').Document)(
+    docId || null,
+    this._connection,
+    this
   );
 };
 
@@ -157,6 +186,16 @@ database.prototype.getAll = function(callback, options) {
  */
 database.prototype.getInfo = function(callback) {
   this._connection.request('GET', this._name, callback);
+};
+
+
+/**
+ * gets the name of the database
+ *
+ * @return {string} the database name
+ */
+database.prototype.name = function() {
+  return this._name;
 };
 
 
