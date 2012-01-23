@@ -26,12 +26,7 @@ database.prototype.createDocument = function(
       callback = (docId === null) ? contentOrCallback : callback,
       callbackWrapper = (function(error, response) {
         if (response && !response.error) {
-          response = new (require('./document.js').Document)(
-            response.id,
-            response.rev,
-            this._connection,
-            this
-          );
+          response = this.document(response.id, response.rev);
         }
 
         callback(error, response);
@@ -97,7 +92,7 @@ database.prototype.deleteDocument = function(docId, revision, callback) {
  * @param {?string} docId if you have a document id, then set it here
  * @return {nodecouch.Document} the document object
  */
-database.prototype.document = function(docId) {
+database.prototype.document = function(docId, revision) {
   return new (require('./document.js').Document)(
     docId || null,
     this._connection,
