@@ -86,4 +86,14 @@ Database.prototype.info = function(callback) {
   this._connection.request('GET', this._name, callback);
 };
 
+
+/**
+ * gets name of this database
+ *
+ * @return {string} name of this database
+ */
+Database.prototype.name = function() {
+  return this._name;
+};
+
 exports.Database = Database;
