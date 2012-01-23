@@ -18,8 +18,7 @@ var nodecouch = function(host, port, username, password, fullErrorHandling) {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
-    'password': password || defaultOptions.password,
-    'fullErrorHandling': fullErrorHandling || defaultOptions.fullErrorHandling
+    'password': password || defaultOptions.password
   };
 };
 
@@ -78,27 +77,6 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
 
 
 /**
- * request response handler
- *
- * @param {Function} callback function that will be called after all data events
- * @param {Object} error error data
- * @param {Object} response request response data
- */
-nodecouch.prototype._responseHandler = function(callback, error, response) {
-  if (
-    this._options.fullErrorHandling === true &&
-    response &&
-    response.error
-  ) {
-    error = response;
-    response = null;
-  }
-
-  callback(error, response);
-}
-
-
-/**
  * wrapper function for any request to the couchdb
  *
  * @param {Function} callback function that will be called after all data events
@@ -114,7 +92,12 @@ nodecouch.prototype._request = function(callback, response) {
   });
 
   response.on('end', (function() {
-    this._responseHandler(callback, null, JSON.parse(content));
+    content = JSON.parse(content);
+
+    callback(
+      (content.error) ? content : null,
+      (!content.error) ? content : null
+    );
   }).bind(this));
 };
 
