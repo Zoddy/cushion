@@ -12,6 +12,17 @@ var Database = function(name, connection) {
 
 
 /**
+ * create the database
+ *
+ * @param {function(error, confirm)} callback function that will be called,
+ *     after creating the database, or if there was an error
+ */
+Database.prototype.create = function(callback) {
+  this._connection.request('PUT', this._name, callback);
+};
+
+
+/**
  * check if database exists
  *
  * @param {function(error, exists)} callback function that will be called, after
