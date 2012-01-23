@@ -43,6 +43,23 @@ Database.prototype.exists = function(callback) {
 
 
 /**
+ * delete the database
+ *
+ * @param {function(error, deleted)} callback function that will be called,
+ *     after deleting the database, or if there was an error
+ */
+Database.prototype.delete = function(callback) {
+  this._connection.request('DELETE', this._name, function(error, response) {
+    if (response && response.ok === true) {
+      response = true;
+    }
+
+    callback(error, response);
+  });
+};
+
+
+/**
  * gets infos about the database
  *
  * @param {function(error, info)} callback function that will be called, after
