@@ -39,6 +39,34 @@ Document.prototype.create = function(body, callback) {
 
 
 /**
+ * delete the document, the id and revision have to set before, without it you
+ * will get an error
+ *
+ * @param {function(error, nodecouch.Document)} callback function that will be
+ *     called, after deleting the document, or if there was an error
+ */
+Document.prototype.delete = function(callback) {
+  if (this._id === null) {
+    callback({'error': 'no_delete', 'reason': 'no document id was set'}, null);
+  } else if (this._revision === null) {
+    callback({'error': 'no_delete', 'reason': 'no revision was set'}, null);
+  } else {
+    this._connection.request(
+      'DELETE',
+      this._database.name() + '/' + this._id + '?rev=' + this._revision,
+      (function(error, response) {
+        if (response) {
+          this._revision = response.rev;
+        }
+
+        callback(error, this);
+      }).bind(this)
+    );
+  }
+};
+
+
+/**
  * loads the document, the id have to set before, without it you will get an
  * error
  *
