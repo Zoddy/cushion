@@ -23,6 +23,23 @@ Database.prototype.create = function(callback) {
 
 
 /**
+ * delete the database
+ *
+ * @param {function(error, deleted)} callback function that will be called,
+ *     after deleting the database, or if there was an error
+ */
+Database.prototype.delete = function(callback) {
+  this._connection.request('DELETE', this._name, function(error, response) {
+    if (response && response.ok === true) {
+      response = true;
+    }
+
+    callback(error, response);
+  });
+};
+
+
+/**
  * gets a document object
  *
  * @param {?string} docId id of the couch document
@@ -55,23 +72,6 @@ Database.prototype.exists = function(callback) {
       error,
       (error && error.error === 'not_found') ? false : true
     );
-  });
-};
-
-
-/**
- * delete the database
- *
- * @param {function(error, deleted)} callback function that will be called,
- *     after deleting the database, or if there was an error
- */
-Database.prototype.delete = function(callback) {
-  this._connection.request('DELETE', this._name, function(error, response) {
-    if (response && response.ok === true) {
-      response = true;
-    }
-
-    callback(error, response);
   });
 };
 
