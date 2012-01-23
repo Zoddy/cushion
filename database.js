@@ -23,6 +23,23 @@ Database.prototype.create = function(callback) {
 
 
 /**
+ * gets a document object
+ *
+ * @param {?string} docId id of the couch document
+ * @param {?string} revision revision of the document
+ * @return {nodecouch.Document} the document object
+ */
+Database.prototype.document = function(docId, revision) {
+  return new (require('./document.js').Document)(
+    docId || null,
+    revision || null,
+    this._connection,
+    this
+  );
+};
+
+
+/**
  * check if database exists
  *
  * @param {function(error, exists)} callback function that will be called, after
