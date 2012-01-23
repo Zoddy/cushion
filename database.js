@@ -41,4 +41,15 @@ Database.prototype.exists = function(callback) {
   });
 };
 
+
+/**
+ * gets infos about the database
+ *
+ * @param {function(error, info)} callback function that will be called, after
+ *     getting the informations, or if there was an error
+ */
+Database.prototype.info = function(callback) {
+  this._connection.request('GET', this._name, callback);
+};
+
 exports.Database = Database;
