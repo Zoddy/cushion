@@ -25,38 +25,15 @@ var nodecouch = function(host, port, username, password, fullErrorHandling) {
 
 
 /**
- * creates a database
- *
- * @param {string} name name for the new database
- * @param {function(error, response)} callback function that will be called
- *     after response or error
- */
-nodecouch.prototype.createDatabase = function(name, callback) {
-  this.request('PUT', name, callback);
-};
-
-
-/**
  * gives a connection to a specific database
  *
  * @param {string} name name of the database
  * @return {Object} the database object
  */
 nodecouch.prototype.database = function(name) {
-  return new (require('./database.js').database)(name, this);
+  return new (require('./database.js').Database)(name, this);
 };
 
-
-/**
- * deletes a database
- *
- * @param {string} name name of the database
- * @param {function(error, response)} callback function that will be called
- *     after response or error
- */
-nodecouch.prototype.deleteDatabase = function(name, callback) {
-  this.request('DELETE', name, callback);
-};
 
 /**
  * gets the version of the couchdb
