@@ -63,15 +63,19 @@ Database.prototype.document = function(docId, revision) {
  *     getting the information database exists or not, of if there was an error
  */
 Database.prototype.exists = function(callback) {
-  this._connection.request('GET', this._name, function(error, response) {
-    if (error && error.error === 'not_found') {
-      response = false;
-    }
+  this._connection.request({
+    'method': 'GET',
+    'path': this._name,
+    'callback': function(error, response) {
+      if (error && error.error === 'not_found') {
+        response = false;
+      }
 
-    callback(
-      error,
-      (error && error.error === 'not_found') ? false : true
-    );
+      callback(
+        error,
+        (error && error.error === 'not_found') ? false : true
+      );
+    }
   });
 };
 
@@ -83,7 +87,11 @@ Database.prototype.exists = function(callback) {
  *     getting the informations, or if there was an error
  */
 Database.prototype.info = function(callback) {
-  this._connection.request('GET', this._name, callback);
+  this._connection.request({
+    'method': 'GET',
+    'path': this._name,
+    'callback': callback
+  });
 };
 
 
