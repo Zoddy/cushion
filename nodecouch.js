@@ -174,7 +174,7 @@ nodecouch.prototype.request = function(properties) {
   }).bind(this));
 
   if (typeof(properties.body) === 'object') {
-    request.write(JSON.stringify(body));
+    request.write(JSON.stringify(properties.body));
   }
 
   request.end();
