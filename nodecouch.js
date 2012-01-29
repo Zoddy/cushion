@@ -100,7 +100,11 @@ nodecouch.prototype._request = function(callback, response) {
   });
 
   response.on('end', (function() {
-    content = JSON.parse(content);
+    try {
+      content = JSON.parse(content);
+    } catch(error) {
+      callback(error, null);
+    }
 
     callback(
       (content.error) ? content : null,
