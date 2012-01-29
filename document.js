@@ -42,21 +42,20 @@ Document.prototype.copy = function(
       null
     );
   } else {
-    this._connection.request(
-      'COPY',
-      this._database.name() + '/' +
+    this._connection.request({
+      'method': 'COPY',
+      'headers': {'Destination': targetId + targetRevision},
+      'path': this._database.name() + '/' +
         this._id +
         ((this._revision) ? '?rev=' + this._revision : ''),
-      (function(error, response) {
+      'callback': (function(error, response) {
         if (response) {
           response = this._database.document(response.id, response.rev);
         }
 
         callback(error, this, response);
-      }).bind(this),
-      null,
-      {'Destination': targetId + targetRevision}
-    );
+      }).bind(this)
+    });
   }
 };
 
