@@ -69,19 +69,19 @@ Document.prototype.copy = function(
  *     called, after document was created, or if there was an error
  */
 Document.prototype.create = function(body, callback) {
-  this._connection.request(
-    (this._id === null) ? 'POST' : 'PUT',
-    this._database.name() + '/' + ((this._id === null) ? '' : this._id),
-    (function (error, response) {
+  this._connection.request({
+    'method': (this._id === null) ? 'POST' : 'PUT',
+    'path': this._database.name() + '/' + ((this._id === null) ? '' : this._id),
+    'body': body,
+    'callback': (function (error, response) {
       if (response) {
         this._id = response.id;
         this._revision = response.rev;
       }
 
       callback(error, this);
-    }).bind(this),
-    body
-  );
+    }).bind(this)
+  });
 };
 
 
