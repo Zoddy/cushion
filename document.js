@@ -98,17 +98,17 @@ Document.prototype.delete = function(callback) {
   } else if (this._revision === null) {
     callback({'error': 'no_delete', 'reason': 'no revision was set'}, null);
   } else {
-    this._connection.request(
-      'DELETE',
-      this._database.name() + '/' + this._id + '?rev=' + this._revision,
-      (function(error, response) {
+    this._connection.request({
+      'method': 'DELETE',
+      'path': this._database.name() + '/' + this._id + '?rev=' + this._revision,
+      'callback': (function(error, response) {
         if (response) {
           this._revision = response.rev;
         }
 
         callback(error, this);
       }).bind(this)
-    );
+    });
   }
 };
 
