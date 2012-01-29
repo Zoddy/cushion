@@ -124,11 +124,11 @@ Document.prototype.load = function(callback) {
   if (this._id === null) {
     callback({'error': 'no_create', 'reason': 'no document id was set'}, null);
   } else {
-    this._connection.request(
-      'GET',
-      this._database.name() + '/' + this._id,
-      callback
-    );
+    this._connection.request({
+      'method': 'GET',
+      'path': this._database.name() + '/' + this._id,
+      'callback': callback
+    });
   }
 };
 
