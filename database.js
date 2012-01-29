@@ -33,12 +33,16 @@ Database.prototype.create = function(callback) {
  *     after deleting the database, or if there was an error
  */
 Database.prototype.delete = function(callback) {
-  this._connection.request('DELETE', this._name, function(error, response) {
-    if (response && response.ok === true) {
-      response = true;
-    }
+  this._connection.request({
+    'method': 'DELETE',
+    'path': this._name,
+    'callback': function(error, response) {
+      if (response && response.ok === true) {
+        response = true;
+      }
 
-    callback(error, response);
+      callback(error, response);
+    }
   });
 };
 
