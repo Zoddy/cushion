@@ -63,19 +63,23 @@ nodecouch.prototype.getVersion = function(callback) {
  *     has only database which a user has set up
  */
 nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
-  this.request('GET', '_all_dbs', function (error, response) {
-    var i;
+  this.request({
+    'method': 'GET',
+    'path': '_all_dbs',
+    'callback': function (error, response) {
+      var i;
 
-    if (error === null && response !== null && noCouchRelated === true) {
-      for (i = 0; response[i]; ++i) {
-        if (response[i].substr(0, 1) === '_') {
-          response.splice(i, 1);
-          --i;
+      if (error === null && response !== null && noCouchRelated === true) {
+        for (i = 0; response[i]; ++i) {
+          if (response[i].substr(0, 1) === '_') {
+            response.splice(i, 1);
+            --i;
+          }
         }
       }
-    }
 
-    callback(error, response);
+      callback(error, response);
+    }
   });
 };
 
