@@ -14,6 +14,7 @@ var http = require('http');
 var nodecouch = function(host, port, username, password, fullErrorHandling) {
   var defaultOptions = require('./config.js');
 
+  this._methodMatch = methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
   this._options = {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
@@ -40,12 +41,15 @@ nodecouch.prototype.database = function(name) {
  * @param {Function(version)} callback function that will be called after
  */
 nodecouch.prototype.getVersion = function(callback) {
-  this.request('GET', '', function(error, response) {
-    if (response !== null) {
-      response = response.version;
-    }
+  this.request({
+    'method': 'GET',
+    'callback': function(error, response) {
+      if (response !== null) {
+        response = response.version;
+      }
 
-    callback(error, response);
+      callback(error, response);
+    }
   });
 };
 
@@ -115,7 +119,7 @@ nodecouch.prototype._request = function(callback, response) {
  * @param {?Object|null} body additional http body
  * @param {?Object} headers additional headers as key-value-pairs
  */
-nodecouch.prototype.request = function(method, path, callback, body, headers) {
+/*nodecouch.prototype.request = function(method, path, callback, body, headers) {
   headers = headers || {};
   headers['Content-Type'] = 'application/json';
 
@@ -135,6 +139,37 @@ nodecouch.prototype.request = function(method, path, callback, body, headers) {
   });
 
   if (body) {
+    request.write(JSON.stringify(body));
+  }
+
+  request.end();
+};*/
+
+
+nodecouch.prototype.request = function(properties) {
+  var options = {
+    'host': this._options.host,
+    'port': this._options.port,
+    'method': (
+                typeof(properties.method) === 'string' &&
+                properties.method.match(this._methodMatch) !== null
+              ) ?
+              properties.method :
+              'GET',
+    'path': '/' + (properties.path || ''),
+    'auth': this._options.username + ':' + this._options.password,
+    'headers': properties.headers || null,
+  },
+  request = http.request(
+    options,
+    this._request.bind(this, properties.callback)
+  );
+
+  request.on('error', (function(error) {
+    this._responseHandler(properties.callback, error, null);
+  }).bind(this));
+
+  if (typeof(properties.body) === 'object') {
     request.write(JSON.stringify(body));
   }
 
