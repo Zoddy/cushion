@@ -132,4 +132,26 @@ Document.prototype.load = function(callback) {
 };
 
 
+/**
+ * info about the document
+ *
+ * @param {function(error, info)} callback function that will called, after
+ *     retrieving information, or if there was an error
+ */
+Document.prototype.info = function(callback) {
+  if (this._id === null) {
+    process.nextTick(callback(
+      {'error': 'no_info', 'reason': 'no document id was set'},
+      null
+    ));
+  } else {
+    this._connection.request({
+      'method': 'HEAD',
+      'path': this._database.name() + '/' + this._id,
+      'callback': callback
+    });
+  }
+};
+
+
 exports.Document = Document;
