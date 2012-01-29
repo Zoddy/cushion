@@ -113,43 +113,14 @@ nodecouch.prototype._request = function(callback, response) {
 /**
  * sends a request to the couch
  *
- * @param {string} method http method, can only be GET, PUT, POST or DELETE
- * @param {string} path every path for the couchdb
- * @param {Function(error, response)} callback function that will be called
- *     after successfully retrieving a response from couchdb
- *     the error argument will only be filled, if there is an error at the
- *     connection, it doesn't show errors that relating to the couchdb, this
- *     information will be find in the response argument
- * @param {?Object|null} body additional http body
- * @param {?Object} headers additional headers as key-value-pairs
+ * @param {object} properties options for the request
+ *      method: {string} http method, can be GET, PUT, POST, DELETE, HEAD, COPY
+ *      path: {string} uri path after domain
+ *      headers: {Object} key/value-pairs of additional http headers
+ *      body: {Object|Array} additional body
+ *      callback: {function(error, response)} function that will be called,
+ *                after getting the response, of if there was an error
  */
-/*nodecouch.prototype.request = function(method, path, callback, body, headers) {
-  headers = headers || {};
-  headers['Content-Type'] = 'application/json';
-
-  var options = {
-        'host': this._options.host,
-        'port': this._options.port,
-        'method': method,
-        'path': '/' + path,
-        'auth': this._options.username + ':' + this._options.password,
-        'headers': headers
-      },
-      request = http.request(options, this._request.bind(this, callback)),
-      context = this;
-
-  request.on('error', function(error) {
-    context._responseHandler(callback, error, null);
-  });
-
-  if (body) {
-    request.write(JSON.stringify(body));
-  }
-
-  request.end();
-};*/
-
-
 nodecouch.prototype.request = function(properties) {
   var options = {
     'host': this._options.host,
