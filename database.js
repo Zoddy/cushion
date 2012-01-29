@@ -18,7 +18,11 @@ var Database = function(name, connection) {
  *     after creating the database, or if there was an error
  */
 Database.prototype.create = function(callback) {
-  this._connection.request('PUT', this._name, callback);
+  this._connection.request({
+    'method': 'PUT',
+    'path': this._name,
+    'callback': callback
+  });
 };
 
 
