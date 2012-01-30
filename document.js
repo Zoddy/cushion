@@ -139,7 +139,16 @@ Document.prototype.load = function(callback) {
  *     retrieving information, or if there was an error
  */
 Document.prototype.info = function(callback) {
-  if (this._id === null) {
+  process.nextTick(function() {
+    callback(
+      {
+        'error': 'no_info',
+        'reason': 'currently there is no support for infos of a document'
+      },
+      null
+    )
+  });
+  /*if (this._id === null) {
     process.nextTick(callback(
       {'error': 'no_info', 'reason': 'no document id was set'},
       null
@@ -150,7 +159,7 @@ Document.prototype.info = function(callback) {
       'path': this._database.name() + '/' + this._id,
       'callback': callback
     });
-  }
+  }*/
 };
 
 
