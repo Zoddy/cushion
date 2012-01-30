@@ -102,14 +102,14 @@ nodecouch.prototype._request = function(callback, response) {
   response.on('end', (function() {
     try {
       content = JSON.parse(content);
+
+      callback(
+        (content.error) ? content : null,
+        (!content.error) ? content : null
+      );
     } catch(error) {
       callback(error, null);
     }
-
-    callback(
-      (content.error) ? content : null,
-      (!content.error) ? content : null
-    );
   }).bind(this));
 };
 
