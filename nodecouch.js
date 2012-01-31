@@ -33,25 +33,6 @@ nodecouch.prototype.database = function(name) {
 
 
 /**
- * gets the version of the couchdb
- *
- * @param {Function(version)} callback function that will be called after
- */
-nodecouch.prototype.getVersion = function(callback) {
-  this.request({
-    'method': 'GET',
-    'callback': function(error, response) {
-      if (response !== null) {
-        response = response.version;
-      }
-
-      callback(error, response);
-    }
-  });
-};
-
-
-/**
  * retrieving a list of databases
  *
  * @param {function(error, response)} callback function that will be called
@@ -150,6 +131,25 @@ nodecouch.prototype.request = function(properties) {
   }
 
   request.end();
+};
+
+
+/**
+ * gets the version of the couchdb
+ *
+ * @param {Function(version)} callback function that will be called after
+ */
+nodecouch.prototype.version = function(callback) {
+  this.request({
+    'method': 'GET',
+    'callback': function(error, response) {
+      if (response !== null) {
+        response = response.version;
+      }
+
+      callback(error, response);
+    }
+  });
 };
 
 
