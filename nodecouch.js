@@ -136,7 +136,7 @@ nodecouch.prototype.request = function(properties) {
   );
 
   request.on('error', (function(error) {
-    this._responseHandler(properties.callback, error, null);
+    properties.callback(error, null);
   }).bind(this));
 
   if (typeof(properties.body) === 'object') {
