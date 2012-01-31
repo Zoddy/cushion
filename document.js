@@ -11,6 +11,12 @@ var Document = function(id, revision, connection, database) {
   this._revision = revision;
   this._connection = connection;
   this._database = database;
+
+  this._error = {
+    'noId': 'no document id was set',
+    'noRevision': 'no revision was set',
+    'noSupport': 'currently there is no support for this function'
+  };
 };
 
 
@@ -37,7 +43,7 @@ Document.prototype.copy = function(
 
   if (this._id === null) {
     callback(
-      {'error': 'no_copy', 'reason': 'no document id was set'},
+      {'error': 'no_copy', 'reason': this._error.noId},
       null,
       null
     );
@@ -93,9 +99,9 @@ Document.prototype.create = function(body, callback) {
  */
 Document.prototype.delete = function(callback) {
   if (this._id === null) {
-    callback({'error': 'no_delete', 'reason': 'no document id was set'}, null);
+    callback({'error': 'no_delete', 'reason': this._error.noId}, null);
   } else if (this._revision === null) {
-    callback({'error': 'no_delete', 'reason': 'no revision was set'}, null);
+    callback({'error': 'no_delete', 'reason': this._error.noRevision}, null);
   } else {
     this._connection.request({
       'method': 'DELETE',
@@ -121,7 +127,7 @@ Document.prototype.delete = function(callback) {
  */
 Document.prototype.load = function(callback) {
   if (this._id === null) {
-    callback({'error': 'no_create', 'reason': 'no document id was set'}, null);
+    callback({'error': 'no_create', 'reason': this._error.noId}, null);
   } else {
     this._connection.request({
       'method': 'GET',
@@ -140,13 +146,7 @@ Document.prototype.load = function(callback) {
  */
 Document.prototype.info = function(callback) {
   process.nextTick(function() {
-    callback(
-      {
-        'error': 'no_info',
-        'reason': 'currently there is no support for infos of a document'
-      },
-      null
-    )
+    callback({'error': 'no_info', 'reason': this._error.noSupport}, null)
   });
   /*if (this._id === null) {
     process.nextTick(callback(
