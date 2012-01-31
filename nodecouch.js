@@ -44,7 +44,7 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
   this.request({
     'method': 'GET',
     'path': '_all_dbs',
-    'callback': function (error, response) {
+    'callback': (function (error, response) {
       var i;
 
       if (error === null && response !== null && noCouchRelated === true) {
@@ -56,8 +56,21 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
         }
       }
 
+      // create database objects
+      if (error === null && response !== null) {
+        for (i = 0; response[i]; ++i) {
+          // filter couch related databases, if user want's so
+          if (noCouchRelated === true && response[i].substr(0, 1) === '_') {
+            response.splice(i, 1);
+            --i
+          }
+
+          response[i] = this.database(response[i]);
+        }
+      }
+
       callback(error, response);
-    }
+    }).bind(this)
   });
 };
 
