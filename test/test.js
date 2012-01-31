@@ -9,11 +9,12 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
                 ),
     db = nodecouch.database('nctest'),
     doc = db.document('foobar'),
-    callback = function(error, response) {
-                 console.log(
-                   (error) ? 'error:' : 'response:',
-                   error || response
-                 );
+    callback = function() {
+                 var args = Array.prototype.slice.call(arguments);
+
+                 args.forEach(function(content) {
+                   console.log(content);
+                 });
                };
 
 //nodecouch.version(callback);
@@ -22,6 +23,7 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
 //db.exists(callback);
 //db.create(callback);
 //db.info(callback);
+//db.view('test', 'all', callback);
 //db.delete(callback);
 //doc.create({'foo': 'bar'}, callback);
 //doc.load(callback);
