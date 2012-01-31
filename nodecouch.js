@@ -7,11 +7,8 @@ var http = require('http');
  * @param {number} [port=this._options.port] port
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
- * @param {string} [errorHandling=this._options.fullErrorHandling]
- *     true = handles couch errors like connection errors
- *     false = handles couch error in the response
  */
-var nodecouch = function(host, port, username, password, fullErrorHandling) {
+var nodecouch = function(host, port, username, password) {
   var defaultOptions = require('./config.js');
 
   this._methodMatch = methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
