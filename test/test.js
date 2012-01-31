@@ -33,4 +33,11 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
     console.log('response:', source, target);
   }
 });*/
+/*doc.load(function(error, response) {
+  if (error !== null) {
+    callback(error, null);
+  } else {
+    doc.save({'bar': 'baz'}, callback);
+  }
+});*/
 //doc.info(callback);

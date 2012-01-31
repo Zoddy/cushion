@@ -132,7 +132,14 @@ Document.prototype.load = function(callback) {
     this._connection.request({
       'method': 'GET',
       'path': this._database.name() + '/' + this._id,
-      'callback': callback
+      'callback': (function(error, response) {
+        if (error === null) {
+          // save revision
+          this._revision = response._rev;
+        }
+
+        callback(error, response);
+      }).bind(this)
     });
   }
 };
@@ -160,6 +167,38 @@ Document.prototype.info = function(callback) {
       'callback': callback
     });
   }*/
+};
+
+
+/**
+ * saves content at the document
+ *
+ * @param {Object} body the new content of the document
+ * @param {function(error, nodecouch.Document)} callback function that will be
+ *     called, after saving the new content or if there was an error
+ */
+Document.prototype.save = function(body, callback) {
+  if (this._id === null) {
+    process.nextTick(callback(
+      {'error': 'no_save', 'reason': this._error.noId},
+      null
+    ));
+  } else if (this._revision === null) {
+    process.nextTick(callback(
+      {'error': 'no_save', 'reason': this._error.noRevision},
+      null
+    ));
+  } else {
+    body._id = this._id;
+    body._rev = this._revision;
+
+    this._connection.request({
+      'method': 'PUT',
+      'path': this._database.name() + '/' + this._id,
+      'body': body,
+      'callback': callback
+    });
+  }
 };
 
 
