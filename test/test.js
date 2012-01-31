@@ -16,8 +16,9 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
                  );
                };
 
-//nodecouch.getVersion(callback);
+//nodecouch.version(callback);
 //nodecouch.listDatabases(callback);
+//nodecouch.listDatabases(callback, true);
 //db.exists(callback);
 //db.create(callback);
 //db.info(callback);
