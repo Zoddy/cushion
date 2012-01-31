@@ -42,11 +42,11 @@ Document.prototype.copy = function(
   callback = (targetRevision === '') ? targetRevisionOrCallback : callback;
 
   if (this._id === null) {
-    callback(
+    process.nextTick(callback(
       {'error': 'no_copy', 'reason': this._error.noId},
       null,
       null
-    );
+    ));
   } else {
     this._connection.request({
       'method': 'COPY',
@@ -99,9 +99,15 @@ Document.prototype.create = function(body, callback) {
  */
 Document.prototype.delete = function(callback) {
   if (this._id === null) {
-    callback({'error': 'no_delete', 'reason': this._error.noId}, null);
+    process.nextTick(callback(
+      {'error': 'no_delete', 'reason': this._error.noId},
+      null
+    ));
   } else if (this._revision === null) {
-    callback({'error': 'no_delete', 'reason': this._error.noRevision}, null);
+    process.nextTick(callback(
+      {'error': 'no_delete', 'reason': this._error.noRevision},
+      null
+    ));
   } else {
     this._connection.request({
       'method': 'DELETE',
@@ -127,7 +133,10 @@ Document.prototype.delete = function(callback) {
  */
 Document.prototype.load = function(callback) {
   if (this._id === null) {
-    callback({'error': 'no_create', 'reason': this._error.noId}, null);
+    process.nextTick(callback(
+      {'error': 'no_create', 'reason': this._error.noId},
+      null
+    ));
   } else {
     this._connection.request({
       'method': 'GET',
