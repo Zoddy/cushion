@@ -112,4 +112,43 @@ Database.prototype.name = function() {
   return this._name;
 };
 
+
+/**
+ * requests a view
+ *
+ * @param {string} design name of the design document, after the '_design/'
+ * @param {string} view name of the view, after the '_view/'
+ * @param {function(error, info, nodecouch.documents)} callback function that
+ *     will be called, after getting response from the view, or if there was an
+ *     error
+ */
+Database.prototype.view = function(design, view, callback) {
+  this._connection.request({
+    'method': 'GET',
+    'path': this.name() + '/_design/' + design + '/_view/' + view,
+    'callback': (function(error, response) {
+      var info = null,
+          documents = {},
+          i;
+
+      if (error === null) {
+        info = {
+          'total': response.total_rows,
+          'offset': response.offset
+        };
+
+        for (i = 0; response.rows[i]; ++i) {
+          documents[response.rows[i].key] = this.document(
+            response.rows[i].id,
+            response.rows[i].value._rev
+          );
+        }
+      }
+
+      callback(error, info, documents);
+    }).bind(this)
+  });
+};
+
+
 exports.Database = Database;
