@@ -1,3 +1,6 @@
+var querystring = require('querystring');
+
+
 /**
  * database object
  *
@@ -118,14 +121,25 @@ Database.prototype.name = function() {
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} view name of the view, after the '_view/'
- * @param {function(error, info, nodecouch.documents)} callback function that
+ * @param {object|function(error, info, object)} paramsOrCallback
+ *     query parameters for the view, with following options
+ *       key: {string|number} a key to search for
+ *       limit: {number} limits the result to n
+ *       skip: {number} skips n results (but you should use startKey)
+ * @param {?function(error, info, object)} callback function that
  *     will be called, after getting response from the view, or if there was an
  *     error
  */
-Database.prototype.view = function(design, view, callback) {
+Database.prototype.view = function(design, view, paramsOrCallback, callback) {
+  var params = (typeof(paramsOrCallback) === 'object') ?
+               '?' + querystring.stringify(paramsOrCallback, '&', '=') :
+               '',
+      path = this.name() + '/_design/' + design + '/_view/' + view;
+  callback = (params === null) ? paramsOrCallback : callback;
+
   this._connection.request({
     'method': 'GET',
-    'path': this.name() + '/_design/' + design + '/_view/' + view,
+    'path': path + params,
     'callback': (function(error, response) {
       var info = null,
           documents = {},
@@ -138,10 +152,10 @@ Database.prototype.view = function(design, view, callback) {
         };
 
         for (i = 0; response.rows[i]; ++i) {
-          documents[response.rows[i].key] = this.document(
-            response.rows[i].id,
-            response.rows[i].value._rev
-          );
+          documents[response.rows[i].key] = {
+            'id': response.rows[i].id,
+            'value': response.rows[i].value
+          }
         }
       }
 
