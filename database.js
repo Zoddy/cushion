@@ -15,6 +15,47 @@ var Database = function(name, connection) {
 
 
 /**
+ * getting all documents of the database, because this is a special couchdb view
+ * you can use the same query parameters like at normal views
+ *
+ * @param {object|function(error, info, documents)} paramsOrCallback query
+ *     parameters for the view
+ * @param {?function(error, info, object)} callback function that
+ *     will be called, after getting response from the view, or if there was an
+ *     error
+ */
+Database.prototype.allDocuments = function(paramsOrCallback, callback) {
+  var params = (typeof(paramsOrCallback) === 'object') ?
+               '?' + querystring.stringify(paramsOrCallback, '&', '=') :
+               '';
+  callback = (params === '') ? paramsOrCallback : callback;
+
+  this._connection.request({
+    'method': 'GET',
+    'path': this.name() + '/_all_docs' + params,
+    'callback': (function(error, response) {
+      var info,
+          documents = {},
+          i;
+
+      if (error === null) {
+        info = {
+          'total': response.total_rows,
+          'offset': response.offset
+        };
+
+        for (i = 0; response.rows[i]; ++i) {
+          documents[response.rows[i].id] = response.rows[i].value.rev;
+        }
+      }
+
+      callback(error, info, documents);
+    }).bind(this)
+  });
+};
+
+
+/**
  * create the database
  *
  * @param {function(error, confirm)} callback function that will be called,
@@ -121,11 +162,8 @@ Database.prototype.name = function() {
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} view name of the view, after the '_view/'
- * @param {object|function(error, info, object)} paramsOrCallback
- *     query parameters for the view, with following options
- *       key: {string|number} a key to search for
- *       limit: {number} limits the result to n
- *       skip: {number} skips n results (but you should use startKey)
+ * @param {object|function(error, info, object)} paramsOrCallback query
+ *     parameters for the view
  * @param {?function(error, info, object)} callback function that
  *     will be called, after getting response from the view, or if there was an
  *     error
@@ -135,7 +173,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
                '?' + querystring.stringify(paramsOrCallback, '&', '=') :
                '',
       path = this.name() + '/_design/' + design + '/_view/' + view;
-  callback = (params === null) ? paramsOrCallback : callback;
+  callback = (params === '') ? paramsOrCallback : callback;
 
   this._connection.request({
     'method': 'GET',
