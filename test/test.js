@@ -23,7 +23,9 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
 //db.exists(callback);
 //db.create(callback);
 //db.info(callback);
-//db.view('test', 'all', callback);
+//db.view('test', 'all', {'limit': 1}, callback);
+//db.view('test', 'all', {'skip': 1}, callback);
+//db.view('test', 'all', {'key': '"barbaz"'}, callback);
 //db.delete(callback);
 //doc.create({'foo': 'bar'}, callback);
 //doc.load(callback);
