@@ -92,7 +92,9 @@ nodecouch.prototype._request = function(callback, response) {
 
   response.on('end', (function() {
     try {
-      content = JSON.parse(content);
+      if (response.headers['content-type'] === 'application/json') {
+        content = JSON.parse(content);
+      }
 
       callback(
         (content.error) ? content : null,
