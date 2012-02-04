@@ -152,29 +152,46 @@ Database.prototype.info = function(callback) {
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} list name of the list function
- * @param {string} view name of the view
- * @param {object|function(error, response)} paramsOrCallback query
- *     parameters for the list (the same as for a view), or function that will
- *     be called, after getting response from the list, or if there was an error
- * @param {functin(error, response)} callback function that will be called,
- *     after getting response from the list, or if there was an error
+ * @param {string} viewOrOtherDesign name of the view, or name of another design
+ *     document, which holds the view function
+ * @param {string|object|function(error, response)} viewOrParamsOrCallback name
+ *     of the view function, or an object which holds query parameters for the
+ *     request or function that will be called, after getting a response or if
+ *     there was an error
+ * @param {?object|function(error, response)} paramsOrCallback an object with
+ *     key-value-pairs that holds query parameters for the request, or function
+ *     that will be called, after getting a response, or if there was an error
+ * @param {?function(error, response)} callback function that will be called,
+ *     after getting a response or if there was an error
  */
 Database.prototype.list = function(
   design,
   list,
-  view,
+  viewOrOtherDesign,
+  viewOrParamsOrCallback,
   paramsOrCallback,
   callback
 ) {
-  var params = (typeof(paramsOrCallback) === 'object') ?
-               '?' + querystring.stringify(paramsOrCallback, '&', '=') :
-               '',
-      path = this.name() + '/_design/' + design + '/_list/' + list + '/' + view,
-  callback = (params === '') ? paramsOrCallback : callback;
+  var params = (typeof(viewOrParamsOrCallback) === 'object') ?
+               '?' + querystring.stringify(viewOrParamsOrCallback, '&', '=') :
+               (typeof(paramsOrCallback) === 'object') ?
+                 '?' + querystring.stringify(paramsOrCallback, '&', '=') :
+                 '',
+      callback = callback || ((typeof(viewOrParamsOrCallback) === 'function') ?
+                 viewOrParamsOrCallback :
+                 paramsOrCallback),
+      view = (typeof(viewOrParamsOrCallback) === 'string') ?
+             viewOrParamsOrCallback :
+             viewOrOtherDesign,
+      otherDesign = (typeof(viewOrParamsOrCallback) === 'string') ?
+                    '/' + viewOrOtherDesign :
+                    '',
+      path = this.name() + '/_design/' + design + '/_list/' + list +
+             otherDesign + '/' + view + params;
 
   this._connection.request({
     'method': 'GET',
-    'path': path + params,
+    'path': path,
     'callback': callback
   });
 };
