@@ -28,6 +28,9 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
 //db.view('test', 'all', {'skip': 1}, callback);
 //db.view('test', 'all', {'key': '"barbaz"'}, callback);
 //db.list('test', 'toxml', 'all', callback);
+//db.list('test', 'toxml', 'all', {'key': '"foobar"'}, callback);
+//db.list('test', 'toxml', 'test2', 'all', callback);
+//db.list('test', 'toxml', 'test2', 'all', {'key': '"foobar"'}, callback);
 //db.delete(callback);
 //doc.create({'foo': 'bar'}, callback);
 //doc.load(callback);
