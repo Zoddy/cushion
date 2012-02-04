@@ -147,7 +147,7 @@ Document.prototype.load = function(callback) {
           this._revision = response._rev;
         }
 
-        callback(error, response);
+        callback(error, this);
       }).bind(this)
     });
   }
