@@ -148,6 +148,39 @@ Database.prototype.info = function(callback) {
 
 
 /**
+ * requests a list
+ *
+ * @param {string} design name of the design document, after the '_design/'
+ * @param {string} list name of the list function
+ * @param {string} view name of the view
+ * @param {object|function(error, response)} paramsOrCallback query
+ *     parameters for the list (the same as for a view), or function that will
+ *     be called, after getting response from the list, or if there was an error
+ * @param {functin(error, response)} callback function that will be called,
+ *     after getting response from the list, or if there was an error
+ */
+Database.prototype.list = function(
+  design,
+  list,
+  view,
+  paramsOrCallback,
+  callback
+) {
+  var params = (typeof(paramsOrCallback) === 'object') ?
+               '?' + querystring.stringify(paramsOrCallback, '&', '=') :
+               '',
+      path = this.name() + '/_design/' + design + '/_list/' + list + '/' + view,
+  callback = (params === '') ? paramsOrCallback : callback;
+
+  this._connection.request({
+    'method': 'GET',
+    'path': path + params,
+    'callback': callback
+  });
+};
+
+
+/**
  * gets name of this database
  *
  * @return {string} name of this database
@@ -161,12 +194,12 @@ Database.prototype.name = function() {
  * requests a view
  *
  * @param {string} design name of the design document, after the '_design/'
- * @param {string} view name of the view, after the '_view/'
+ * @param {string} view name of the view
  * @param {object|function(error, info, object)} paramsOrCallback query
- *     parameters for the view
- * @param {?function(error, info, object)} callback function that
- *     will be called, after getting response from the view, or if there was an
- *     error
+ *     parameters for the view, or function that will be call, after getting
+ *     response from the view, or if there was an error
+ * @param {?function(error, info, object)} callback function that will be
+ *     called, after getting response from the view, or if there was an error
  */
 Database.prototype.view = function(design, view, paramsOrCallback, callback) {
   var params = (typeof(paramsOrCallback) === 'object') ?
