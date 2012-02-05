@@ -11,12 +11,23 @@ var Document = function(id, revision, connection, database) {
   this._revision = revision;
   this._connection = connection;
   this._database = database;
+  this._body = {};
 
   this._error = {
     'noId': 'no document id was set',
     'noRevision': 'no revision was set',
     'noSupport': 'currently there is no support for this function'
   };
+};
+
+
+/**
+ * gets the body of the document
+ *
+ * @return {object} document body
+ */
+Document.prototype.body = function() {
+  return JSON.parse(JSON.stringify(this._body));
 };
 
 
@@ -79,9 +90,10 @@ Document.prototype.create = function(body, callback) {
     'path': this._database.name() + '/' + ((this._id === null) ? '' : this._id),
     'body': body,
     'callback': (function (error, response) {
-      if (response) {
+      if (error === null) {
         this._id = response.id;
         this._revision = response.rev;
+        this._saveContent(body);
       }
 
       callback(error, this);
@@ -143,8 +155,8 @@ Document.prototype.load = function(callback) {
       'path': this._database.name() + '/' + this._id,
       'callback': (function(error, response) {
         if (error === null) {
-          // save revision
-          this._revision = response._rev;
+          // get document content
+          this._saveContent(response);
         }
 
         callback(error, this);
@@ -198,15 +210,46 @@ Document.prototype.save = function(body, callback) {
       null
     ));
   } else {
-    body._id = this._id;
+    this._saveContent(body);
+
     body._rev = this._revision;
 
     this._connection.request({
       'method': 'PUT',
       'path': this._database.name() + '/' + this._id,
       'body': body,
-      'callback': callback
+      'callback': (function(error, response) {
+        if (error === null) {
+          this._id = response.id;
+          this._revision = response.rev;
+        }
+
+        callback(error, this);
+      }).bind(this)
     });
+  }
+};
+
+
+/**
+ * saves the content of a whole document response
+ *
+ * @param {object} body content of the document
+ */
+Document.prototype._saveContent = function(body) {
+  var key;
+  body = JSON.parse(JSON.stringify(body));
+
+  this._body = {};
+
+  for (key in body) {
+    if (key[0] === '_') {
+      if (key === '_rev') {
+        this._revision = body[key];
+      }
+    } else {
+      this._body[key] = body[key];
+    }
   }
 };
 

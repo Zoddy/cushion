@@ -34,6 +34,9 @@ var nodecouch = new (require('../nodecouch.js').Connection)(
 //db.delete(callback);
 //doc.create({'foo': 'bar'}, callback);
 //doc.load(callback);
+/*doc.load(function(error, document) {
+  console.log(document.body());
+});*/
 //doc.delete(callback);
 /*doc.copy('barbaz', function(error, source, target) {
   if (error) {
