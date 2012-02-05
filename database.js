@@ -64,8 +64,14 @@ Database.prototype.allDocuments = function(paramsOrCallback, callback) {
 Database.prototype.create = function(callback) {
   this._connection.request({
     'method': 'PUT',
-    'path': this._name,
-    'callback': callback
+    'path': this.name() + '/',
+    'callback': (function(error, response) {
+      if (error === null && response.ok === true) {
+        response = true;
+      }
+
+      callback(error, response);
+    }).bind(this)
   });
 };
 
@@ -79,7 +85,7 @@ Database.prototype.create = function(callback) {
 Database.prototype.delete = function(callback) {
   this._connection.request({
     'method': 'DELETE',
-    'path': this._name,
+    'path': this.name() ,
     'callback': function(error, response) {
       if (response && response.ok === true) {
         response = true;

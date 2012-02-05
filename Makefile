@@ -4,6 +4,6 @@ default: test
 # Run all tests
 #
 test:
-	node test/test.js
+	vows test/connection-test.js --spec
 
 .PHONY: test
