@@ -166,6 +166,7 @@ nodecouch.prototype.request = function(properties) {
 nodecouch.prototype.version = function(callback) {
   this.request({
     'method': 'GET',
+    'path': '',
     'callback': function(error, response) {
       if (response !== null) {
         response = response.version;
