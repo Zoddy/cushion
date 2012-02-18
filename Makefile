@@ -4,6 +4,6 @@ default: test
 # Run all tests
 #
 test:
-	vows test/connection-test.js --spec
+	mocha --reporter list test/*-test.js
 
 .PHONY: test
