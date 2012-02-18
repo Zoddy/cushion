@@ -64,7 +64,7 @@ Database.prototype.allDocuments = function(paramsOrCallback, callback) {
 Database.prototype.create = function(callback) {
   this._connection.request({
     'method': 'PUT',
-    'path': this.name() + '/',
+    'path': this.name(),
     'callback': (function(error, response) {
       if (error === null && response.ok === true) {
         response = true;
