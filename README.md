@@ -68,7 +68,7 @@ connection api
 
 **Description:** Get version of connected couchdb.
 
-	nodecouch.version(callback(error, version));
+	nodecouch.version(callback);
 
 **callback** - callback function(error, response) for error and response handling  
 
@@ -120,23 +120,100 @@ database api
 
 ### connect to a specific database ###
 
-``` js
-var nodecouch = new (require('nodecouch').Connection)(
-                  '127.0.0.1', // host
-                  5984, // port
-                  'foo', // username
-                  'bar' // password
-                ),
+***Description:*** Connect to a given database.
+
+***Example:***
+
+	var nodecouch = new (require('nodecouch').Connection)(
+							'127.0.0.1', // host
+							5984, // port	       
+							'foo', // username
+							'bar' // password
+						),
     db = nodecouch.database('foo'); // returns the database api object
-```
+
+
+### check if database exists ###
+
+***Description:*** Check if the initialize database object exists or not.
+
+	db.exists(callback);
+
+**callback** - callback function(error, response) for error and response handling  
+
+***Example:***
+
+	db.exists(function(error, exist) {
+		console.log(error || exist);
+	});
+
+### create database ###
+
+***Description:*** Create database.
+
+	db.create(callback);
+
+**callback** - callback function(error, response) for error and response handling  
+
+***Example:***
+
+	db.create(function(error, response) {
+		console.log(error || resonse);
+	});
+
+### delete database ###
+
+***Descritpion:*** Delete database.
+
+	db.delete(callback);
+
+**callback** - callback function(error, response) for error and response handling  
+
+***Example:***
+
+	db.delete(function(error, response) {
+		console.log(error || response);
+	});
 
 ### get informations about the database ###
 
-``` js
-db.getInfo(function(error, info) {
-  console.log(error || info);
-});
-```
+***Description:*** Get whole information about the database.
+
+	db.info(function(callback));
+
+**callback** - callback function(error, response) for error and response handling  
+
+***Example:***
+
+	db.info(function(error, info) {
+	  console.log(error || info);
+	});
+
+### get name of the database ###
+
+***Description:*** Get name of the database.
+
+***Example:***
+
+	db.name();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### get all documents ###
 
