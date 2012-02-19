@@ -67,6 +67,7 @@ connection api
 ### get version of couchdb ###
 
 **Description:** Get version of connected couchdb.
+
 	nodecouch.version(callback(error, version));
 
 **callback** - callback function(error, response) for error and response handling  
