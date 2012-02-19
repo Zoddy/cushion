@@ -9,72 +9,107 @@ connection api
 
 ### create new connection ###
 
-``` js
-var nodecouch = new (require('nodecouch').Connection)(
+***Description:*** Creates a new connection to couched instance.
+
+	nodecouch.Connection(host, port, username, password);
+
+**host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
+**port** - port of couchdb instance **[ default: 5984 ]**  
+**username** - name of couchdb user **[ default: '' ]**  
+**password** - password for given couchdb user **[ default: '']**  
+
+***Example:***
+
+	var nodecouch = new (require('nodecouch').Connection)(
                   '127.0.0.1', // host
                   5984, // port
                   'foo', // username
                   'bar' // password
                 );
-```
 
-### error handling ###
 
-you can choose between two error handlings. if you set a fifth argument at a new
-connection object, you can switch between them.
+### get database ###
 
-set to `true` means, that in the error object at each callback there are also
-couchdb errors
+***Description:*** Get a new database object.  
 
-set to `false` means, that only connection errors (e.g. wrong port) are written
-in the error object, couchdb errors will be hold in the response object
-"true" is the default entry
+	nodecouch.database(name);
 
-### create database ###
+**name** - name of particular database  
 
-``` js
-nodecouch.createDatabase('foo', function(error, response) {
-  console.log(error || response);
-});
-```
+***Example:***
+
+	db = nodecouch.database('database');
+
 
 ### get a list of databases ###
 
-``` js
-// the second (boolean) argument can be set to true (default false), if you want
-// to filter the couchdb related databases (e.g. _user)
-nodecouch.listDatabases(function(error, databases) {
-  console.log(error || databases);
-}, true);
-```
+***Description:*** Get an array of database objects.
 
-### delete database ###
+	dbs = nodecouch.listDatabases(callback [, noCouchRelated]);
 
-``` js
-nodecouch.deleteDatabase('foo', function(error, response) {
-  console.log(error || response);
-});
-```
+**callback** - callback function(error, response) for error and response handling   
+**noCouchRelated** - list all databases or only not couched related databases **[ default: false ]**
+
+***Example:***
+
+	//getting all databases ('_users' & '_replicator' included)
+	nodecouch.lostDatabases(function(error, response) {
+		// if error occurred, show it
+		console.log(error || response);
+	});
+
+	//getting no couched related databases ('_users' & '_replicator' excluded)
+	nodecouch.lostDatabases(function(error, response) {
+		// if error occurred, show it
+		console.log(error || response);
+	}, true);
 
 ### get version of couchdb ###
 
-``` js
-nodecouch.getVersion(function(error, version) {
-  console.log(error || version);
-});
-```
+**Description:** Get version of connected couchdb.
+	nodecouch.version(callback(error, version));
 
-### make a lowlevel request ###
+**callback** - callback function(error, response) for error and response handling  
 
-``` js
-nodecouch.request(
-  'GET' // http method GET, PUT, POST or DELETE
-  'test/_design/foo/_view/bar' // complete path after the uri
-  function(error, response) { // and finally the callback
-    console.log(error || response);
-  }
-);
-```
+**Example:**
+	nodecouch.version(function(error, version) {
+		// if error occurred, show it
+  		console.log(error || version);
+	});
+
+
+### make a low level request ###
+***Description:*** If there is something nodecouch doesn't offer to you, make a low level request to couchdb.
+	nodecouch.request(properties);
+
+**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
+**properties.path** - uri path after domain  **[ default: '']**  
+**properties.headers** - key/value-pairs of additional http headers  
+**properties.body** - additional request body  
+**properties.callback** - callback function(error, response) for error and response handling
+
+**Example:**
+
+	//getting all documents of given database
+	nodecouch.request({
+		'method': 'GET',
+		'path': 'someDB/_all_docs',
+		'callback': function(err, resp) {
+			console.log(err || resp);
+		}
+	});
+
+	//creating a new document
+	nodecouch.request({
+		'method': 'PUT', 
+		'path': 'someDB/docID', 
+		'body': {
+			'name': 'John Doe'
+		},
+		'callback': function(err, resp){
+			console.log(err || resp);
+		}
+	});
 
 
 database api
