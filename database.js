@@ -5,7 +5,7 @@ var querystring = require('querystring');
  * database object
  *
  * @constructor
- * @param {string} name name of the database
+ * @param {string} name of the database
  * @param {nodecouch.Connection} connection connection object
  */
 var Database = function(name, connection) {
