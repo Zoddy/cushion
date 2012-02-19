@@ -7,8 +7,9 @@
  */
 
 var assert = require('assert'),
-    mockup = function(props) {
-               props.callback(props, null);
+    check = require('./check.js')
+    mockup = function(properties) {
+               properties.callback(properties, null);
              },
     nodecouch = new (require('../nodecouch.js').Connection)(
                   'localtest',
@@ -26,14 +27,8 @@ nodecouch.request = mockup;
 describe('connection', function() {
   describe('get version', function() {
     it('should return a version string', function(done) {
-      nodecouch.version(function(props) {
-        assert.strictEqual(props.method, 'GET', 'http method have to be GET');
-        assert.strictEqual(props.path, '', 'path have to be an empty string');
-        assert.strictEqual(
-          typeof(props.callback),
-          'function',
-          'callback have to be a function'
-        );
+      nodecouch.version(function(properties) {
+        check(properties, 'GET', '');
 
         done();
       });
@@ -51,18 +46,8 @@ describe('connection', function() {
 
   describe('get a list of databases', function() {
     it('should return an array with database objects', function(done) {
-      nodecouch.listDatabases(function(props) {
-        assert.strictEqual(props.method, 'GET', 'http method have to be GET');
-        assert.strictEqual(
-          props.path,
-          '_all_dbs',
-          'path have to be "_all_dbs"'
-        );
-        assert.strictEqual(
-          typeof(props.callback),
-          'function',
-          'callback have to be a function'
-        );
+      nodecouch.listDatabases(function(properties) {
+        check(properties, 'GET', '_all_dbs');
 
         done();
       });
