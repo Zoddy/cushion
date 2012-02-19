@@ -116,7 +116,7 @@ nodecouch.prototype._request = function(callback, response) {
  *      headers: {Object} key/value-pairs of additional http headers
  *      body: {Object|Array} additional body
  *      callback: {function(error, response)} function that will be called,
- *                after getting the response, of if there was an error
+ *                after getting the response or if there was an error
  */
 nodecouch.prototype.request = function(properties) {
   var options = {
