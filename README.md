@@ -72,6 +72,7 @@ connection api
 **callback** - callback function(error, response) for error and response handling  
 
 **Example:**
+
 	nodecouch.version(function(error, version) {
 		// if error occurred, show it
   		console.log(error || version);
