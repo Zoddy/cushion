@@ -81,6 +81,7 @@ connection api
 
 ### make a low level request ###
 ***Description:*** If there is something nodecouch doesn't offer to you, make a low level request to couchdb.
+
 	nodecouch.request(properties);
 
 **properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
