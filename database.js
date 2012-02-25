@@ -82,7 +82,7 @@ Database.prototype.create = function(callback) {
  * @param {function(error, deleted)} callback function that will be called,
  *     after deleting the database, or if there was an error
  */
-Database.prototype.delete = function(callback) {
+Database.prototype.destroy = function(callback) {
   this._connection.request({
     'method': 'DELETE',
     'path': this.name() ,
