@@ -87,7 +87,7 @@ Document.prototype.copy = function(
 Document.prototype.create = function(body, callback) {
   this._connection.request({
     'method': (this._id === null) ? 'POST' : 'PUT',
-    'path': this._database.name() + '/' + ((this._id === null) ? '' : this._id),
+    'path': this._database.name() + ((this._id === null) ? '' : '/' + this._id),
     'body': body,
     'callback': (function (error, response) {
       if (error === null) {
