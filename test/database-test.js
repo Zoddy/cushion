@@ -15,8 +15,7 @@
  * 12) delete the database
  */
 
-var assert = require('assert'),
-    check = require('./check.js'),
+var check = require('./check.js'),
     mockup = function(properties) {
                properties.callback(properties, null);
              },
