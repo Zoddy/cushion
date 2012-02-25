@@ -100,9 +100,77 @@ describe('database', function() {
     });
   });
 
-  /*describe('request a list', function() {
-    it('should return a response from a list function', function(done) {
-      database.list();
+  describe('request a list', function() {
+    it('should return a response from it', function(done) {
+      database.list('foo', 'bar', 'foobar', function(properties) {
+        check(properties, 'GET', 'foo/_design/foo/_list/bar/foobar');
+
+        done();
+      });
     });
-  });*/
+  });
+
+  describe('request a list with some query params', function() {
+    it('should return a response from it', function(done) {
+      database.list(
+        'foo',
+        'bar',
+        'foobar',
+        {'skip': 5, 'limit': 10},
+        function(properties) {
+          check(
+            properties,
+            'GET',
+            'foo/_design/foo/_list/bar/foobar?skip=5&limit=10'
+          );
+
+          done();
+        }
+      );
+    });
+  });
+
+  describe('request a list with view in another design document', function() {
+    it('should return a response from it', function(done) {
+      database.list('foo', 'bar', 'foobar', 'baz', function(properties) {
+        check(properties, 'GET', 'foo/_design/foo/_list/bar/foobar/baz');
+
+        done();
+      });
+    });
+  });
+
+  describe(
+    'request a list with view in another design document and some query params',
+    function() {
+      it('should return a response from it', function(done) {
+        database.list(
+          'foo',
+          'bar',
+          'foobar',
+          'baz',
+          {'skip': 5, 'limit': 10},
+          function(properties) {
+            check(
+              properties,
+              'GET',
+              'foo/_design/foo/_list/bar/foobar/baz?skip=5&limit=10'
+            );
+
+            done();
+          }
+        );
+      });
+    }
+  );
+
+  describe('delete the database', function() {
+    it('should validate the request', function(done) {
+      database.destroy(function(properties) {
+        check(properties, 'DELETE', 'foo');
+
+        done();
+      });
+    });
+  });
 });
