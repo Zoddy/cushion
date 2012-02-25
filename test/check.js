@@ -8,7 +8,7 @@ var assert = require('assert');
  * @param {string} method http method to check against properties.method
  * @param {string} path checking against properties.path
  */
-module.exports = function(properties, method, path, body) {
+module.exports = function(properties, method, path, body, headers) {
   // check against the http method
   assert.strictEqual(
     properties.method,
@@ -30,12 +30,21 @@ module.exports = function(properties, method, path, body) {
     'callback have to be a function'
   );
 
+  // check if body is correct
   if (body) {
-    // check if body is correct
     assert.deepEqual(
       properties.body,
       body,
       'body is not correct'
+    );
+  }
+
+  // check if header is correct
+  if (headers) {
+    assert.deepEqual(
+      properties.headers,
+      headers,
+      'headers are not correct'
     );
   }
 };
