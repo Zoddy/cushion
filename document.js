@@ -109,7 +109,7 @@ Document.prototype.create = function(body, callback) {
  * @param {function(error, nodecouch.Document)} callback function that will be
  *     called, after deleting the document, or if there was an error
  */
-Document.prototype.delete = function(callback) {
+Document.prototype.destroy = function(callback) {
   if (this._id === null) {
     process.nextTick(callback(
       {'error': 'no_delete', 'reason': this._error.noId},
