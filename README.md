@@ -321,6 +321,19 @@ then run the tests:
     $ make test
 
 
+## upcoming features ##
+
+* bulk updates
+* document info
+* attachment support
+* admin management
+* user management
+* design document handler
+* document collections?
+* query params api
+* caching
+
+
 ## License
 
 (The MIT License)
