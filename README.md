@@ -1,7 +1,7 @@
 nodecouch
 =========
 
-Node.js CouchDB Interface
+Node.js CouchDB API
 
 
 connection api
