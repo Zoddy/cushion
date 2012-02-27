@@ -11,7 +11,7 @@ var http = require('http');
 var nodecouch = function(host, port, username, password) {
   var defaultOptions = require('./config.js');
 
-  this._methodMatch = methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
+  this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
   this._options = {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
