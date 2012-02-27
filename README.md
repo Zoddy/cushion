@@ -9,36 +9,23 @@ connection api
 
 ### create new connection ###
 
-***Description:*** Creates a new connection to couched instance.
+***Description:*** Creates a new connection to a CouchDB.
 
 	nodecouch.Connection(host, port, username, password);
 
-**host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
-**port** - port of couchdb instance **[ default: 5984 ]**  
-**username** - name of couchdb user **[ default: '' ]**  
-**password** - password for given couchdb user **[ default: '']**  
+**host** - host of couchdb instance **[ default: '127.0.0.1' ]**
+**port** - port of couchdb instance **[ default: 5984 ]**
+**username** - name of couchdb user **[ default: '' ]**
+**password** - password for given couchdb user **[ default: '']**
 
 ***Example:***
 
 	var nodecouch = new (require('nodecouch').Connection)(
-                  '127.0.0.1', // host
-                  5984, // port
-                  'foo', // username
-                  'bar' // password
-                );
-
-
-### get database ###
-
-***Description:*** Get a new database object.  
-
-	nodecouch.database(name);
-
-**name** - name of particular database  
-
-***Example:***
-
-	db = nodecouch.database('database');
+                      '127.0.0.1', // host
+                      5984, // port
+                      'foo', // username
+                      'bar' // password
+                    );
 
 
 ### get a list of databases ###
@@ -47,22 +34,22 @@ connection api
 
 	dbs = nodecouch.listDatabases(callback [, noCouchRelated]);
 
-**callback** - callback function(error, response) for error and response handling   
-**noCouchRelated** - list all databases or only not couched related databases **[ default: false ]**
+**callback** - callback function(error, response) for error and response handling
+**noCouchRelated** - list all databases or only not couchdb related databases **[ default: false ]**
 
 ***Example:***
 
-	//getting all databases ('_users' & '_replicator' included)
-	nodecouch.lostDatabases(function(error, response) {
-		// if error occurred, show it
-		console.log(error || response);
+	// getting all databases (couchdb databases included like "_users" or "_replicator")
+	nodecouch.listDatabases(function(error, response) {
+      console.log(error || response);
 	});
 
-	//getting no couched related databases ('_users' & '_replicator' excluded)
+	// getting no couchdb related databases
+	// (couchdb databases excluded like "_users" or "_replicator")
 	nodecouch.lostDatabases(function(error, response) {
-		// if error occurred, show it
-		console.log(error || response);
+      console.log(error || response);
 	}, true);
+
 
 ### get version of couchdb ###
 
@@ -70,13 +57,12 @@ connection api
 
 	nodecouch.version(callback);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 
 **Example:**
 
 	nodecouch.version(function(error, version) {
-		// if error occurred, show it
-  		console.log(error || version);
+      console.log(error || version);
 	});
 
 
@@ -85,33 +71,33 @@ connection api
 
 	nodecouch.request(properties);
 
-**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
-**properties.path** - uri path after domain  **[ default: '']**  
-**properties.headers** - key/value-pairs of additional http headers  
-**properties.body** - additional request body  
+**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**
+**properties.path** - uri path after domain  **[ default: '']**
+**properties.headers** - key/value-pairs of additional http headers
+**properties.body** - additional request body
 **properties.callback** - callback function(error, response) for error and response handling
 
 **Example:**
 
-	//getting all documents of given database
+	// getting all documents of given database
 	nodecouch.request({
-		'method': 'GET',
-		'path': 'someDB/_all_docs',
-		'callback': function(err, resp) {
-			console.log(err || resp);
-		}
+      'method': 'GET',
+      'path': 'foodb/_all_docs',
+      'callback': function(error, response) {
+        console.log(error || response);
+      }
 	});
 
-	//creating a new document
+	// creating a new document
 	nodecouch.request({
-		'method': 'PUT', 
-		'path': 'someDB/docID', 
-		'body': {
-			'name': 'John Doe'
-		},
-		'callback': function(err, resp){
-			console.log(err || resp);
-		}
+      'method': 'PUT',
+      'path': 'foodb/foodoc',
+      'body': {
+        'name': 'John Doe'
+      },
+      'callback': function(error, response) {
+        console.log(error || response);
+      }
 	});
 
 
@@ -122,229 +108,225 @@ database api
 
 ***Description:*** Connect to a given database.
 
-***Example:***
+    nodecouch.database(name);
 
-	var nodecouch = new (require('nodecouch').Connection)(
-							'127.0.0.1', // host
-							5984, // port	       
-							'foo', // username
-							'bar' // password
-						),
-    db = nodecouch.database('foo'); // returns the database api object
+**name:** name of the database
+
+**Example:**
+
+    var db = nodecouch.database('foodb');
 
 
 ### check if database exists ###
 
-***Description:*** Check if the initialize database object exists or not.
+**Description:** Checks if the database exists.
 
 	db.exists(callback);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 
-***Example:***
+**Example:**
 
 	db.exists(function(error, exist) {
-		console.log(error || exist);
+      console.log(error || exist);
 	});
+
 
 ### create database ###
 
-***Description:*** Create database.
+**Description:** Create database.
 
 	db.create(callback);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 
-***Example:***
+**Example:**
 
 	db.create(function(error, response) {
-		console.log(error || resonse);
+      console.log(error || response);
 	});
+
 
 ### delete database ###
 
-***Descritpion:*** Delete database.
+**Description:** Delete database.
 
-	db.delete(callback);
+	db.destroy(callback);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 
-***Example:***
+**Example:**
 
-	db.delete(function(error, response) {
-		console.log(error || response);
+	db.destroy(function(error, response) {
+      console.log(error || response);
 	});
+
 
 ### get informations about the database ###
 
-***Description:*** Get whole information about the database.
+**Description:** Get whole information about the database.
 
-	db.info(function(callback));
+	db.info(callback);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 
-***Example:***
+**Example:**
 
 	db.info(function(error, info) {
 	  console.log(error || info);
 	});
 
+
 ### get name of the database ###
 
-***Description:*** Get name of the database.
+**Description:** Get name of the database.
 
-***Example:***
+**Example:**
 
-	db.name();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	var dbName = db.name();
 
 
 ### get all documents ###
 
-As second parameter you can add additional options, the same that you can set at
-the view function, because the getAll function retrieves a special view at the
-couchdb: `_all_docs`.
+**Description:** The additional options that you can set as first parameter, are the same that you can set at the view function, because the getAll function retrieves a special view at the couchdb `_all_docs`.
 
-``` js
-db.getAll(function(error, allDocs) {
-  console.log(error || allDocs);
-});
-```
+	db.getAll(callback)
+    db.getAll(params, callback);
+
+**params** - query parameter (see description) or callback function(error, response) for error and response handling
+**callback** - callback function(error, response) for error and response handling
+
+**Example:**
+
+    db.getAll(function(error, allDocs) {
+      console.log(error || allDocs);
+    });
+
 
 ### get a specific document ###
 
-current revision
+    db.get(name, callback)
+    db.get(name, revision, callback)
 
-``` js
-db.get('foo', function(error, document) {
-  console.log(error || document);
-});
-```
+**id** - id of the document
+**revision** - revision id
+**callback** - callback function(error, response) for error and response handling
 
-specific revision
+**Example (current revision):**
 
-``` js
-db.get('foo', '2-8157185549b948cc544f5574f073240b', function(error, document) {
-  console.log(error || document);
-});
-```
+    db.get('foo', function(error, document) {
+      console.log(error || document);
+    });
 
-### create document ###
+**Example (specific revision):**
 
-create a document, which id will be created by couchdb
+    db.get('foo', '2-8157185549b948cc544f5574f073240b', function(error, document) {
+      console.log(error || document);
+    });
 
-``` js
-db.createDocument(
-  {'foo': 'bar'}, // document body
-  function(error, confirmation) { // callback
-    console.log(error || confirmation);
-  }
-);
-```
-
-create a document with a user generated document id
-
-``` js
-db.createDocument(
-  'foobar', // document id
-  {'foo': 'bar'}, // document body
-  function (error, confirmation) { // callback
-    console.log(error || confirmation);
-  }
-);
-```
-
-### update document ###
-
-``` js
-db.updateDocument(
-  'foobar', // document id
-  '3-1c26eb9bb45a9cf6991ddc900f5f5508', // revision
-  {'bar': 'foo'}, // new body
-  function(error, confirmation) { // callback
-    console.log(error || confirmation);
-  }
-);
-```
-
-### copy document ###
-
-``` js
-db.copyDocument(
-  'foo', // source document id
-  'bar', // target document id
-  function(error, confirmation) { // callback
-    console.log(error || confirmation);
-  }
-);
-```
-
-you can also copy a specific revision and if the target currently exists, you
-have to specify the target revision
-
-``` js
-db.copyDocument(
-  {id: 'foo', revision: '1-4c6114c65e295552ab1019e2b046b10e'}, // source
-  {id: 'bar', revision: '3-1c26eb9bb45a9cf6991ddc900f5f5508'}, // target
-  function(error, confirmation) { // callback
-    console.log(error || confirmation);
-  }
-);
-```
-
-### delete document ###
-
-``` js
-db.deleteDocument(
-  'foobar', // document id
-  '1-4c6114c65e295552ab1019e2b046b10e', // revision
-  function(error, confirmation) { //callback
-    console.log(error || confirmation);
-  }
-);
-```
 
 ### retrieving a view ###
 
-``` js
-db.view(
-  'foo', // design document, after the "_design/"
-  'bar', // view map name
-  function(error, result) {
-    console.log(error || result);
-  }
-);
-```
+    db.view(designDocument, viewFuntion, callback)
+    db.view(designDocument, viewFunction, params, callback)
 
-you can set a fourth argument, which sets up additional arguments to the views.
-this are all the query parameters that are documented at the couchdb view api
-http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options
+**designDocument** - name of the design document after the "_design/"
+**viewFunction** - name of the view function
+**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options; or callback function(error, response) for error and response handling
+**callback** - callback function(error, response) for error and response handling
 
-This skips the first five documents and limits the output to 10 results.
+    db.view(
+      'foo',
+      'bar',
+      function(error, result) {
+        console.log(error || result);
+      }
+    );
 
-``` js
-db.view(
-  'foo',
-  'bar',
-  function(error, result) {
-    console.log(error || result);
-  },
-  {skip: 5, limit: 10}
-);
-```
+**Example (skip first five documents and limits the result to ten):**
+
+    db.view(
+      'foo',
+      'bar',
+      {'skip': 5, 'limit': 10},
+      function(error, result) {
+        console.log(error || result);
+      },
+    );
+
+
+### retrieving a list ###
+
+    db.list(design, list, view, callback)
+    db.list(design, list, view, params, callback)
+    db.list(design, list, otherDesign, view, callback)
+    db.list(design, list, otherDesign, view, params, callback)
+
+**design** - name of the design document without the "_design/"
+**list** - name of the list function
+**otherDesign** - name of another design document without the "_design/"
+**view** - name of the function
+**params** - additional params, the same that you can set at the view requests
+**callback** - callback function(error, response) for error and response handling
+
+**Example:**
+
+    db.list(
+      'fooDesign',
+      'fooList',
+      'fooView',
+      {'skip': 5, 'limit': 10},
+      function(error, result) {
+      	console.log(error || result);
+      }
+    );
+
+
+document api
+------------
+
+### getting document object ###
+
+**With given ID** `var doc = db.document('foo' [, revision]);`
+**Without ID if you want to create it later from the CouchDB** `var doc = db.document();`
+
+
+### create document ###
+**Description:** Creates the document, if you don't set the id before, the couchdb will create it and nodecouch set's it in the document object
+
+    doc.create(body, callback)
+
+**body** - json body for the document
+**callback** - callback function(error, document) for error and response handling
+
+
+### load document ###
+
+    doc.load(callback)
+
+**callback** - callback function(error, document) for error and response handling
+
+
+### save document ###
+
+    doc.save(body, callback)
+
+**body** - json body for the document
+**callback** - callback function(error, document) for error and response handling
+
+
+### copy document ###
+
+    doc.copy(targetID, callback)
+    doc.copy(targetID, targetRevision, callback)
+
+**targetID** - id of the target document
+**targetRevision** - revision of the target document
+**callback** - callback function(error, sourceDocument, targetDocument) for error and response handling
+
+
+### delete document ###
+
+    doc.destroy(callback)
+
+**callback** - callback function(error, document) for error and response handling
