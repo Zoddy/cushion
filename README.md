@@ -13,9 +13,9 @@ connection api
 
 	nodecouch.Connection(host, port, username, password);
 
-**host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
-**port** - port of couchdb instance **[ default: 5984 ]**  
-**username** - name of couchdb user **[ default: '' ]**  
+**host** - host of couchdb instance **[ default: '127.0.0.1' ]**
+**port** - port of couchdb instance **[ default: 5984 ]**
+**username** - name of couchdb user **[ default: '' ]**
 **password** - password for given couchdb user **[ default: '']**
 
 ***Example:***
@@ -34,7 +34,7 @@ connection api
 
 	dbs = nodecouch.listDatabases(callback [, noCouchRelated]);
 
-**callback** - callback function(error, response) for error and response handling  
+**callback** - callback function(error, response) for error and response handling
 **noCouchRelated** - list all databases or only not couchdb related databases **[ default: false ]**
 
 ***Example:***
@@ -71,10 +71,10 @@ connection api
 
 	nodecouch.request(properties);
 
-**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
-**properties.path** - uri path after domain  **[ default: '']**  
-**properties.headers** - key/value-pairs of additional http headers  
-**properties.body** - additional request body  
+**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**
+**properties.path** - uri path after domain  **[ default: '']**
+**properties.headers** - key/value-pairs of additional http headers
+**properties.body** - additional request body
 **properties.callback** - callback function(error, response) for error and response handling
 
 **Example:**
@@ -193,7 +193,7 @@ database api
 	db.getAll(callback)
     db.getAll(params, callback);
 
-**params** - query parameter (see description) or callback function(error, response) for error and response handling  
+**params** - query parameter (see description) or callback function(error, response) for error and response handling
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
@@ -208,9 +208,9 @@ database api
     db.view(designDocument, viewFuntion, callback)
     db.view(designDocument, viewFunction, params, callback)
 
-**designDocument** - name of the design document after the "_design/"  
-**viewFunction** - name of the view function  
-**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options  
+**designDocument** - name of the design document after the "_design/"
+**viewFunction** - name of the view function
+**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options
 **callback** - callback function(error, response) for error and response handling
 
     db.view(
@@ -240,11 +240,11 @@ database api
     db.list(design, list, otherDesign, view, callback)
     db.list(design, list, otherDesign, view, params, callback)
 
-**design** - name of the design document without the "_design/"  
-**list** - name of the list function  
-**otherDesign** - name of another design document without the "_design/"  
-**view** - name of the function  
-**params** - additional params, the same that you can set at the view requests  
+**design** - name of the design document without the "_design/"
+**list** - name of the list function
+**otherDesign** - name of another design document without the "_design/"
+**view** - name of the function
+**params** - additional params, the same that you can set at the view requests
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
@@ -265,7 +265,7 @@ document api
 
 ### getting document object ###
 
-**With given ID** `var doc = db.document('foo' [, revision]);`  
+**With given ID** `var doc = db.document('foo' [, revision]);`
 **Without ID if you want to create it later from the CouchDB** `var doc = db.document();`
 
 
@@ -274,7 +274,7 @@ document api
 
     doc.create(body, callback)
 
-**body** - json body for the document  
+**body** - json body for the document
 **callback** - callback function(error, document) for error and response handling
 
 
@@ -289,7 +289,7 @@ document api
 
     doc.save(body, callback)
 
-**body** - json body for the document  
+**body** - json body for the document
 **callback** - callback function(error, document) for error and response handling
 
 
@@ -298,8 +298,8 @@ document api
     doc.copy(targetID, callback)
     doc.copy(targetID, targetRevision, callback)
 
-**targetID** - id of the target document  
-**targetRevision** - revision of the target document  
+**targetID** - id of the target document
+**targetRevision** - revision of the target document
 **callback** - callback function(error, sourceDocument, targetDocument) for error and response handling
 
 
@@ -308,3 +308,29 @@ document api
     doc.destroy(callback)
 
 **callback** - callback function(error, document) for error and response handling
+
+
+## License
+
+(The MIT License)
+
+Copyright (c) 2009-2011 André Kussmann <zoddy@zoddy.de>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
