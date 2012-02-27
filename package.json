@@ -1,24 +1,28 @@
-{ "name" : "nodecouch"
-, "version" : "0.0.1"
-, "description" : "A CouchDB Interface for Node.js"
-, "keywords" : [ "couchdb" ]
-, "preferGlobal" : true
-, "private": true
-, "author" : { "name" : "André Kussmann"
-             , "email" : "zoddy@zoddy.de"
-             }
-, "contributors" :
-  [ { "name" : "Patrick Venetz"
-    , "email" : "mail@patrickvenetz.com"
-    }
-  ]
-, "repository" :
-  { "type" : "git"
-  , "url" : "git://github.com/nodecouch/nodecouch.git"
-  }
-, "bugs" :
-  { "url" : "http://github.com/meecrom/nodecouch/issues"
-  }
-, "main" : "./nodecouch"
-, "engines" : { "node" : ">=0.4" }
+{
+  "name" : "nodecouch",
+  "version" : "0.1.0",
+  "description" : "A CouchDB API for Node.js",
+  "keywords" : ["couchdb"],
+  "preferGlobal" : false,
+  "author" : "André Kussmann <zoddy@zoddy.de>",
+  "contributors" : [{
+    "name" : "Patrick Venetz",
+    "email" : "mail@patrickvenetz.com"
+  }],
+  "scripts": {
+    "test": "make test"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "git://github.com/zoddy/nodecouch.git"
+  },
+  "bugs" : {
+    "url" : "http://github.com/zoddy/nodecouch/issues"
+  },
+  "devDependencies": {
+    "mocha": "0.12.x"
+  },
+  "main" : "./nodecouch",
+  "engines" : {"node" : ">=0.4"},
+  "license": "MIT"
 }
