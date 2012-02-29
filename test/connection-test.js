@@ -11,7 +11,7 @@ var assert = require('assert'),
     mockup = function(properties) {
                properties.callback(properties, null);
              },
-    nodecouch = new (require('../nodecouch.js').Connection)(
+    cushion = new (require('../cushion.js').Connection)(
                   'localtest',
                   '5984',
                   'foo',
@@ -20,14 +20,14 @@ var assert = require('assert'),
 
 
 // overwrite original request function
-nodecouch.request = mockup;
+cushion.request = mockup;
 
 
 // starting tests
 describe('connection', function() {
   describe('get version', function() {
     it('should return a version string', function(done) {
-      nodecouch.version(function(properties) {
+      cushion.version(function(properties) {
         check(properties, 'GET', '');
 
         done();
@@ -37,7 +37,7 @@ describe('connection', function() {
 
   describe('create a database object', function() {
     it('should return a new database object', function() {
-      var database = nodecouch.database('foo');
+      var database = cushion.database('foo');
 
       assert.strictEqual(typeof(database), 'object', 'have to be an object');
       assert.strictEqual(database._name, 'foo', 'db name have to be "foo"');
@@ -46,7 +46,7 @@ describe('connection', function() {
 
   describe('get a list of databases', function() {
     it('should return an array with database objects', function(done) {
-      nodecouch.listDatabases(function(properties) {
+      cushion.listDatabases(function(properties) {
         check(properties, 'GET', '_all_dbs');
 
         done();

@@ -13,19 +13,19 @@ var check = require('./check.js'),
     mockup = function(properties) {
                properties.callback(properties, null);
              },
-    nodecouch = new (require('../nodecouch.js').Connection)(
+    cushion = new (require('../cushion.js').Connection)(
                   'localtest',
                   '5984',
                   'foo',
                   'bar'
                 ),
-    database = nodecouch.database('foodb'),
+    database = cushion.database('foodb'),
     docWithId = database.document('foodoc'),
     docWithoutId = database.document();
 
 
 // overwrite original request function
-nodecouch.request = mockup;
+cushion.request = mockup;
 
 
 // starting tests

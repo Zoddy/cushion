@@ -1,5 +1,5 @@
 {
-  "name": "nodecouch",
+  "name": "cushion",
   "version": "0.1.0",
   "description": "A CouchDB API for Node.js",
   "keywords": [
@@ -15,19 +15,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/zoddy/nodecouch.git"
+    "url": "git://github.com/zoddy/cushion.git"
   },
   "bugs": {
-    "url": "http://github.com/zoddy/nodecouch/issues"
+    "url": "http://github.com/zoddy/cushion/issues"
   },
   "devDependencies": {
     "mocha": "0.12.x"
   },
-  "main": "./nodecouch",
+  "main": "./cushion",
   "engines": {
     "node": ">=0.4"
   },
   "license": "MIT",
   "dependencies": {},
-  "homepage": "https://github.com/Zoddy/nodecouch"
+  "homepage": "https://github.com/Zoddy/cushion"
 }

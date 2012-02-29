@@ -3,8 +3,8 @@
  *
  * @constructor
  * @param {string|null} id string if you have document id, null if not
- * @param {nodecouch.Connection} connection nodecouch connection object
- * @param {nodecouch.Database} database nodecouch database object
+ * @param {cushion.Connection} connection cushion connection object
+ * @param {cushion.Database} database cushion database object
  */
 var Document = function(id, revision, connection, database) {
   this._id = id;
@@ -36,11 +36,11 @@ Document.prototype.body = function() {
  * callback is the current document, second document is the target document
  *
  * @param {string} targetId target document id
- * @param {string|function(error, nodecouch.Document, nodecouch.Document)}
+ * @param {string|function(error, cushion.Document, cushion.Document)}
  *     targetRevisionOrCallback copy to a specific document revision, or
  *     function that will be called, after copying the document or if there was
  *     error
- * @param {?function(error, nodecouch.Document, nodecouch.Document)} callback
+ * @param {?function(error, cushion.Document, cushion.Document)} callback
  *     function that will be called copying the document or if there was an
  *     error
  */
@@ -81,7 +81,7 @@ Document.prototype.copy = function(
  * create the document
  *
  * @param {Object} body content of the document
- * @param {function(error, nodecouch.Document)} callback function that will be
+ * @param {function(error, cushion.Document)} callback function that will be
  *     called, after document was created, or if there was an error
  */
 Document.prototype.create = function(body, callback) {
@@ -106,7 +106,7 @@ Document.prototype.create = function(body, callback) {
  * delete the document, the id and revision have to set before, without it you
  * will get an error
  *
- * @param {function(error, nodecouch.Document)} callback function that will be
+ * @param {function(error, cushion.Document)} callback function that will be
  *     called, after deleting the document, or if there was an error
  */
 Document.prototype.destroy = function(callback) {
@@ -140,7 +140,7 @@ Document.prototype.destroy = function(callback) {
  * loads the document, the id have to set before, without it you will get an
  * error
  *
- * @param {function(error, nodecouch.Document)} callback function that will be
+ * @param {function(error, cushion.Document)} callback function that will be
  *     called, after loading the document or if there was an error
  */
 Document.prototype.load = function(callback) {
@@ -195,7 +195,7 @@ Document.prototype.info = function(callback) {
  * saves content at the document
  *
  * @param {Object} body the new content of the document
- * @param {function(error, nodecouch.Document)} callback function that will be
+ * @param {function(error, cushion.Document)} callback function that will be
  *     called, after saving the new content or if there was an error
  */
 Document.prototype.save = function(body, callback) {

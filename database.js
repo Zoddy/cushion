@@ -6,7 +6,7 @@ var querystring = require('querystring');
  *
  * @constructor
  * @param {string} name of the database
- * @param {nodecouch.Connection} connection connection object
+ * @param {cushion.Connection} connection connection object
  */
 var Database = function(name, connection) {
   this._name = name;
@@ -102,7 +102,7 @@ Database.prototype.destroy = function(callback) {
  *
  * @param {?string} docId id of the couch document
  * @param {?string} revision revision of the document
- * @return {nodecouch.Document} the document object
+ * @return {cushion.Document} the document object
  */
 Database.prototype.document = function(docId, revision) {
   return new (require('./document.js').Document)(

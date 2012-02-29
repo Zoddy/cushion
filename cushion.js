@@ -8,7 +8,7 @@ var http = require('http');
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
  */
-var nodecouch = function(host, port, username, password) {
+var cushion = function(host, port, username, password) {
   var defaultOptions = require('./config.js');
 
   this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
@@ -27,7 +27,7 @@ var nodecouch = function(host, port, username, password) {
  * @param {string} name name of the database
  * @return {Object} the database object
  */
-nodecouch.prototype.database = function(name) {
+cushion.prototype.database = function(name) {
   return new (require('./database.js').Database)(name, this);
 };
 
@@ -40,7 +40,7 @@ nodecouch.prototype.database = function(name) {
  * @param {boolean} noCouchRelated filters all couch related db's, so the list
  *     has only database which a user has set up
  */
-nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
+cushion.prototype.listDatabases = function(callback, noCouchRelated) {
   this.request({
     'method': 'GET',
     'path': '_all_dbs',
@@ -81,7 +81,7 @@ nodecouch.prototype.listDatabases = function(callback, noCouchRelated) {
  * @param {Function} callback function that will be called after all data events
  * @param {http.ClientResponse} response the http response object
  */
-nodecouch.prototype._request = function(callback, response) {
+cushion.prototype._request = function(callback, response) {
   var content = '';
 
   response.setEncoding('utf8');
@@ -118,7 +118,7 @@ nodecouch.prototype._request = function(callback, response) {
  *      callback: {function(error, response)} function that will be called,
  *                after getting the response or if there was an error
  */
-nodecouch.prototype.request = function(properties) {
+cushion.prototype.request = function(properties) {
   var options = {
         'host': this._options.host,
         'port': this._options.port,
@@ -163,7 +163,7 @@ nodecouch.prototype.request = function(properties) {
  *
  * @param {Function(version)} callback function that will be called after
  */
-nodecouch.prototype.version = function(callback) {
+cushion.prototype.version = function(callback) {
   this.request({
     'method': 'GET',
     'path': '',
@@ -178,4 +178,4 @@ nodecouch.prototype.version = function(callback) {
 };
 
 
-exports.Connection = nodecouch;
+exports.Connection = cushion;

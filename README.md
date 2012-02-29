@@ -1,4 +1,4 @@
-nodecouch
+cushion
 =========
 
 Node.js CouchDB API
@@ -11,7 +11,7 @@ connection api
 
 **Description:** Creates a new connection to a CouchDB.
 
-	nodecouch.Connection(host, port, username, password);
+	cushion.Connection(host, port, username, password);
 
 **host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
 **port** - port of couchdb instance **[ default: 5984 ]**  
@@ -20,7 +20,7 @@ connection api
 
 **Example:**
 
-	var nodecouch = new (require('nodecouch').Connection)(
+	var cushion = new (require('cushion').Connection)(
                       '127.0.0.1', // host
                       5984, // port
                       'foo', // username
@@ -32,7 +32,7 @@ connection api
 
 **Description:** Get an array of database objects.
 
-	dbs = nodecouch.listDatabases(callback [, noCouchRelated]);
+	dbs = cushion.listDatabases(callback [, noCouchRelated]);
 
 **callback** - callback function(error, response) for error and response handling  
 **noCouchRelated** - list all databases or only not couchdb related databases **[ default: false ]**
@@ -40,13 +40,13 @@ connection api
 **Example:**
 
 	// getting all databases (couchdb databases included like "_users" or "_replicator")
-	nodecouch.listDatabases(function(error, response) {
+	cushion.listDatabases(function(error, response) {
       console.log(error || response);
 	});
 
 	// getting no couchdb related databases
 	// (couchdb databases excluded like "_users" or "_replicator")
-	nodecouch.listDatabases(function(error, response) {
+	cushion.listDatabases(function(error, response) {
       console.log(error || response);
 	}, true);
 
@@ -55,21 +55,21 @@ connection api
 
 **Description:** Get version of connected couchdb.
 
-	nodecouch.version(callback);
+	cushion.version(callback);
 
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
 
-	nodecouch.version(function(error, version) {
+	cushion.version(function(error, version) {
       console.log(error || version);
 	});
 
 
 ### make a low level request ###
-**Description:** If there is something nodecouch doesn't offer to you, make a low level request to couchdb.
+**Description:** If there is something cushion doesn't offer to you, make a low level request to couchdb.
 
-	nodecouch.request(properties);
+	cushion.request(properties);
 
 **properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
 **properties.path** - uri path after domain  **[ default: '']**  
@@ -80,7 +80,7 @@ connection api
 **Example:**
 
 	// getting all documents of given database
-	nodecouch.request({
+	cushion.request({
       'method': 'GET',
       'path': 'foodb/_all_docs',
       'callback': function(error, response) {
@@ -89,7 +89,7 @@ connection api
 	});
 
 	// creating a new document
-	nodecouch.request({
+	cushion.request({
       'method': 'PUT',
       'path': 'foodb/foodoc',
       'body': {
@@ -108,13 +108,13 @@ database api
 
 **Description:** Connect to a given database.
 
-    nodecouch.database(name);
+    cushion.database(name);
 
 **name:** name of the database
 
 **Example:**
 
-    var db = nodecouch.database('foodb');
+    var db = cushion.database('foodb');
 
 
 ### check if database exists ###
@@ -270,7 +270,7 @@ document api
 
 
 ### create document ###
-**Description:** Creates the document, if you don't set the id before, the couchdb will create it and nodecouch set's it in the document object
+**Description:** Creates the document, if you don't set the id before, the couchdb will create it and cushion set's it in the document object
 
     doc.create(body, callback)
 
