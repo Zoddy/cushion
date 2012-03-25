@@ -11,7 +11,7 @@ var http = require('http');
 var cushion = function(host, port, username, password) {
   var defaultOptions = require('./config.js');
 
-  this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY?/i,
+  this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i,
   this._options = {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
@@ -60,9 +60,9 @@ cushion.prototype.listDatabases = function(callback, noCouchRelated) {
       if (error === null && response !== null) {
         for (i = 0; response[i]; ++i) {
           // filter couch related databases, if user want's so
-          if (noCouchRelated === true && response[i].substr(0, 1) === '_') {
+          if (noCouchRelated === true && response[i][0] === '_') {
             response.splice(i, 1);
-            --i
+            --i;
           }
 
           response[i] = this.database(response[i]);
