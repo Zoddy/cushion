@@ -125,14 +125,14 @@ Database.prototype.exists = function(callback) {
     'method': 'GET',
     'path': this._name,
     'callback': function(error, response) {
+      var exists = true;
+
       if (error && error.error === 'not_found') {
-        response = false;
+        error = null;
+        exists = false;
       }
 
-      callback(
-        error,
-        (error && error.error === 'not_found') ? false : true
-      );
+      callback(error, (error === null) ? exists : null);
     }
   });
 };
