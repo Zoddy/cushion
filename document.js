@@ -152,7 +152,9 @@ Document.prototype.load = function(callback) {
   } else {
     this._connection.request({
       'method': 'GET',
-      'path': this._database.name() + '/' + this._id,
+      'path': this._database.name() + '/' +
+              this._id +
+              ((this._revision !== null) ? '?rev=' + this._revision : ''),
       'callback': (function(error, response) {
         if (error === null) {
           // get document content
