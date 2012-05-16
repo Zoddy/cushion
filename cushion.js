@@ -19,7 +19,7 @@ var cushion = function(host, port, username, password, additional) {
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
     'password': password || defaultOptions.password,
-    'secure': additional.secure || defaultOptions
+    'secure': additional.secure || defaultOptions.secure
   };
 
   if (this._options.secure === true) {
