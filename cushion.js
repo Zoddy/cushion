@@ -7,8 +7,10 @@ var http = require('http');
  * @param {number} [port=this._options.port] port
  * @param {string} [username=this._options.username] username for authorization
  * @param {string} [password=this._options.password] password for authorization
+ * @param {object} additional additional options:
+ *     {boolean} [secure=false] set this to true, if you want https-connections
  */
-var cushion = function(host, port, username, password) {
+var cushion = function(host, port, username, password, additional) {
   var defaultOptions = require('./config.js');
 
   this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i,
@@ -16,8 +18,13 @@ var cushion = function(host, port, username, password) {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
-    'password': password || defaultOptions.password
+    'password': password || defaultOptions.password,
+    'secure': additional.secure || defaultOptions
   };
+
+  if (this._options.secure === true) {
+    http = require('https');
+  }
 };
 
 

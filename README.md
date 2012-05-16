@@ -16,7 +16,9 @@ connection api
 **host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
 **port** - port of couchdb instance **[ default: 5984 ]**  
 **username** - name of couchdb user **[ default: '' ]**  
-**password** - password for given couchdb user **[ default: '']**
+**password** - password for given couchdb user **[ default: '' ]**  
+**additional** - additional options **[ default: {}]**
+**additional.secure** - set to true, if you want to use https requests **[ default: false ]**
 
 **Example:**
 
