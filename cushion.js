@@ -12,6 +12,7 @@ var http = require('http');
  */
 var cushion = function(host, port, username, password, additional) {
   var defaultOptions = require('./config.js');
+  additional = additional || {};
 
   this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i,
   this._options = {
