@@ -107,6 +107,32 @@ Document.prototype.create = function(body, callback) {
 
 
 /**
+ * deletes an attachment
+ *
+ * @param {string} name attachment name
+ * @param {function(error, deleted)} callback function that will be called,
+ *     after the attachment was deleted
+ */
+Document.prototype.deleteAttachment = function(name, callback) {
+  this._connection.request({
+    'method': 'DELETE',
+    'path': this._database.name() + '/' +
+            this._id + '/' + name +
+            '?rev=' + this._revision,
+    'callback': function(error, confirmed) {
+      if (error) {
+        confirmed = false;
+      } else {
+        confirmed = true;
+      }
+
+      callback(error, confirmed);
+    }
+  });
+};
+
+
+/**
  * delete the document, the id and revision have to set before, without it you
  * will get an error
  *

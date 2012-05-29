@@ -131,4 +131,17 @@ describe('document', function() {
       );
     });
   });
+
+  describe('delete attachment', function() {
+    it('should delete the attachment', function(done) {
+      docWithId.deleteAttachment(
+        'Makefile',
+        function(properties) {
+          check(properties, 'DELETE', 'foodb/foodoc/Makefile?rev=foorev');
+
+          done();
+        }
+      );
+    });
+  });
 });
