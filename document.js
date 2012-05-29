@@ -119,15 +119,16 @@ Document.prototype.deleteAttachment = function(name, callback) {
     'path': this._database.name() + '/' +
             this._id + '/' + name +
             '?rev=' + this._revision,
-    'callback': function(error, confirmed) {
+    'callback': (function(error, confirmed) {
       if (error) {
         confirmed = false;
       } else {
+        this._revision = confirmed.rev;
         confirmed = true;
       }
 
       callback(error, confirmed);
-    }
+    }).bind(this)
   });
 };
 
@@ -322,15 +323,16 @@ Document.prototype.saveAttachment = function(
           'Content-type': contentType
         },
         'body': data,
-        'callback': function(error, confirmed) {
+        'callback': (function(error, confirmed) {
           if (error) {
             confirmed = false;
           } else {
+            this._revision = confirmed.rev;
             confirmed = true;
           }
 
           callback(error, confirmed);
-        }
+        }).bind(this)
       });
     }
   }).bind(this));
