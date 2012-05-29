@@ -7,6 +7,9 @@
  * 4) copy document
  * 5) save document
  * 6) delete document
+ * 7) load attachment TODO
+ * 8) save attachment TODO
+ * 9) save attachment with custom name TODO
  */
 
 var check = require('./check.js'),
@@ -99,6 +102,20 @@ describe('document', function() {
 
         done();
       });
+    });
+  });
+
+  describe('save attachment', function() {
+    it('should save the attachment', function(done) {
+      docWithId.saveAttachment(
+        __dirname + '/../Makefile',
+        'text/plain',
+        function(properties) {
+          check(properties, 'PUT', 'foodb/foodoc/Makefile?rev=foorev');
+
+          done();
+        }
+      );
     });
   });
 });

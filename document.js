@@ -1,3 +1,6 @@
+var fs = require('fs');
+
+
 /**
  * document object
  *
@@ -16,7 +19,8 @@ var Document = function(id, revision, connection, database) {
   this._error = {
     'noId': 'no document id was set',
     'noRevision': 'no revision was set',
-    'noSupport': 'currently there is no support for this function'
+    'noSupport': 'currently there is no support for this function',
+    'noFile': 'could not read file'
   };
 };
 
@@ -230,6 +234,62 @@ Document.prototype.save = function(body, callback) {
       }).bind(this)
     });
   }
+};
+
+
+/**
+ * saves an attachment
+ *
+ * @param {string} file filedescriptor object from node.js fs-library
+ * @param {string} contentType content type header of the file (e.g. text/plain)
+ * @param {string|function(error, response)} name of the attachment or function
+ *     that will be called, after saving the attachment; if you don't set the
+ *     name, it will be automatically the name of the file
+ * @param {?function(error, response)} callback function that will be called,
+ *     after saving the attachment
+ */
+Document.prototype.saveAttachment = function(
+  file,
+  contentType,
+  nameOrCallback,
+  callback
+) {
+  var filename = (typeof(nameOrCallback) === 'string') ?
+        nameOrCallback :
+        file.split('/').pop(),
+      callback = (typeof(nameOrCallback) === 'function') ?
+        nameOrCallback :
+        callback;
+
+  fs.readFile(file, 'utf8', (function(error, data) {
+    if (error) {
+      process.nextTick(callback({
+        'error': 'no_file',
+        'reason': this._error.noFile + ': ' + file
+      }, null));
+    } else {
+      this._connection.request({
+        'method': 'PUT',
+        'path': this._database.name() + '/' +
+          this._id + '/' + filename +
+          '?rev=' + this._revision,
+        'headers': {
+          'Content-length': data.length,
+          'Content-type': contentType
+        },
+        'body': data,
+        'callback': function(error, confirmed) {
+          if (error) {
+            confirmed = false;
+          } else {
+            confirmed = true;
+          }
+
+          callback(error, confirmed);
+        }
+      });
+    }
+  }).bind(this));
 };
 
 
