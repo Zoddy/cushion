@@ -141,6 +141,24 @@ Document.prototype.destroy = function(callback) {
 
 
 /**
+ * load an attachment
+ *
+ * @param {string} name attachment name
+ * @param {function(error, attachment)} callback function that will be called,
+ *     after the attachment was loaded
+ */
+Document.prototype.getAttachment = function(name, callback) {
+  this._connection.request({
+    'method': 'GET',
+    'path': this._database.name() + '/' +
+            this._id + '/' + name +
+            '?rev=' + this._revision,
+    'callback': callback
+  });
+};
+
+
+/**
  * loads the document, the id have to set before, without it you will get an
  * error
  *
@@ -271,8 +289,8 @@ Document.prototype.saveAttachment = function(
       this._connection.request({
         'method': 'PUT',
         'path': this._database.name() + '/' +
-          this._id + '/' + filename +
-          '?rev=' + this._revision,
+                this._id + '/' + filename +
+                '?rev=' + this._revision,
         'headers': {
           'Content-length': data.length,
           'Content-type': contentType
