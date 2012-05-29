@@ -207,7 +207,7 @@ database api
 
 ### retrieving a view ###
 
-    db.view(designDocument, viewFuntion, callback)
+    db.view(designDocument, viewFunction, callback)
     db.view(designDocument, viewFunction, params, callback)
 
 **designDocument** - name of the design document after the "_design/"  
