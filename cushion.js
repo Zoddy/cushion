@@ -157,8 +157,12 @@ cushion.prototype.request = function(properties) {
   }).bind(this));
 
   // adding optional body to the request
-  if (typeof(properties.body) === 'object') {
-    request.write(JSON.stringify(properties.body));
+  if (properties.body) {
+    if (typeof(properties.body) === 'object') {
+      request.write(JSON.stringify(properties.body));
+    } else {
+      request.write(properties.body);
+    }
   }
 
   // starting request
