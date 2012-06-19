@@ -4,6 +4,6 @@ default: test
 # Run all tests
 #
 test:
-	mocha --reporter list test/*-test.js
+	mocha --reporter nyan test/*-test.js
 
 .PHONY: test
