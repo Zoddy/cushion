@@ -18,7 +18,30 @@ util.inherits(Design, Document);
 
 
 /**
- * creates or updates a view
+ * get, create or update a show function
+ *
+ * @param {string} name name of the show function
+ * @param {?string} content string representation of the show function
+ * @return {cushion.Design|string} if you save a show function, you will get
+ *     this design document, otherwise the string representation of the specific
+ *     show function
+ */
+Design.prototype.show = function(name, content) {
+  if (content) {
+    // create shows object?
+    this._body.shows = this._body.shows || {};
+    this._body.shows[name] = content;
+  }
+
+  return ((content) ?
+    this :
+    (this._body.shows) ? this._body.shows[name] : undefined
+  );
+};
+
+
+/**
+ * get, create or update a view
  *
  * @param {string} name name of the view
  * @param {string} map string representation of the map function
@@ -40,7 +63,10 @@ Design.prototype.view = function(name, map, reduce) {
     }
   }
 
-  return ((map) ? this : this._body.views[name]);
+  return ((map) ?
+    this :
+    (this._body.views) ? this._body.views[name] : undefined
+  );
 };
 
 exports.Design = Design;
