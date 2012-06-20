@@ -1,4 +1,6 @@
-var querystring = require('querystring');
+var querystring = require('querystring'),
+    Document = require('./document.js').Document,
+    Design = require('./design.js').Design;
 
 
 /**
@@ -105,7 +107,7 @@ Database.prototype.destroy = function(callback) {
  * @return {cushion.Document} the document object
  */
 Database.prototype.document = function(docId, revision) {
-  return new (require('./document.js').Document)(
+  return new (((docId && docId.match(/^_design\//)) ? Design : Document))(
     docId || null,
     revision || null,
     this._connection,
