@@ -23,11 +23,11 @@ connection api
 **Example:**
 
 	var cushion = new (require('cushion').Connection)(
-                      '127.0.0.1', // host
-                      5984, // port
-                      'foo', // username
-                      'bar' // password
-                    );
+                    '127.0.0.1', // host
+                    5984, // port
+                    'foo', // username
+                    'bar' // password
+                  );
 
 
 ### get a list of databases ###
@@ -316,7 +316,7 @@ document api
 
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
 
-    $ npm install
+	$ npm install
 
 then run the tests:
 
@@ -327,7 +327,6 @@ then run the tests:
 
 * bulk updates
 * document info
-* attachment support
 * admin management
 * user management
 * design document handler
