@@ -18,6 +18,29 @@ util.inherits(Design, Document);
 
 
 /**
+ * get, create or update a list function
+ *
+ * @param {string} name name of the list function
+ * @param {?string} content string representation of the list function
+ * @return {cushion.Design|string} if you save a list function, you will get
+ *     this design document, otherwise the string representation of the specific
+ *     list function
+ */
+Design.prototype.list = function(name, content) {
+  if (content) {
+    // create list object?
+    this._body.lists = this._body.lists || {};
+    this._body.lists[name] = content;
+  }
+
+  return ((content) ?
+    this :
+    (this._body.lists) ? this._body.lists[name] : undefined
+  );
+};
+
+
+/**
  * get, create or update a show function
  *
  * @param {string} name name of the show function
