@@ -26,12 +26,34 @@ var Document = function(id, revision, connection, database) {
 
 
 /**
- * gets the body of the document
+ * gets the body of the document or saves data to it
+ * if you want to save data, you can set one argument for each child, e.g.
+ * .body('foo', 'bar', 'foobar'); that means you set foo.bar to 'foobar'
+ * if there are is no foo.bar it will be created
  *
- * @return {object} document body
+ * @return {object|cushion.Document} get a deep copy of the document body, or
+ *     the document, if you save data to the body
  */
 Document.prototype.body = function() {
-  return JSON.parse(JSON.stringify(this._body));
+  var obj = Array.prototype.slice.call(arguments),
+      data = obj.splice(obj.length - 1, 1)[0],
+      path = this._body,
+      returnData;
+
+  if (obj && obj.length > 0 && data) {
+    // go through arguments list to set body members
+    obj.forEach(function(name, index, array) {
+      path[name] = (index === array.length - 1) ? data : path[name] || {};
+      path = path[name];
+    });
+
+    returnData = this;
+  } else {
+    // we don't set anything, so we only have to return a deep copy of the body
+    returnData = JSON.parse(JSON.stringify(this._body));
+  }
+
+  return returnData;
 };
 
 
@@ -195,7 +217,7 @@ Document.prototype.getAttachment = function(name, callback) {
 Document.prototype.load = function(callback) {
   if (this._id === null) {
     process.nextTick(callback(
-      {'error': 'no_create', 'reason': this._error.noId},
+      {'error': 'no_load', 'reason': this._error.noId},
       null
     ));
   } else {
@@ -244,41 +266,33 @@ Document.prototype.info = function(callback) {
 
 /**
  * saves content at the document
+ * try to creates a new document, if there's no revision
+ * if you want to save an existing document, you have to .load() it before, so
+ * the revision id will be saved here
  *
- * @param {Object} body the new content of the document
  * @param {function(error, cushion.Document)} callback function that will be
  *     called, after saving the new content or if there was an error
  */
-Document.prototype.save = function(body, callback) {
-  if (this._id === null) {
-    process.nextTick(callback(
-      {'error': 'no_save', 'reason': this._error.noId},
-      null
-    ));
-  } else if (this._revision === null) {
-    process.nextTick(callback(
-      {'error': 'no_save', 'reason': this._error.noRevision},
-      null
-    ));
-  } else {
-    this._saveContent(body);
+Document.prototype.save = function(callback) {
+  var body = JSON.parse(JSON.stringify(this._body));
 
+  if (this._revision !== null) {
     body._rev = this._revision;
-
-    this._connection.request({
-      'method': 'PUT',
-      'path': this._database.name() + '/' + this._id,
-      'body': body,
-      'callback': (function(error, response) {
-        if (error === null) {
-          this._id = response.id;
-          this._revision = response.rev;
-        }
-
-        callback(error, this);
-      }).bind(this)
-    });
   }
+
+  this._connection.request({
+    'method': (this._id === null) ? 'POST' : 'PUT',
+    'path': this._database.name() + ((this._id === null) ? '' : '/' + this._id),
+    'body': body,
+    'callback': (function (error, response) {
+      if (error === null) {
+        this._id = response.id;
+        this._revision = response.rev;
+      }
+
+      callback(error, this);
+    }).bind(this)
+  });
 };
 
 

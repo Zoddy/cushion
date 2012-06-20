@@ -286,12 +286,28 @@ document api
 
 **callback** - callback function(error, document) for error and response handling
 
+### set content ###
+**Description:** If you only set one argument, you get the content of the object of that name. If you set 2 or more (you can set how much do you want) it will work as setter.
+
+	doc.body(obj)
+	doc.body(obj, content)
+	doc.body(parent, child, content)
+	
+**obj** - name of the object  
+**content** - new content for **obj**
+**child** - child object of **obj**
+
+####Some examples:####
+
+	doc.body('foo', 'bar'); // foo = 'bar'
+	doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
+	doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
+
 
 ### save document ###
 
-    doc.save(body, callback)
+    doc.save(callback)
 
-**body** - json body for the document  
 **callback** - callback function(error, document) for error and response handling
 
 

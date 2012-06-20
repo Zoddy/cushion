@@ -82,7 +82,7 @@ describe('document', function() {
   describe('save document', function() {
     it('should validate the save', function(done) {
       docWithId._revision = 'foorev';
-      docWithId.save({'foo': 'bar'}, function(properties) {
+      docWithId.body('foo', 'bar').save(function(properties) {
         check(
           properties,
           'PUT',
