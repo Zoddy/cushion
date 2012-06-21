@@ -77,7 +77,7 @@ connection api
 **properties.path** - uri path after domain  **[ default: '']**  
 **properties.headers** - key/value-pairs of additional http headers  
 **properties.body** - additional request body  
-**properties.callback** - callback function(error, response) for error and response handling
+**properties.callback** - callback function(error, response, headers) for error and response handling
 
 **Example:**
 
@@ -85,7 +85,7 @@ connection api
 	cushion.request({
       'method': 'GET',
       'path': 'foodb/_all_docs',
-      'callback': function(error, response) {
+      'callback': function(error, response, headers) {
         console.log(error || response);
       }
 	});
@@ -97,7 +97,7 @@ connection api
       'body': {
         'name': 'John Doe'
       },
-      'callback': function(error, response) {
+      'callback': function(error, response, headers) {
         console.log(error || response);
       }
 	});
@@ -295,7 +295,7 @@ document api
 	doc.body(parent, child, content)
 	
 **obj** - name of the object  
-**content** - new content for **obj**
+**content** - new content for **obj**  
 **child** - child object of **obj**
 
 ####Some examples:####
@@ -310,6 +310,14 @@ document api
     doc.save(callback)
 
 **callback** - callback function(error, document) for error and response handling
+
+
+### get info ###
+**Description:** Gets some info from the document: revision and size of the document.
+
+	doc.info(callback)
+	
+**callback** - callback function that will called, after retrieving information, or if there was an error
 
 
 ### copy document ###
@@ -410,10 +418,9 @@ then run the tests:
 upcoming features
 -----------------
 
-* bulk updates
-* document info
 * admin management
 * user management
+* bulk updates
 * query params api
 
 

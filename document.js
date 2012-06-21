@@ -19,7 +19,6 @@ var Document = function(id, revision, connection, database) {
   this._error = {
     'noId': 'no document id was set',
     'noRevision': 'no revision was set',
-    'noSupport': 'currently there is no support for this function',
     'noFile': 'could not read file'
   };
 };
@@ -246,10 +245,7 @@ Document.prototype.load = function(callback) {
  *     retrieving information, or if there was an error
  */
 Document.prototype.info = function(callback) {
-  process.nextTick(function() {
-    callback({'error': 'no_info', 'reason': this._error.noSupport}, null)
-  });
-  /*if (this._id === null) {
+  if (this._id === null) {
     process.nextTick(callback(
       {'error': 'no_info', 'reason': 'no document id was set'},
       null
@@ -258,9 +254,14 @@ Document.prototype.info = function(callback) {
     this._connection.request({
       'method': 'HEAD',
       'path': this._database.name() + '/' + this._id,
-      'callback': callback
+      'callback': (function(error, response, headers) {
+        callback(error, (error) ? null: {
+          'revision': headers.etag.substr(1, headers.etag.length - 2),
+          'size': headers['content-length']
+        });
+      }).bind(this)
     });
-  }*/
+  }
 };
 
 
