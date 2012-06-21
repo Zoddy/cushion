@@ -1,6 +1,6 @@
 {
   "name": "cushion",
-  "version": "0.1.2a",
+  "version": "1.3",
   "description": "A CouchDB API for Node.js",
   "keywords": [
     "couchdb"
@@ -21,7 +21,7 @@
     "url": "http://github.com/zoddy/cushion/issues"
   },
   "devDependencies": {
-    "mocha": "0.12.x"
+    "mocha": "1.2.x"
   },
   "main": "./cushion",
   "engines": {
