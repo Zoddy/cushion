@@ -266,9 +266,10 @@ document api
 ------------
 
 ### getting document object ###
+**Description:** If you set the ID and it will begin with `_design/`, then you will get a design document object instead of a normal document. Design documents have the same API as normal document plus some extra functions (look at `design document api`).
 
 **With given ID** `var doc = db.document('foo' [, revision]);`  
-**Without ID if you want to create it later from the CouchDB** `var doc = db.document();`
+**Without ID** (if you want to create it later from the CouchDB) `var doc = db.document();`
 
 
 ### create document ###
@@ -328,7 +329,43 @@ document api
 **callback** - callback function(error, document) for error and response handling
 
 
-## running tests
+design document api
+-------------------
+
+### get, create or update views ###
+**Description:** If you only set one argument, you will get the object with the string representation of the map and reduce functions. If you set `map` and `reduce`, you will set a view. If there is no views object in the body, it will be created, so you don't have to create it by yourself.
+
+	design.view(name)
+	design.view(name, map)
+	design.view(name, map, reduce)
+
+**name** - name of the view  
+**map** - string representation of the map function  
+**reduce** - string representation of the reduce function
+
+
+### get, create or update lists ###
+**Description:** If you only set one argument, you will get the string representation of the list function. If you set the `content`, it will save to the list. If there is no lists object in the body, it will be created, so you don't have to create it by yourself.
+
+	design.list(name)
+	design.list(name, content)
+	
+**name** - name of the list  
+**content** - string representation of the list function
+
+
+### get, create or update shows ###
+**Description:** If you only set one argument, you will get the string representation of the show function. If you set the `content`, it will save to the show. If there is no shows object in the body, it will be created, so you don't have to create it by yourself.
+
+	design.show(name)
+	design.show(name, content)
+
+**name** - name of the show  
+**content** - string representation of the show function
+
+
+running tests
+-------------
 
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
 
@@ -339,19 +376,18 @@ then run the tests:
     $ make test
 
 
-## upcoming features ##
+upcoming features
+-----------------
 
 * bulk updates
 * document info
 * admin management
 * user management
-* design document handler
-* document collections?
 * query params api
-* caching
 
 
-## License
+License
+-------
 
 (The MIT License)
 
