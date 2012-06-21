@@ -329,6 +329,37 @@ document api
 **callback** - callback function(error, document) for error and response handling
 
 
+attachment api
+--------------
+
+### save attachment ###
+**Description:** Files will always opened as UTF-8.
+
+	doc.saveAttachment(file, contentType, callback)
+	doc.saveAttachment(file, contentType, name, callback)
+	
+**file** - file descriptor object from nodes fs library  
+**contentType** - content type of the file (like `image/png`)  
+**name** - name of the file it will be have at the document. if you don't set it by yourself, cushion will use the filename instead  
+**callback** - function that will be called, after saving the attachment
+
+
+### get attachment ###
+
+	doc.getAttachment(name, callback)
+
+**name** - attachment name in the document  
+**callback** - function that will be called, after the attachment was loaded
+
+
+### delete attachment ###
+
+	doc.deleteAttachment(name, callback)
+
+**name** - attachment name in the document  
+**callback** - function that will be called, after the attachment was deleted
+
+
 design document api
 -------------------
 
