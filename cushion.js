@@ -100,16 +100,20 @@ cushion.prototype._request = function(callback, response) {
 
   response.on('end', (function() {
     try {
-      if (response.headers['content-type'] === 'application/json') {
+      if (
+        response.headers['content-type'] === 'application/json' &&
+        content.length > 0
+      ) {
         content = JSON.parse(content);
       }
 
       callback(
         (content.error) ? content : null,
-        (!content.error) ? content : null
+        (!content.error) ? content : null,
+        response.headers || null
       );
     } catch(error) {
-      callback(error, null);
+      callback(error, null, null);
     }
   }).bind(this));
 };
@@ -153,7 +157,7 @@ cushion.prototype.request = function(properties) {
 
   // define callback, if there is an error
   request.on('error', (function(error) {
-    properties.callback(error, null);
+    properties.callback(error, null, null);
   }).bind(this));
 
   // adding optional body to the request
