@@ -58,6 +58,46 @@ Database.prototype.allDocuments = function(paramsOrCallback, callback) {
 
 
 /**
+ * cleanup views
+ *
+ * @param {function(error, started)} callback function that will be called,
+ *     after cleanup was started or if there was an error
+ */
+Database.prototype.cleanup = function(callback) {
+  this._connection.request({
+    'method': 'POST',
+    'path': this.name() + '/_view_cleanup',
+    'callback': function(error, response) {
+      callback(error, (response) ? true : null);
+    }
+  });
+};
+
+
+/**
+ * compacts the database or specific view
+ *
+ * @param {string} designOrCallback name of a design if you only want to compact
+ *     a view, or function that will be called, after compaction was started of
+ *     if there was an error
+ * @param {?function(error, started)} callback function that will be called,
+ *     after compaction was started or if there was an error
+ */
+Database.prototype.compact = function(designOrCallback, callback) {
+  var design = (callback) ? designOrCallback : undefined,
+      callback = callback || designOrCallback;
+
+  this._connection.request({
+    'method': 'POST',
+    'path': this.name() + '/_compact' + ((design) ? '/' + design : ''),
+    'callback': (function(error, response) {
+      callback(error, (response) ? true : null);
+    }).bind(this)
+  });
+};
+
+
+/**
  * create the database
  *
  * @param {function(error, confirm)} callback function that will be called,

@@ -262,6 +262,20 @@ database api
     );
 
 
+### compaction ###
+
+	db.compact(callback)
+
+**callback** - function(error, started) that will be called, after compaction was started or if there was an error
+
+
+### cleanup ###
+
+	db.cleanup(callback)
+
+**callback** - function(error, started) that will be called, after cleanup was started or if there was an error
+
+
 document api
 ------------
 
@@ -401,6 +415,13 @@ design document api
 
 **name** - name of the show  
 **content** - string representation of the show function
+
+
+### compaction ###
+
+	design.compact(callback)
+
+**callback** - function(error, started) that will be called, after compaction was started or if there was an error
 
 
 running tests

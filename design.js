@@ -18,6 +18,17 @@ util.inherits(Design, Document);
 
 
 /**
+ * compacts the design document
+ *
+ * @param {function(error, started)} callback function that will be called,
+ *     after compaction was started or if there was an error
+ */
+Design.prototype.compact = function(callback) {
+  this._database.compact(this._id.substr(8), callback);
+};
+
+
+/**
  * get, create or update a list function
  *
  * @param {string} name name of the list function
