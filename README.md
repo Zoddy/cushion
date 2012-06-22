@@ -11,7 +11,7 @@ connection api
 
 **Description:** Creates a new connection to a CouchDB.
 
-	cushion.Connection(host, port, username, password);
+	cushion.Connection(host, port, username, password [, additional]);
 
 **host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
 **port** - port of couchdb instance **[ default: 5984 ]**  
@@ -362,7 +362,7 @@ attachment api
 	
 **file** - file descriptor object from nodes fs library  
 **contentType** - content type of the file (like `image/png`)  
-**name** - name of the file it will be have at the document. if you don't set it by yourself, cushion will use the filename instead  
+**name** - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead  
 **callback** - function that will be called, after saving the attachment
 
 
