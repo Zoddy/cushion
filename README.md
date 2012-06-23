@@ -11,7 +11,8 @@ connection api
 
 **Description:** Creates a new connection to a CouchDB.
 
-	cushion.Connection(host, port, username, password [, additional]);
+	cushion.Connection(host, port, username, password);
+	cushion.Connection(host, port, username, password, additional);
 
 **host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
 **port** - port of couchdb instance **[ default: 5984 ]**  
