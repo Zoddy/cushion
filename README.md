@@ -59,7 +59,6 @@ connection api
 
 
 ### get version of couchdb ###
-
 **Description:** Get version of connected couchdb.
 
 	cushion.version(callback);
@@ -71,6 +70,27 @@ connection api
 	cushion.version(function(error, version) {
       console.log(error || version);
 	});
+
+
+### configuration
+**Description:** Get or set configuration params. If you set:
+
+* one param: you will get the complete configuration
+* two params: you will get all options of the specific section
+* three params: you will get the content of the specific option
+* four params: you set a specific option to the new value
+
+```
+cushion.configuration(callback)
+cushion.configuration(section, callback)
+cushion.configuration(section, option, callback)
+cushion.configuration(section, option, value, callback)
+```
+
+**section** - name of a section (a group of options)  
+**option** - name of an option  
+**value** - new value for the option  
+**callback** - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error
 
 
 ### make a low level request ###

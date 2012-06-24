@@ -30,6 +30,73 @@ var cushion = function(host, port, username, password, additional) {
 
 
 /**
+ * set or get configuration params
+ * if you set:
+ *   one param: you will get the complete configuration
+ *   two params: you will get all options of the specific section
+ *   three params: you will get the content of the specific option
+ *   four params: you set a specific option to the new value
+ *
+ * @param {string|function(error, configuration)} sectionOrCallback a section of
+ *     different config params or function that will be called, after getting
+ *     the whole configuration or if there was an error
+ * @param {?string|function(error, options)} optionOrCallback an specific option
+ *     or a function, that will be called, after getting the options of the
+ *     section of if there was an error
+ * @param {?string|function(error, value)} valueOrCallback the new value for the
+ *     option or function that will be called, after getting the content of the
+ *     option
+ * @param {?function(error, saved)} callback function that will be called after
+ *     saving the new value, or if there was an error
+ */
+cushion.prototype.config = function(
+  sectionOrCallback,
+  optionOrCallback,
+  valueOrCallback,
+  callback
+) {
+  var section = (typeof(sectionOrCallback) === 'string') ?
+        sectionOrCallback :
+        null,
+      option = (typeof(optionOrCallback) === 'string') ?
+        optionOrCallback :
+        null,
+      value = (
+        typeof(valueOrCallback) === 'string' ||
+        typeof(valueOrCallback) === 'number'
+      ) ? valueOrCallback : null,
+      options;
+  callback = callback ||
+    valueOrCallback ||
+    optionOrCallback ||
+    sectionOrCallback;
+
+  options = {
+    'method': (value) ? 'PUT' : 'GET',
+    'path': '_config' +
+      ((section) ? '/' + section : '') +
+      ((option) ? '/' + option : ''),
+    'callback': (value === null) ? callback : function(error, response) {
+      if (response === '' + value) {
+        response = true;
+      } else {
+        response = null
+      }
+
+      callback(error, response);
+    }
+  };
+
+  // do we set a new value?
+  if (value) {
+    options.body = '"' + value + '"'
+  }
+
+  this.request(options);
+};
+
+
+/**
  * gives a connection to a specific database
  *
  * @param {string} name name of the database
