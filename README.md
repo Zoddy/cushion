@@ -72,7 +72,7 @@ connection api
 	});
 
 
-### configuration
+### configuration ###
 **Description:** Get or set configuration params. If you set:
 
 * one param: you will get the complete configuration
@@ -81,10 +81,10 @@ connection api
 * four params: you set a specific option to the new value
 
 ```
-cushion.configuration(callback)
-cushion.configuration(section, callback)
-cushion.configuration(section, option, callback)
-cushion.configuration(section, option, value, callback)
+cushion.config(callback)
+cushion.config(section, callback)
+cushion.config(section, option, callback)
+cushion.config(section, option, value, callback)
 ```
 
 **section** - name of a section (a group of options)  
