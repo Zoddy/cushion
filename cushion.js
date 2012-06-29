@@ -80,7 +80,7 @@ cushion.prototype.config = function(
       if (response === '' + value) {
         response = true;
       } else {
-        response = null
+        response = null;
       }
 
       callback(error, response);
@@ -93,6 +93,25 @@ cushion.prototype.config = function(
   }
 
   this.request(options);
+};
+
+
+/**
+ * creates an admin
+ *
+ * @param {string} name name of the admin account
+ * @param {string} password password of the admin account
+ * @param {function(error, created)} callback function that will be called after
+ *     creating the admin account, or if there was an error
+ */
+cushion.prototype.createAdmin = function(name, password, callback) {
+  this.config('admins', name, password, function(error, saved) {
+    if (!error && saved === null) {
+      callback(null, true);
+    } else {
+      callback(error, null);
+    }
+  });
 };
 
 
