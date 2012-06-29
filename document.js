@@ -47,8 +47,13 @@ Document.prototype.body = function() {
     });
 
     returnData = this;
+  } else if (obj && data) {
+    // we don't set anything, but we want a specific body property
+    returnData = (typeof(this._body[data]) === 'object') ?
+      JSON.parse(JSON.stringify(this._body[data])) :
+      this._body[data];
   } else {
-    // we don't set anything, so we only have to return a deep copy of the body
+    // we don't set anything, but we want the complete body
     returnData = JSON.parse(JSON.stringify(this._body));
   }
 
