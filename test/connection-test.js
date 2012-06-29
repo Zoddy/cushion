@@ -1,9 +1,13 @@
 /**
  * Connection tests
  *
- * 1) check version
- * 2) creating a database object
- * 3) getting list of databases
+ * 1) get version
+ * 2) get complete config
+ * 3) get section config
+ * 4) get option config
+ * 5) set option to new value
+ * 6) creating a database object
+ * 7) getting list of databases
  */
 
 var assert = require('assert'),
@@ -12,11 +16,11 @@ var assert = require('assert'),
                properties.callback(properties, null);
              },
     cushion = new (require('../cushion.js').Connection)(
-                  'localtest',
-                  '5984',
-                  'foo',
-                  'bar'
-                );
+                'localtest',
+                '5984',
+                'foo',
+                'bar'
+              );
 
 
 // overwrite original request function
@@ -29,6 +33,46 @@ describe('connection', function() {
     it('should return a version string', function(done) {
       cushion.version(function(properties) {
         check(properties, 'GET', '');
+
+        done();
+      });
+    });
+  });
+
+  describe('get complete config', function() {
+    it('should return complete config', function(done) {
+      cushion.config(function(properties) {
+        check(properties, 'GET', '_config');
+
+        done();
+      });
+    });
+  });
+
+  describe('get section config', function() {
+    it('should return config of a section', function(done) {
+      cushion.config('foosection', function(properties) {
+        check(properties, 'GET', '_config/foosection');
+
+        done();
+      });
+    });
+  });
+
+  describe('get option config', function() {
+    it('should return config of an option', function(done) {
+      cushion.config('foosection', 'foooption', function(properties) {
+        check(properties, 'GET', '_config/foosection/foooption');
+
+        done();
+      });
+    });
+  });
+
+  describe('set option to new value', function() {
+    it('should confirm the save', function(done) {
+      cushion.config('foosection', 'foooption', 'foobar', function(properties) {
+        check(properties, 'PUT', '_config/foosection/foooption', '"foobar"');
 
         done();
       });

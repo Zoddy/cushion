@@ -5,14 +5,17 @@
  * 2) create document without id
  * 3) load document
  * 4) copy document
- * 5) save document
- * 6) delete document
- * 7) save attachment TODO
- * 8) save attachment with custom name TODO
- * 9) load attachment TODO
+ * 5) set document body
+ * 6) save document
+ * 7) info about the document
+ * 8) delete document
+ * 9) save attachment
+ * 10) save attachment with custom name
+ * 11) load attachment
  */
 
-var check = require('./check.js'),
+var assert = require('assert'),
+    check = require('./check.js'),
     mockup = function(properties) {
                properties.callback(properties, null);
              },
@@ -79,6 +82,17 @@ describe('document', function() {
     });
   });
 
+  describe('set document body', function() {
+    it('should save content to body', function(done) {
+      assert.strictEqual(
+        docWithId.body('foo', 'bar').body('foo'),
+        'bar'
+      );
+
+      done();
+    });
+  });
+
   describe('save document', function() {
     it('should validate the save', function(done) {
       docWithId._revision = 'foorev';
@@ -89,6 +103,16 @@ describe('document', function() {
           'foodb/foodoc',
           {'foo': 'bar', '_rev': 'foorev'}
         );
+
+        done();
+      });
+    });
+  });
+
+  describe('info about the document', function() {
+    it('should return size and revision of the document', function(done) {
+      docWithId.info(function(properties) {
+        check(properties, 'HEAD', 'foodb/foodoc');
 
         done();
       });

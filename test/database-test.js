@@ -12,7 +12,9 @@
  * 9)  request a list with some query params
  * 10) request a list with view in another design document
  * 11) request a list with view in another design document and some query params
- * 12) delete the database
+ * 12) start compaction
+ * 13) start cleanup
+ * 14) delete the database
  */
 
 var check = require('./check.js'),
@@ -162,6 +164,26 @@ describe('database', function() {
       });
     }
   );
+
+  describe('start compaction', function() {
+    it('should confirm starting of compaction', function(done) {
+      database.compact(function(properties) {
+        check(properties, 'POST', 'foo/_compact');
+
+        done();
+      });
+    });
+  });
+
+  describe('start cleanup', function() {
+    it('should confirm starting of cleanup', function(done) {
+      database.cleanup(function(properties) {
+        check(properties, 'POST', 'foo/_view_cleanup');
+
+        done();
+      });
+    });
+  });
 
   describe('delete the database', function() {
     it('should validate the request', function(done) {
