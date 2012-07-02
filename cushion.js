@@ -109,13 +109,29 @@ cushion.prototype.config = function(
  *     creating the admin account, or if there was an error
  */
 cushion.prototype.createAdmin = function(name, password, callback) {
-  this.config('admins', name, password, function(error, saved) {
-    if (!error && saved === null) {
-      callback(null, true);
+  // first we have to create a new option at the config
+  this.config('admins', name, password, (function(error, created) {
+    // after that we have to create a user document
+    var database,
+        document;
+
+    if (created === true) {
+      database = this.database('_users');
+      document = database.document('org.couchdb.user:' + name);
+      document.body('name', name);
+      document.body('type', 'user');
+      document.body('roles', []);
+      document.save(function(error, document) {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(error, true);
+        }
+      });
     } else {
       callback(error, null);
     }
-  });
+  }).bind(this));
 };
 
 
@@ -127,6 +143,43 @@ cushion.prototype.createAdmin = function(name, password, callback) {
  */
 cushion.prototype.database = function(name) {
   return new (require('./database.js').Database)(name, this);
+};
+
+
+/**
+ * deletes an admin
+ *
+ * @param {string} name username of the admin
+ * @param {function(error, deleted)} callback function that will be called,
+ *     after deleting the admin account, or if there was an error
+ */
+cushion.prototype.deleteAdmin = function(name, callback) {
+  // first we have to delete the admin option
+  this.config('admins', name, null, (function(error, deleted) {
+    // after that we have to delete the user document
+    var database,
+        document;
+
+    if (deleted === true) {
+      database = this.database('_users');
+      document = database.document('org.couchdb.user:' + name);
+      document.load(function(error, document) {
+        if (document) {
+          document.destroy(function(error, document) {
+            if (document) {
+              callback(null, true);
+            } else {
+              callback(error, null);
+            }
+          });
+        } else {
+          callback(error, null);
+        }
+      });
+    } else {
+      callback(error, null);
+    }
+  }).bind(this));
 };
 
 
