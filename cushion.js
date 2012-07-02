@@ -356,6 +356,21 @@ cushion.prototype.restart = function(callback) {
 
 
 /**
+ * returns server statistics
+ *
+ * @param {function(error, stats)} callback function that will be called, after
+ *     getting the statistics of if there was an error
+ */
+cushion.prototype.stats = function(callback) {
+  this.request({
+    'method': 'GET',
+    'path': '_stats',
+    'callback': callback
+  });
+};
+
+
+/**
  * returns a list of generated uuids
  *
  * @param {function(error, uuidList)} callback function that will be called,

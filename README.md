@@ -128,6 +128,14 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error
 
 
+### server statistics ###
+**Description:** Returns server statistics.
+
+	cushion.stats(callback);
+
+**callback** - function(error, stats) that will be called, after getting the statistics of if there was an error
+
+
 ### restart server ###
 **Description:** Restarts the server.
 
