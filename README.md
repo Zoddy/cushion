@@ -93,6 +93,25 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error
 
 
+### create admin account ###
+**Description:** Creates an admin account. That means the config param will be set and the user document created.
+
+	cushion.createAdmin(name, password, callback);
+
+**name** - name of the admin account  
+**password** - password of the admin account  
+**callback** - function(error, created) that will be called after creating the admin account, or if there was an error
+
+
+### delete admin account ###
+**Description:** Deletes the admin option at the configuration and the user document.
+
+	cushion.deleteAdmin(name, callback);
+
+**name** - name of the admin account  
+**callback** - function(error, deleted) that will be called after deleting the admin account, or if there was an error
+
+
 ### make a low level request ###
 **Description:** If there is something cushion doesn't offer to you, make a low level request to couchdb.
 
