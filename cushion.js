@@ -242,6 +242,27 @@ cushion.prototype.listDatabases = function(callback, noCouchRelated) {
 
 
 /**
+ * returns the tail of the server's log file
+ *
+ * @param {number|function(error, log)} bytesOrCallback number of bytes how many
+ *     do you want from the tail or function that will be called, after getting
+ *     the log or if there was an error
+ * @param {?function(error, log)} callback function that will be called, after
+ *     getting the log or if there was an error
+ */
+cushion.prototype.log = function(bytesOrCallback, callback) {
+  var bytes = (arguments.length > 1) ? bytesOrCallback : null;
+  callback = callback || bytesOrCallback;
+
+  this.request({
+    'method': 'GET',
+    'path': '_log' + ((bytes) ? '?bytes=' + bytes : ''),
+    'callback': callback
+  });
+};
+
+
+/**
  * wrapper function for any request to the couchdb
  *
  * @param {Function} callback function that will be called after all data events

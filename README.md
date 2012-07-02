@@ -138,6 +138,16 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, stats) that will be called, after getting the statistics of if there was an error
 
 
+### get log ###
+**Description:** Returns the tail of the server's log file. There's also another param `offset` for the request to the couchdb, but it's not useful, look at the documentation http://wiki.apache.org/couchdb/HttpGetLog.
+
+	cushion.log(callback);
+	cushion.log(bytes, callback);
+
+**bytes** - number of bytes which do you want from the tail **[ default: 1000 ]**  
+**callback** - function(error, log) that will be called, after getting the log or if there was an error
+
+
 ### restart server ###
 **Description:** Restarts the server.
 
