@@ -112,6 +112,14 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, deleted) that will be called after deleting the admin account, or if there was an error
 
 
+### restart server ###
+**Description:** Restarts the server.
+
+	cushion.restart(callback);
+
+**callback** - function(error, restart) function that will be called, after initializing the restart or if there was an error
+
+
 ### make a low level request ###
 **Description:** If there is something cushion doesn't offer to you, make a low level request to couchdb.
 

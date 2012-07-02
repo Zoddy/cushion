@@ -319,6 +319,28 @@ cushion.prototype.request = function(properties) {
 
 
 /**
+ * restarts the couchdb
+ *
+ * @param {function(error, restart)} callback function that will be called,
+ *     after initializing the restart or if there was an error
+ */
+cushion.prototype.restart = function(callback) {
+  this.request({
+    'method': 'POST',
+    'path': '_restart',
+    'callback': function(error, restart) {
+      if (error && error.code === 'ECONNRESET') {
+        error = null;
+        restart = true;
+      }
+
+      callback(error, restart);
+    }
+  });
+};
+
+
+/**
  * gets the version of the couchdb
  *
  * @param {Function(version)} callback function that will be called after
