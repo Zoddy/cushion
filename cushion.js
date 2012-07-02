@@ -30,6 +30,21 @@ var cushion = function(host, port, username, password, additional) {
 
 
 /**
+ * returns a list of active tasks
+ *
+ * @param {function(error, activeTasks)} callback function that will called,
+ *     after getting the list of active tasks or if there was an error
+ */
+cushion.prototype.activeTasks = function(callback) {
+  this.request({
+    'method': 'GET',
+    'path': '_active_tasks',
+    'callback': callback
+  });
+};
+
+
+/**
  * set or get configuration params
  * if you set:
  *   one param: you will get the complete configuration

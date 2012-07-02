@@ -112,6 +112,14 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, deleted) that will be called after deleting the admin account, or if there was an error
 
 
+### list of active tasks
+**Description:** Returns a list of active tasks.
+
+	cushion.activeTasks(callback);
+
+**callback** - function(error, activeTasks) that will called, after getting the list of active tasks or if there was an error
+
+
 ### restart server ###
 **Description:** Restarts the server.
 
