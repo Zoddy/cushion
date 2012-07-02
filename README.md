@@ -483,7 +483,6 @@ then run the tests:
 upcoming features
 -----------------
 
-* admin management
 * user management
 * bulk updates
 * query params api
