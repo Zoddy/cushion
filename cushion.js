@@ -1,3 +1,6 @@
+// jshint settings
+/*global require: false, exports: false */
+
 var http = require('http');
 
 /**
@@ -14,7 +17,7 @@ var cushion = function(host, port, username, password, additional) {
   var defaultOptions = require('./config.js');
   additional = additional || {};
 
-  this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i,
+  this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i;
   this._options = {
     'host': host || defaultOptions.host,
     'port': port || defaultOptions.port,
@@ -108,7 +111,7 @@ cushion.prototype.config = function(
 
   // do we set a new value?
   if (typeof(value) === 'string' || typeof(value) === 'number') {
-    options.body = '"' + value + '"'
+    options.body = '"' + value + '"';
   }
 
   this.request(options);
@@ -321,7 +324,7 @@ cushion.prototype.request = function(properties) {
                   'GET',
         'path': '/' + (properties.path || ''),
         'auth': this._options.username + ':' + this._options.password,
-        'headers': properties.headers || {},
+        'headers': properties.headers || {}
       },
       request;
 

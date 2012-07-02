@@ -6,4 +6,10 @@ default: test
 test:
 	mocha --reporter nyan test/*-test.js
 
+#
+# Run jshint
+#
+jshint:
+	jshint *.js --config .jshintrc
+
 .PHONY: test

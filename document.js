@@ -1,3 +1,6 @@
+// jshint settings
+/*global require: false, exports: false, process: false */
+
 var fs = require('fs');
 
 

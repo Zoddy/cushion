@@ -1,3 +1,6 @@
+// jshint settings
+/*global require: false, exports: false */
+
 var querystring = require('querystring'),
     Document = require('./document.js').Document,
     Design = require('./design.js').Design;
@@ -147,7 +150,9 @@ Database.prototype.destroy = function(callback) {
  * @return {cushion.Document} the document object
  */
 Database.prototype.document = function(docId, revision) {
-  return new (((docId && docId.match(/^_design\//)) ? Design : Document))(
+  var Doc = (docId && docId.match(/^_design\//)) ? Design : Document;
+
+  return new Document(
     docId || null,
     revision || null,
     this._connection,
@@ -291,7 +296,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
           documents[response.rows[i].key] = {
             'id': response.rows[i].id,
             'value': response.rows[i].value
-          }
+          };
         }
       }
 

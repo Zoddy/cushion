@@ -1,3 +1,6 @@
+// jshint settings
+/*global require: false, exports: false */
+
 var util = require('util'),
     Document = require('./document.js').Document;
 
