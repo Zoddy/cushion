@@ -373,13 +373,19 @@ cushion.prototype.stats = function(callback) {
 /**
  * returns a list of generated uuids
  *
- * @param {function(error, uuidList)} callback function that will be called,
+ * @param {number|function(error, uuidList)} countOrCallback number of uuids to
+ *     generate or function that will be called, after getting the list of uuids
+ *     or if there was an error
+ * @param {?function(error, uuidList)} callback function that will be called,
  *     after getting the list of uuids or if there was an error
  */
-cushion.prototype.uuidList = function(callback) {
+cushion.prototype.uuidList = function(countOrCallback, callback) {
+  var count = (arguments.length > 1) ? countOrCallback : null;
+  callback = callback || countOrCallback;
+
   this.request({
     'method': 'GET',
-    'path': '_uuids',
+    'path': '_uuids' + ((count) ? '?count=' + count : ''),
     'callback': function(error, uuidList) {
       if (uuidList) {
         uuidList = uuidList.uuids;

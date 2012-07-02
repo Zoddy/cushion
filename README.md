@@ -124,7 +124,9 @@ cushion.config(section, option, value, callback)
 **Description:** Returns a list of couchdb generated uuids.
 
 	cushion.uuidList(callback);
+	cushion.uuidList(count, callback);
 
+**count** - number of uuids to generate **[ default: 1 ]**  
 **callback** - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error
 
 
