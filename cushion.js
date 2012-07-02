@@ -356,6 +356,27 @@ cushion.prototype.restart = function(callback) {
 
 
 /**
+ * returns a list of generated uuids
+ *
+ * @param {function(error, uuidList)} callback function that will be called,
+ *     after getting the list of uuids or if there was an error
+ */
+cushion.prototype.uuidList = function(callback) {
+  this.request({
+    'method': 'GET',
+    'path': '_uuids',
+    'callback': function(error, uuidList) {
+      if (uuidList) {
+        uuidList = uuidList.uuids;
+      }
+
+      callback(error, uuidList);
+    }
+  });
+};
+
+
+/**
  * gets the version of the couchdb
  *
  * @param {Function(version)} callback function that will be called after

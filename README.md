@@ -112,12 +112,20 @@ cushion.config(section, option, value, callback)
 **callback** - function(error, deleted) that will be called after deleting the admin account, or if there was an error
 
 
-### list of active tasks
+### list of active tasks ###
 **Description:** Returns a list of active tasks.
 
 	cushion.activeTasks(callback);
 
 **callback** - function(error, activeTasks) that will called, after getting the list of active tasks or if there was an error
+
+
+### list of generated uuids ###
+**Description:** Returns a list of couchdb generated uuids.
+
+	cushion.uuidList(callback);
+
+**callback** - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error
 
 
 ### restart server ###
