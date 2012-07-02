@@ -35,7 +35,8 @@ var cushion = function(host, port, username, password, additional) {
  *   one param: you will get the complete configuration
  *   two params: you will get all options of the specific section
  *   three params: you will get the content of the specific option
- *   four params: you set a specific option to the new value
+ *   four params: you set a specific option to the new value, or you delete the
+ *                given option, if you set value to null
  *
  * @param {string|function(error, configuration)} sectionOrCallback a section of
  *     different config params or function that will be called, after getting
@@ -45,7 +46,7 @@ var cushion = function(host, port, username, password, additional) {
  *     section of if there was an error
  * @param {?string|function(error, value)} valueOrCallback the new value for the
  *     option or function that will be called, after getting the content of the
- *     option
+ *     option; if you set the value to null, option will be deleted
  * @param {?function(error, saved)} callback function that will be called after
  *     saving the new value, or if there was an error
  */
@@ -63,8 +64,9 @@ cushion.prototype.config = function(
         null,
       value = (
         typeof(valueOrCallback) === 'string' ||
-        typeof(valueOrCallback) === 'number'
-      ) ? valueOrCallback : null,
+        typeof(valueOrCallback) === 'number' ||
+        valueOrCallback === null
+      ) ? valueOrCallback : undefined,
       options;
   callback = callback ||
     valueOrCallback ||
@@ -72,15 +74,17 @@ cushion.prototype.config = function(
     sectionOrCallback;
 
   options = {
-    'method': (value) ? 'PUT' : 'GET',
+    'method': (value !== undefined) ?
+      ((value === null) ? 'DELETE' : 'PUT') :
+      'GET',
     'path': '_config' +
       ((section) ? '/' + section : '') +
       ((option) ? '/' + option : ''),
-    'callback': (value === null) ? callback : function(error, response) {
-      if (response === '' + value) {
-        response = true;
-      } else {
+    'callback': function(error, response) {
+      if (error) {
         response = null;
+      } else {
+        response = true;
       }
 
       callback(error, response);
@@ -88,7 +92,7 @@ cushion.prototype.config = function(
   };
 
   // do we set a new value?
-  if (value) {
+  if (typeof(value) === 'string' || typeof(value) === 'number') {
     options.body = '"' + value + '"'
   }
 

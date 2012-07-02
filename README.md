@@ -78,7 +78,7 @@ connection api
 * one param: you will get the complete configuration
 * two params: you will get all options of the specific section
 * three params: you will get the content of the specific option
-* four params: you set a specific option to the new value
+* four params: you set a specific option to the new value, or you delete the given option, if you set value to null
 
 ```
 cushion.config(callback)
@@ -89,7 +89,7 @@ cushion.config(section, option, value, callback)
 
 **section** - name of a section (a group of options)  
 **option** - name of an option  
-**value** - new value for the option  
+**value** - new value for the option: if you set value to null, given option will be deleted  
 **callback** - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error
 
 
