@@ -1,3 +1,5 @@
+![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-wunderkit-icon.png)
+
 cushion
 =========
 
