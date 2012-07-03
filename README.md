@@ -1,10 +1,9 @@
-![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-wunderkit-icon.png)
+![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-small.png)
 
 cushion
 =========
 
 Node.js CouchDB API
-
 
 connection api
 --------------
