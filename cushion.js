@@ -221,8 +221,6 @@ cushion.prototype.listDatabases = function(noCouchRelatedOrCallback, callback) {
     'method': 'GET',
     'path': '_all_dbs',
     'callback': (function (error, response) {
-      var i;
-
       if (error === null && response !== null) {
         // filter couch related databases, if user want's so
         if (noCouchRelated === true) {
