@@ -40,10 +40,11 @@ connection api
 
 **Description:** Get an array of database objects.
 
-	dbs = cushion.listDatabases(callback [, noCouchRelated]);
+	cushion.listDatabases(callback)
+	cushion.listDatabases(noCouchRelated, callback)
 
+**noCouchRelated** - if you set this to true, you will only get databases, which are user generated (it simply filters all databases that name begins with '_')  
 **callback** - callback function(error, response) for error and response handling  
-**noCouchRelated** - list all databases or only not couchdb related databases **[ default: false ]**
 
 **Example:**
 
@@ -54,9 +55,9 @@ connection api
 
 	// getting no couchdb related databases
 	// (couchdb databases excluded like "_users" or "_replicator")
-	cushion.listDatabases(function(error, response) {
+	cushion.listDatabases(true, function(error, response) {
       console.log(error || response);
-	}, true);
+	});
 
 
 ### get version of couchdb ###

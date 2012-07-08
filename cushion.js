@@ -204,38 +204,37 @@ cushion.prototype.deleteAdmin = function(name, callback) {
 /**
  * retrieving a list of databases
  *
- * @param {function(error, response)} callback function that will be called
- *     after retrieving a list of databases, or at an error
- * @param {boolean} noCouchRelated filters all couch related db's, so the list
- *     has only database which a user has set up
+ *
+ * @param {boolean|function(error, databases)} noCouchRelatedOrCallback filters
+ *     all couch related databases, so the list has only databases which a user
+ *     has set up or function that will be called after retrieving a list of
+ *     databases, or if there was an error
+ * @param {?function()} callback function that will be called after retrieving a
+ *     list of databases, or if there was an error
  */
-cushion.prototype.listDatabases = function(callback, noCouchRelated) {
+
+cushion.prototype.listDatabases = function(noCouchRelatedOrCallback, callback) {
+  var noCouchRelated = (callback) ? noCouchRelatedOrCallback : null;
+  callback = callback || noCouchRelatedOrCallback;
+
   this.request({
     'method': 'GET',
     'path': '_all_dbs',
     'callback': (function (error, response) {
       var i;
 
-      if (error === null && response !== null && noCouchRelated === true) {
-        for (i = 0; response[i]; ++i) {
-          if (response[i].substr(0, 1) === '_') {
-            response.splice(i, 1);
-            --i;
-          }
-        }
-      }
-
-      // create database objects
       if (error === null && response !== null) {
-        for (i = 0; response[i]; ++i) {
-          // filter couch related databases, if user want's so
-          if (noCouchRelated === true && response[i][0] === '_') {
-            response.splice(i, 1);
-            --i;
-          }
-
-          response[i] = this.database(response[i]);
+        // filter couch related databases, if user want's so
+        if (noCouchRelated === true) {
+          response = response.filter(function(dbName, index, list) {
+            return !(dbName[0] === '_');
+          });
         }
+
+        // create database objects
+        response = response.map(function(dbName) {
+          return this.database(dbName);
+        }, this);
       }
 
       callback(error, response);
