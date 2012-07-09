@@ -215,6 +215,43 @@ Document.prototype.getAttachment = function(name, callback) {
 
 
 /**
+ * get the id of the document
+ *
+ * @return {string} id of document
+ */
+Document.prototype.id = function() {
+  return this._id;
+};
+
+
+/**
+ * info about the document
+ *
+ * @param {function(error, info)} callback function that will called, after
+ *     retrieving information, or if there was an error
+ */
+Document.prototype.info = function(callback) {
+  if (this._id === null) {
+    process.nextTick(callback(
+      {'error': 'no_info', 'reason': 'no document id was set'},
+      null
+    ));
+  } else {
+    this._connection.request({
+      'method': 'HEAD',
+      'path': this._database.name() + '/' + this._id,
+      'callback': (function(error, response, headers) {
+        callback(error, (error) ? null: {
+          'revision': headers.etag.substr(1, headers.etag.length - 2),
+          'size': headers['content-length']
+        });
+      }).bind(this)
+    });
+  }
+};
+
+
+/**
  * loads the document, the id have to set before, without it you will get an
  * error
  *
@@ -247,29 +284,12 @@ Document.prototype.load = function(callback) {
 
 
 /**
- * info about the document
+ * get the revision of the document
  *
- * @param {function(error, info)} callback function that will called, after
- *     retrieving information, or if there was an error
+ * @return {string} revision of the document
  */
-Document.prototype.info = function(callback) {
-  if (this._id === null) {
-    process.nextTick(callback(
-      {'error': 'no_info', 'reason': 'no document id was set'},
-      null
-    ));
-  } else {
-    this._connection.request({
-      'method': 'HEAD',
-      'path': this._database.name() + '/' + this._id,
-      'callback': (function(error, response, headers) {
-        callback(error, (error) ? null: {
-          'revision': headers.etag.substr(1, headers.etag.length - 2),
-          'size': headers['content-length']
-        });
-      }).bind(this)
-    });
-  }
+Document.prototype.revision = function() {
+  return this._revision;
 };
 
 
