@@ -102,7 +102,7 @@ cushion.prototype.config = function(
       if (error) {
         response = null;
       } else {
-        response = (value) ? true : response;
+        response = (value !== undefined) ? true : response;
       }
 
       callback(error, response);
