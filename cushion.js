@@ -327,7 +327,8 @@ cushion.prototype.request = function(properties) {
 
   // make sure, that we get application/json response from couchdb
   options.headers.Accept = options.headers.Accept || '*/*,application/json';
-  options.headers['Content-Type'] = 'application/json';
+  options.headers['Content-Type'] = options.headers['Content-Type'] ||
+    'application/json';
 
   // set up request object
   request = http.request(
