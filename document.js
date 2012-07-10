@@ -362,8 +362,8 @@ Document.prototype.saveAttachment = function(
                 this._id + '/' + filename +
                 '?rev=' + this._revision,
         'headers': {
-          'Content-length': data.length,
-          'Content-type': contentType
+          'Content-Length': data.length,
+          'Content-Type': contentType
         },
         'body': data,
         'callback': (function(error, confirmed) {
