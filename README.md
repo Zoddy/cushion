@@ -450,7 +450,7 @@ attachment api
 	doc.saveAttachment(file, contentType, callback)
 	doc.saveAttachment(file, contentType, name, callback)
 	
-**file** - file descriptor object from nodes fs library  
+**file** - file path to the file  
 **contentType** - content type of the file (like `image/png`)  
 **name** - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead  
 **callback** - function that will be called, after saving the attachment

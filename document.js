@@ -328,7 +328,7 @@ Document.prototype.save = function(callback) {
 /**
  * saves an attachment
  *
- * @param {string} file filedescriptor object from node.js fs-library
+ * @param {string} file path to the file
  * @param {string} contentType content type header of the file (e.g. text/plain)
  * @param {string|function(error, response)} name of the attachment or function
  *     that will be called, after saving the attachment; if you don't set the
