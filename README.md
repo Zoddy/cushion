@@ -303,13 +303,13 @@ database api
 **designDocument** - name of the design document after the "_design/"  
 **viewFunction** - name of the view function  
 **params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options  
-**callback** - callback function(error, response) for error and response handling
+**callback** - callback function(error, info, result) for error and response handling
 
     db.view(
       'foo',
       'bar',
-      function(error, result) {
-        console.log(error || result);
+      function(error, info, result) {
+        console.log(error, info, result);
       }
     );
 
@@ -319,8 +319,8 @@ database api
       'foo',
       'bar',
       {'skip': 5, 'limit': 10},
-      function(error, result) {
-        console.log(error || result);
+      function(error, info, result) {
+        console.log(error, info, result);
       },
     );
 
