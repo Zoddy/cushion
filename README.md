@@ -1,4 +1,4 @@
-![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-small.png)
+![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-page-logo.png)
 
 cushion
 =========
