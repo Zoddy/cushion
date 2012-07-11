@@ -19,11 +19,11 @@ connection api
 	cushion.Connection(host, port, username, password);
 	cushion.Connection(host, port, username, password, additional);
 
-**host** - host of couchdb instance **[ default: '127.0.0.1' ]**
-**port** - port of couchdb instance **[ default: 5984 ]**
-**username** - name of couchdb user **[ default: '' ]**
-**password** - password for given couchdb user **[ default: '' ]**
-**additional** - additional options **[ default: {}]**
+**host** - host of couchdb instance **[ default: '127.0.0.1' ]**  
+**port** - port of couchdb instance **[ default: 5984 ]**  
+**username** - name of couchdb user **[ default: '' ]**  
+**password** - password for given couchdb user **[ default: '' ]**  
+**additional** - additional options **[ default: {}]**  
 **additional.secure** - set to true, if you want to use https requests **[ default: false ]**
 
 **Example:**
@@ -43,8 +43,8 @@ connection api
 	cushion.listDatabases(callback)
 	cushion.listDatabases(noCouchRelated, callback)
 
-**noCouchRelated** - if you set this to true, you will only get databases, which are user generated (it simply filters all databases that name begins with '_')
-**callback** - callback function(error, response) for error and response handling
+**noCouchRelated** - if you set this to true, you will only get databases, which are user generated (it simply filters all databases that name begins with '_')  
+**callback** - callback function(error, response) for error and response handling  
 
 **Example:**
 
@@ -89,9 +89,9 @@ cushion.config(section, option, callback)
 cushion.config(section, option, value, callback)
 ```
 
-**section** - name of a section (a group of options)
-**option** - name of an option
-**value** - new value for the option: if you set value to null, given option will be deleted
+**section** - name of a section (a group of options)  
+**option** - name of an option  
+**value** - new value for the option: if you set value to null, given option will be deleted  
 **callback** - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error
 
 
@@ -100,8 +100,8 @@ cushion.config(section, option, value, callback)
 
 	cushion.createAdmin(name, password, callback);
 
-**name** - name of the admin account
-**password** - password of the admin account
+**name** - name of the admin account  
+**password** - password of the admin account  
 **callback** - function(error, created) that will be called after creating the admin account, or if there was an error
 
 
@@ -110,7 +110,7 @@ cushion.config(section, option, value, callback)
 
 	cushion.deleteAdmin(name, callback);
 
-**name** - name of the admin account
+**name** - name of the admin account  
 **callback** - function(error, deleted) that will be called after deleting the admin account, or if there was an error
 
 
@@ -128,7 +128,7 @@ cushion.config(section, option, value, callback)
 	cushion.uuidList(callback);
 	cushion.uuidList(count, callback);
 
-**count** - number of uuids to generate **[ default: 1 ]**
+**count** - number of uuids to generate **[ default: 1 ]**  
 **callback** - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error
 
 
@@ -146,7 +146,7 @@ cushion.config(section, option, value, callback)
 	cushion.log(callback);
 	cushion.log(bytes, callback);
 
-**bytes** - number of bytes which do you want from the tail **[ default: 1000 ]**
+**bytes** - number of bytes which do you want from the tail **[ default: 1000 ]**  
 **callback** - function(error, log) that will be called, after getting the log or if there was an error
 
 
@@ -163,10 +163,10 @@ cushion.config(section, option, value, callback)
 
 	cushion.request(properties);
 
-**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**
-**properties.path** - uri path after domain  **[ default: '']**
-**properties.headers** - key/value-pairs of additional http headers
-**properties.body** - additional request body
+**properties.method** - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY **[ default: 'GET' ]**  
+**properties.path** - uri path after domain  **[ default: '']**  
+**properties.headers** - key/value-pairs of additional http headers  
+**properties.body** - additional request body  
 **properties.callback** - callback function(error, response, headers) for error and response handling
 
 **Example:**
@@ -285,7 +285,7 @@ database api
 	db.getAll(callback)
     db.getAll(params, callback);
 
-**params** - query parameter (see description) or callback function(error, response) for error and response handling
+**params** - query parameter (see description) or callback function(error, response) for error and response handling  
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
@@ -300,9 +300,9 @@ database api
     db.view(designDocument, viewFunction, callback)
     db.view(designDocument, viewFunction, params, callback)
 
-**designDocument** - name of the design document after the "_design/"
-**viewFunction** - name of the view function
-**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options
+**designDocument** - name of the design document after the "_design/"  
+**viewFunction** - name of the view function  
+**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options  
 **callback** - callback function(error, response) for error and response handling
 
     db.view(
@@ -332,11 +332,11 @@ database api
     db.list(design, list, otherDesign, view, callback)
     db.list(design, list, otherDesign, view, params, callback)
 
-**design** - name of the design document without the "_design/"
-**list** - name of the list function
-**otherDesign** - name of another design document without the "_design/"
-**view** - name of the function
-**params** - additional params, the same that you can set at the view requests
+**design** - name of the design document without the "_design/"  
+**list** - name of the list function  
+**otherDesign** - name of another design document without the "_design/"  
+**view** - name of the function  
+**params** - additional params, the same that you can set at the view requests  
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
@@ -372,7 +372,7 @@ document api
 ### getting document object ###
 **Description:** If you set the ID and it will begin with `_design/`, then you will get a design document object instead of a normal document. Design documents have the same API as normal document plus some extra functions (look at `design document api`).
 
-**With given ID** `var doc = db.document('foo' [, revision]);`
+**With given ID** `var doc = db.document('foo' [, revision]);`  
 **Without ID** (if you want to create it later from the CouchDB) `var doc = db.document();`
 
 
@@ -381,7 +381,7 @@ document api
 
     doc.create(body, callback)
 
-**body** - json body for the document
+**body** - json body for the document  
 **callback** - callback function(error, document) for error and response handling
 
 
@@ -397,9 +397,9 @@ document api
 	doc.body(obj)
 	doc.body(obj, content)
 	doc.body(parent, child, content)
-
-**obj** - name of the object
-**content** - new content for **obj**
+	
+**obj** - name of the object  
+**content** - new content for **obj**  
 **child** - child object of **obj**
 
 ####Some examples:####
@@ -420,7 +420,7 @@ document api
 **Description:** Gets some info from the document: revision and size of the document.
 
 	doc.info(callback)
-
+	
 **callback** - callback function that will called, after retrieving information, or if there was an error
 
 
@@ -429,8 +429,8 @@ document api
     doc.copy(targetID, callback)
     doc.copy(targetID, targetRevision, callback)
 
-**targetID** - id of the target document
-**targetRevision** - revision of the target document
+**targetID** - id of the target document  
+**targetRevision** - revision of the target document  
 **callback** - callback function(error, sourceDocument, targetDocument) for error and response handling
 
 
@@ -449,10 +449,10 @@ attachment api
 
 	doc.saveAttachment(file, contentType, callback)
 	doc.saveAttachment(file, contentType, name, callback)
-
-**file** - file descriptor object from nodes fs library
-**contentType** - content type of the file (like `image/png`)
-**name** - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead
+	
+**file** - file descriptor object from nodes fs library  
+**contentType** - content type of the file (like `image/png`)  
+**name** - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead  
 **callback** - function that will be called, after saving the attachment
 
 
@@ -460,7 +460,7 @@ attachment api
 
 	doc.getAttachment(name, callback)
 
-**name** - attachment name in the document
+**name** - attachment name in the document  
 **callback** - function that will be called, after the attachment was loaded
 
 
@@ -468,7 +468,7 @@ attachment api
 
 	doc.deleteAttachment(name, callback)
 
-**name** - attachment name in the document
+**name** - attachment name in the document  
 **callback** - function that will be called, after the attachment was deleted
 
 
@@ -482,8 +482,8 @@ design document api
 	design.view(name, map)
 	design.view(name, map, reduce)
 
-**name** - name of the view
-**map** - string representation of the map function
+**name** - name of the view  
+**map** - string representation of the map function  
 **reduce** - string representation of the reduce function
 
 
@@ -492,8 +492,8 @@ design document api
 
 	design.list(name)
 	design.list(name, content)
-
-**name** - name of the list
+	
+**name** - name of the list  
 **content** - string representation of the list function
 
 
@@ -503,7 +503,7 @@ design document api
 	design.show(name)
 	design.show(name, content)
 
-**name** - name of the show
+**name** - name of the show  
 **content** - string representation of the show function
 
 
