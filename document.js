@@ -111,31 +111,6 @@ Document.prototype.copy = function(
 
 
 /**
- * create the document
- *
- * @param {Object} body content of the document
- * @param {function(error, cushion.Document)} callback function that will be
- *     called, after document was created, or if there was an error
- */
-Document.prototype.create = function(body, callback) {
-  this._connection.request({
-    'method': (this._id === null) ? 'POST' : 'PUT',
-    'path': this._database.name() + ((this._id === null) ? '' : '/' + this._id),
-    'body': body,
-    'callback': (function (error, response) {
-      if (error === null) {
-        this._id = response.id;
-        this._revision = response.rev;
-        this._saveContent(body);
-      }
-
-      callback(error, this);
-    }).bind(this)
-  });
-};
-
-
-/**
  * deletes an attachment
  *
  * @param {string} name attachment name

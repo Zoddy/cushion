@@ -401,15 +401,6 @@ document api
 **Without ID** (if you want to create it later from the CouchDB) `var doc = db.document();`
 
 
-### create document ###
-**Description:** Creates the document, if you don't set the id before, the couchdb will create it and cushion set's it in the document object
-
-    doc.create(body, callback)
-
-**body** - json body for the document  
-**callback** - callback function(error, document) for error and response handling
-
-
 ### load document ###
 
     doc.load(callback)
@@ -435,6 +426,7 @@ document api
 
 
 ### save document ###
+**Description:** Saves the document, if document does not exist, it will be created.
 
     doc.save(callback)
 
