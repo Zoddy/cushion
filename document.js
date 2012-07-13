@@ -32,6 +32,8 @@ var Document = function(id, revision, connection, database) {
  * if you want to save data, you can set one argument for each child, e.g.
  * .body('foo', 'bar', 'foobar'); that means you set foo.bar to 'foobar'
  * if there are is no foo.bar it will be created
+ * if you set the body and the content argument (the last one) was explicitly
+ * set to 'undefined', the property will be deleted
  *
  * @return {object|cushion.Document} get a deep copy of the document body, or
  *     the document, if you save data to the body
@@ -42,15 +44,19 @@ Document.prototype.body = function() {
       path = this._body,
       returnData;
 
-  if (obj && obj.length > 0 && data) {
+  if (obj && obj.length > 0 && arguments.length > 1) {
     // go through arguments list to set body members
     obj.forEach(function(name, index, array) {
-      path[name] = (index === array.length - 1) ? data : path[name] || {};
-      path = path[name];
+      if (index === array.length - 1 && typeof(data) === 'undefined') {
+        delete path[name];
+      } else {
+        path[name] = (index === array.length - 1) ? data : path[name] || {};
+        path = path[name];
+      }
     });
 
     returnData = this;
-  } else if (obj && data) {
+  } else if (obj && arguments.length > 0) {
     // we don't set anything, but we want a specific body property
     returnData = (typeof(this._body[data]) === 'object') ?
       JSON.parse(JSON.stringify(this._body[data])) :

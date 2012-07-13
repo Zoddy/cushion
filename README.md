@@ -408,7 +408,7 @@ document api
 **callback** - callback function(error, document) for error and response handling
 
 ### set content ###
-**Description:** If you only set one argument, you get the content of the object of that name. If you set 2 or more (you can set how much do you want) it will work as setter.
+**Description:** If you only set one argument, you get the content of the object of that name. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.
 
 	doc.body(obj)
 	doc.body(obj, content)
