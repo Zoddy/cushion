@@ -352,6 +352,31 @@ database api
     );
 
 
+### retrieving show ###
+
+    db.show(design, show)
+    db.show(design, show, params)
+    db.show(design, show, documentId)
+    db.show(design, show, documentId, params)
+
+**design** - name of the design document without the "_design/"  
+**show** - name of the show function  
+**documentId** - id of the document, that will be set as param to the show function  
+**params** - additional query params as key-value-pairs
+
+**Example:**
+
+    db.show(
+      'fooDesign',
+      'fooShow',
+      'fooDocument',
+      {'format': 'xml'},
+      function(error, result) {
+        console.log(error || result);
+      }
+    );
+
+
 ### compaction ###
 
 	db.compact(callback)

@@ -261,6 +261,51 @@ Database.prototype.name = function() {
 
 
 /**
+ * retrieving a show function
+ *
+ * @param {string} design name of the design document, after the '_design/',
+ * @param {string} show name of the show function
+ * @param {string|object|function(error, result)} docIdOrQueryOrCallback id of
+ *     the document or additional query params for the show function, or
+ *     function that will be called after getting a result or if there was an
+ *     error
+ * @param {?object|function(error, result)} queryOrCallback additional query
+ *     params for the show function, or function that will be called after
+ *     getting a result or if there was an error
+ * @param {?function(error, result)} callback function that will be called after
+ *     getting a result or if there was an error
+ */
+Database.prototype.show = function(
+  design,
+  show,
+  docIdOrQueryOrCallback,
+  queryOrCallback,
+  callback
+) {
+  var docId = (typeof(docIdOrQueryOrCallback) === 'string') ?
+        docIdOrQueryOrCallback :
+        '',
+      query = '';
+  callback = callback || queryOrCallback || docIdOrQueryOrCallback;
+
+  if (typeof(docIdOrQueryOrCallback) === 'object') {
+    query = '?' + querystring.stringify(docIdOrQueryOrCallback, '&', '=');
+  } else if (typeof(queryOrCallback) === 'object') {
+    query = '?' + querystring.stringify(queryOrCallback, '&', '=');
+  }
+
+  this._connection.request({
+    'method': 'GET',
+    'path': this._name +
+      '/_design/' + design +
+      '/_show/' + show + '/' +
+      docId + query,
+    'callback': callback
+  });
+};
+
+
+/**
  * requests a view
  *
  * @param {string} design name of the design document, after the '_design/'
