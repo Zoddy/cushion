@@ -42,9 +42,7 @@ Design.prototype.compact = function(callback) {
  */
 Design.prototype.list = function(name, content) {
   if (content) {
-    // create list object?
-    this._body.lists = this._body.lists || {};
-    this._body.lists[name] = content;
+    this.body('lists', name, content);
   }
 
   return ((content) ?
@@ -65,9 +63,7 @@ Design.prototype.list = function(name, content) {
  */
 Design.prototype.show = function(name, content) {
   if (content) {
-    // create shows object?
-    this._body.shows = this._body.shows || {};
-    this._body.shows[name] = content;
+    this.body('shows', name, content);
   }
 
   return ((content) ?
@@ -89,15 +85,16 @@ Design.prototype.show = function(name, content) {
  *     representations of the map and reduce functions
  */
 Design.prototype.view = function(name, map, reduce) {
-  if (map) {
-    // create views object?
-    this._body.views = this._body.views || {};
-    this._body.views[name] = this._body.views[name] || {};
+  var view = {};
 
-    this._body.views[name].map = map;
-    if (reduce) {
-      this._body.views[name].reduce = reduce;
-    }
+  if (reduce) {
+    view['reduce'] = reduce;
+  }
+
+  if (map) {
+    view['map'] = map;
+
+    this.body('views', name, view);
   }
 
   return ((map) ?
