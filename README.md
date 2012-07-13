@@ -282,15 +282,15 @@ database api
 
 **Description:** The additional options that you can set as first parameter, are the same that you can set at the view function, because the getAll function retrieves a special view at the couchdb `_all_docs`.
 
-	db.getAll(callback)
-    db.getAll(params, callback);
+	db.allDocuments(callback)
+    db.allDocuments(params, callback);
 
 **params** - query parameter (see description) or callback function(error, response) for error and response handling  
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
 
-    db.getAll(function(error, allDocs) {
+    db.allDocuments(function(error, info, allDocs) {
       console.log(error || allDocs);
     });
 
