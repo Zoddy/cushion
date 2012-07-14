@@ -492,8 +492,8 @@ attachment api
 design document api
 -------------------
 
-### get, create or update views ###
-**Description:** If you only set one argument, you will get the object with the string representation of the map and reduce functions. If you set `map` and `reduce`, you will set a view. If there is no views object in the body, it will be created, so you don't have to create it by yourself.
+### get, create, update or delete views ###
+**Description:** If you only set one argument, you will get the object with the string representation of the map and reduce functions. If you set `map` and `reduce`, you will set a view. If there is no views object in the body, it will be created, so you don't have to create it by yourself. If you set map explicitly to `null`, the view will be deleted.
 
 	design.view(name)
 	design.view(name, map)
@@ -504,8 +504,8 @@ design document api
 **reduce** - string representation of the reduce function
 
 
-### get, create or update lists ###
-**Description:** If you only set one argument, you will get the string representation of the list function. If you set the `content`, it will save to the list. If there is no lists object in the body, it will be created, so you don't have to create it by yourself.
+### get, create, update or delete lists ###
+**Description:** If you only set one argument, you will get the string representation of the list function. If you set the `content`, it will save to the list. If there is no lists object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to `null`, the list function will be deleted.
 
 	design.list(name)
 	design.list(name, content)
@@ -514,8 +514,8 @@ design document api
 **content** - string representation of the list function
 
 
-### get, create or update shows ###
-**Description:** If you only set one argument, you will get the string representation of the show function. If you set the `content`, it will save to the show. If there is no shows object in the body, it will be created, so you don't have to create it by yourself.
+### get, create, update or delete shows ###
+**Description:** If you only set one argument, you will get the string representation of the show function. If you set the `content`, it will save to the show. If there is no shows object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to `null`, the show function will be deleted.
 
 	design.show(name)
 	design.show(name, content)

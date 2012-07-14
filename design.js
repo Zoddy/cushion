@@ -32,20 +32,21 @@ Design.prototype.compact = function(callback) {
 
 
 /**
- * get, create or update a list function
+ * get, create, update or delete a list function
  *
  * @param {string} name name of the list function
- * @param {?string} content string representation of the list function
+ * @param {?string} content string representation of the list function; if you
+ *     set this to null, the list function will be deleted
  * @return {cushion.Design|string} if you save a list function, you will get
  *     this design document, otherwise the string representation of the specific
  *     list function
  */
 Design.prototype.list = function(name, content) {
   if (content) {
-    this.body('lists', name, content);
+    this.body('lists', name, ((content === null) ? undefined : content));
   }
 
-  return ((content) ?
+  return ((content !== undefined) ?
     this :
     (this._body.lists) ? this._body.lists[name] : undefined
   );
@@ -53,20 +54,21 @@ Design.prototype.list = function(name, content) {
 
 
 /**
- * get, create or update a show function
+ * get, create, update or delete a show function
  *
  * @param {string} name name of the show function
- * @param {?string} content string representation of the show function
+ * @param {?string} content string representation of the show function; if you
+ *     set this to null, the show function will be deleted
  * @return {cushion.Design|string} if you save a show function, you will get
  *     this design document, otherwise the string representation of the specific
  *     show function
  */
 Design.prototype.show = function(name, content) {
-  if (content) {
-    this.body('shows', name, content);
+  if (typeof(content) !== undefined) {
+    this.body('shows', name, ((content === null) ? undefined : content));
   }
 
-  return ((content) ?
+  return ((content !== undefined) ?
     this :
     (this._body.shows) ? this._body.shows[name] : undefined
   );
@@ -74,12 +76,12 @@ Design.prototype.show = function(name, content) {
 
 
 /**
- * get, create or update a view
+ * get, create, update or delete a view
  *
  * @param {string} name name of the view
- * @param {string} map string representation of the map function
- * @param {?string} reduce string representation of the
- *     reduce function
+ * @param {string} map string representation of the map function; if you set
+ *     this to null, the view will be deleted
+ * @param {?string} reduce string representation of the reduce function
  * @return {cushion.Design|object} if you set a view, you will get this design
  *     document, otherwise you will get the view object with the string
  *     representations of the map and reduce functions
@@ -91,13 +93,13 @@ Design.prototype.view = function(name, map, reduce) {
     view['reduce'] = reduce;
   }
 
-  if (map) {
+  if (map !== undefined) {
     view['map'] = map;
 
-    this.body('views', name, view);
+    this.body('views', name, ((map === null) ? undefined : view));
   }
 
-  return ((map) ?
+  return ((map !== undefined) ?
     this :
     (this._body.views) ? this._body.views[name] : undefined
   );
