@@ -4,7 +4,7 @@ default: test
 # Run all tests
 #
 test:
-	mocha --reporter nyan test/*-test.js
+	mocha --reporter nyan test/testrunner.js
 
 #
 # Run jshint
