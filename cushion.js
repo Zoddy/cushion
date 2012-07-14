@@ -225,7 +225,7 @@ cushion.prototype.listDatabases = function(noCouchRelatedOrCallback, callback) {
         // filter couch related databases, if user want's so
         if (noCouchRelated === true) {
           response = response.filter(function(dbName, index, list) {
-            return !(dbName[0] === '_');
+            return (dbName[0] !== '_');
           });
         }
 

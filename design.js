@@ -90,11 +90,11 @@ Design.prototype.view = function(name, map, reduce) {
   var view = {};
 
   if (reduce) {
-    view['reduce'] = reduce;
+    view.reduce = reduce;
   }
 
   if (map !== undefined) {
-    view['map'] = map;
+    view.map = map;
 
     this.body('views', name, ((map === null) ? undefined : view));
   }
