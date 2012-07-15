@@ -28,18 +28,21 @@ var expect = require('chai').expect,
 exports.tests = [{
   'message': 'get version',
   'callpath': 'connection.version',
+  'url': ['GET', ''],
   'callback': function(error, version) {
     expect(version).to.be.a('string').and.to.match(/^\d\.\d\.\d$/);
   }
 }, {
   'message': 'list of active tasks',
   'callpath': 'connection.activeTasks',
+  'url': ['GET', '_active_tasks'],
   'callback': function(error, activeTasks) {
     expect(activeTasks).to.be.an('array');
   }
 }, {
   'message': 'get complete config',
   'callpath': 'connection.config',
+  'url': ['GET', '_config'],
   'callback': function(error, config) {
     expect(config).to.be.an('object');
     expect(config.admins).to.be.an('object');
@@ -48,6 +51,7 @@ exports.tests = [{
   'message': 'get config section',
   'callpath': 'connection.config',
   'arguments': ['admins'],
+  'url': ['GET', '_config/admins'],
   'callback': function(error, section) {
     expect(section).to.be.an('object').and.to.have.property(config.username);
   }
@@ -55,6 +59,7 @@ exports.tests = [{
   'message': 'get config option',
   'callpath': 'connection.config',
   'arguments': ['admins', config.username],
+  'url': ['GET', '_config/admins/' + config.username],
   'callback': function(error, option) {
     expect(option).to.be.a('string').and.to.have.string('-hashed-');
   }
@@ -62,6 +67,7 @@ exports.tests = [{
   'message': 'set config option to new value',
   'callpath': 'connection.config',
   'arguments': ['foo', 'bar', 'foobar'],
+  'url': ['PUT', '_config/foo/bar', '"foobar"'],
   'callback': function(error, saved) {
     expect(saved).to.be.a('boolean').and.to.be.true;
   }
@@ -69,6 +75,7 @@ exports.tests = [{
   'message': 'delete config option',
   'callpath': 'connection.config',
   'arguments': ['foo', 'bar', null],
+  'url': ['DELETE', '_config/foo/bar'],
   'callback': function(error, deleted) {
     expect(deleted).to.be.a('boolean').and.to.be.true;
   }
@@ -89,6 +96,7 @@ exports.tests = [{
 }, {
   'message': 'generate uuid',
   'callpath': 'connection.uuidList',
+  'url': ['GET', '_uuids'],
   'callback': function(error, uuid) {
     expect(uuid).to.be.an('array').and.to.have.length(1);
     expect(uuid[0]).to.be.a('string');
@@ -97,6 +105,7 @@ exports.tests = [{
   'message': 'generate three uuids',
   'callpath': 'connection.uuidList',
   'arguments': [3],
+  'url': ['GET', '_uuids?count=3'],
   'callback': function(error, uuids) {
     expect(uuids).to.be.an('array').and.to.have.length(3);
     expect(uuids[0]).to.be.a('string');
@@ -104,12 +113,14 @@ exports.tests = [{
 }, {
   'message': 'get statistics',
   'callpath': 'connection.stats',
+  'url': ['GET', '_stats'],
   'callback': function(error, stats) {
     expect(stats).to.be.an('object');
   }
 }, {
   'message': 'get log',
   'callpath': 'connection.log',
+  'url': ['GET', '_log'],
   'callback': function(error, log) {
     expect(log).to.be.a('string');
     expect(log.length).to.be.below(1001);
@@ -118,6 +129,7 @@ exports.tests = [{
   'message': 'get log with specific length of 500',
   'callpath': 'connection.log',
   'arguments': [500],
+  'url': ['GET', '_log?bytes=500'],
   'callback': function(error, log) {
     expect(log).to.be.a('string');
     expect(log.length).to.be.below(501);
@@ -125,6 +137,7 @@ exports.tests = [{
 }, {
   'message': 'get list of databases',
   'callpath': 'connection.listDatabases',
+  'url': ['GET', '_all_dbs'],
   'callback': function(error, databases) {
     expect(databases).to.be.an('array');
     expect(databases[0]).to.respondTo('name');
@@ -134,6 +147,7 @@ exports.tests = [{
   'message': 'get list of databases without couchdb related',
   'callpath': 'connection.listDatabases',
   'arguments': [true],
+  'url': ['GET', '_all_dbs'],
   'callback': function(error, databases) {
     expect(databases).to.be.an('array');
     expect(databases[0]).to.respondTo('name');
