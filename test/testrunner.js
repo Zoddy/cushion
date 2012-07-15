@@ -81,8 +81,6 @@ var testCaller = function() {
   if (test) {
     callpath = test.callpath.split('.');
 
-    urlCheck = test.url;
-
     it(test.message, function(done) {
       cushion[callpath[0]][callpath[1]].apply(
         cushion[callpath[0]],
