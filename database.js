@@ -33,7 +33,7 @@ Database.prototype.allDocuments = function(paramsOrCallback, callback) {
   var params = (typeof(paramsOrCallback) === 'object') ?
                '?' + querystring.stringify(paramsOrCallback, '&', '=') :
                '';
-  callback = (params === '') ? paramsOrCallback : callback;
+  callback = callback || paramsOrCallback;
 
   this._connection.request({
     'method': 'GET',
@@ -230,9 +230,6 @@ Database.prototype.list = function(
                (typeof(paramsOrCallback) === 'object') ?
                  '?' + querystring.stringify(paramsOrCallback, '&', '=') :
                  '',
-      callback = callback || ((typeof(viewOrParamsOrCallback) === 'function') ?
-                 viewOrParamsOrCallback :
-                 paramsOrCallback),
       view = (typeof(viewOrParamsOrCallback) === 'string') ?
              viewOrParamsOrCallback :
              viewOrOtherDesign,
@@ -241,6 +238,7 @@ Database.prototype.list = function(
                     '',
       path = this.name() + '/_design/' + design + '/_list/' + list +
              otherDesign + '/' + view + params;
+      callback = callback || paramsOrCallback || viewOrParamsOrCallback;
 
   this._connection.request({
     'method': 'GET',
@@ -321,7 +319,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
                '?' + querystring.stringify(paramsOrCallback, '&', '=') :
                '',
       path = this.name() + '/_design/' + design + '/_view/' + view;
-  callback = (params === '') ? paramsOrCallback : callback;
+  callback = callback || paramsOrCallback;
 
   this._connection.request({
     'method': 'GET',

@@ -89,7 +89,7 @@ Document.prototype.copy = function(
   callback
 ) {
   var targetRevision = (callback) ? '?rev=' + targetRevisionOrCallback : '';
-  callback = (targetRevision === '') ? targetRevisionOrCallback : callback;
+  callback = callback || targetRevisionOrCallback;
 
   if (this._id === null) {
     process.nextTick(callback(
@@ -325,10 +325,8 @@ Document.prototype.saveAttachment = function(
 ) {
   var filename = (typeof(nameOrCallback) === 'string') ?
         nameOrCallback :
-        file.split('/').pop(),
-      callback = (typeof(nameOrCallback) === 'function') ?
-        nameOrCallback :
-        callback;
+        file.split('/').pop();
+  callback = callback || nameOrCallback;
 
   fs.readFile(file, 'utf8', (function(error, data) {
     if (error) {
