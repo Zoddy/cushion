@@ -27,7 +27,7 @@
   },
   "main": "./cushion",
   "engines": {
-    "node": ">=0.4"
+    "node": ">=0.6"
   },
   "license": "MIT",
   "dependencies": {},
