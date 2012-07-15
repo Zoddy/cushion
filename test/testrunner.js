@@ -81,25 +81,39 @@ var testCaller = function() {
   if (test) {
     callpath = test.callpath.split('.');
 
-    it(test.message, function(done) {
-      cushion[callpath[0]][callpath[1]].apply(
-        cushion[callpath[0]],
-        (test.arguments || []).concat([function() {
-          // error have to be null
-          expect(arguments[0]).to.be.null;
+    if (test.callback) {
+      it(test.message, function(done) {
+        cushion[callpath[0]][callpath[1]].apply(
+          cushion[callpath[0]],
+          (test['arguments'] || []).concat([function() {
+            // error have to be null
+            expect(arguments[0]).to.be.null;
 
-          // test callback
-          test.callback.apply(
-            null,
-            arguments
-          );
+            // test callback
+            test.callback.apply(
+              null,
+              arguments
+            );
 
-          // next test
-          done();
-          testCaller();
-        }])
-      );
-    });
+            // next test
+            done();
+            testCaller();
+          }])
+        );
+      });
+    } else if (test['return']) {
+      it(test.message, function(done) {
+        // test callback
+        test['return'](cushion[callpath[0]][callpath[1]].apply(
+          cushion[callpath[0]],
+          test['arguments'] || []
+        ));
+
+        // next test
+        done();
+        testCaller();
+      });
+    }
   }
 };
 
