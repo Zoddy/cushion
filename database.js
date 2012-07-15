@@ -283,7 +283,7 @@ Database.prototype.show = function(
   callback
 ) {
   var docId = (typeof(docIdOrQueryOrCallback) === 'string') ?
-        docIdOrQueryOrCallback :
+        '/' + docIdOrQueryOrCallback :
         '',
       query = '';
   callback = callback || queryOrCallback || docIdOrQueryOrCallback;
@@ -298,7 +298,7 @@ Database.prototype.show = function(
     'method': 'GET',
     'path': this._name +
       '/_design/' + design +
-      '/_show/' + show + '/' +
+      '/_show/' + show +
       docId + query,
     'callback': callback
   });
