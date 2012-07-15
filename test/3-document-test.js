@@ -2,16 +2,20 @@
 /*global exports: false, require: false*/
 
 /**
- * 1) save document
- * 2) load document
- * 3) copy document
- * 4) info about the document
- * 5) save attachment
- * 6) save attachment with custom name
- * 7) load attachment
- * 8) delete attachment
- * 9) delete attachment with custom name
- * 10) delete document
+ *  1) save document
+ *  2) load document
+ *  3) save content to body
+ *  4) get content of body
+ *  5) change content of body
+ *  6) delete content of body
+ *  7) copy document
+ *  8) info about the document
+ *  9) save attachment
+ * 10) save attachment with custom name
+ * 11) load attachment
+ * 12) delete attachment
+ * 13) delete attachment with custom name
+ * 14) delete document
  */
 
 var fs = require('fs'),
@@ -44,6 +48,39 @@ exports.tests = [{
   'callback': function(error, document) {
     expect(document).to.be.an('object').and.to.have.property('_id');
     expect(document.id()).to.equal(config.document);
+  }
+}, {
+  'message': 'save content to body',
+  'callpath': 'document.body',
+  'arguments': ['foo', 'bar'],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property('_body');
+    expect(result._body).to.be.an('object').and.to.have.property('foo', 'bar');
+  }
+}, {
+  'message': 'get content of body',
+  'callpath': 'document.body',
+  'arguments': ['foo'],
+  'return': function(result) {
+    expect(result).to.be.a('string').and.to.be.equal('bar');
+  }
+}, {
+  'message': 'change content of body',
+  'callpath': 'document.body',
+  'arguments': ['foo', 'foobar'],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property('_body');
+    expect(result._body)
+      .to.be.an('object')
+      .and.to.have.property('foo', 'foobar');
+  }
+}, {
+  'message': 'delete content of body',
+  'callpath': 'document.body',
+  'arguments': ['foo', undefined],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property('_body');
+    expect(result._body).to.be.an('object').and.to.be.empty;
   }
 }, {
   'message': 'copy document',
