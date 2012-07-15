@@ -4,8 +4,12 @@
 var expect = require('chai').expect,
     tests = [],
     config = require('./config.js'),
-    cushion = {};
+    cushion = {},
+    originalRequest,
+    urlCheck;
 
+
+// create cushion test objects
 cushion.connection = new (require('../cushion.js').Connection)(
   config.host,
   config.port,
@@ -33,6 +37,32 @@ cushion.design.show(
 );
 cushion.design.view(config.view, 'function(doc) {emit(doc._id, doc);}');
 
+
+// create mockup to test the correct request
+originalRequest = cushion.connection.request.bind(cushion.connection);
+cushion.connection.request = (function(properties) {
+  if (urlCheck) {
+    expect(urlCheck[0]).to.be.equal(properties.method);
+
+    if (urlCheck[1] instanceof RegExp) {
+      expect(properties.path).to.match(urlCheck[1]);
+    } else {
+      expect(urlCheck[1]).to.be.equal(properties.path);
+    }
+
+    if (urlCheck[2]) {
+      expect(urlCheck[2]).to.be.deep.equal(properties.body);
+    }
+
+    if (urlCheck[3]) {
+      expect(urlCheck[3]).to.be.deep.equal(properties.headers);
+    }
+  }
+
+  originalRequest(properties);
+}).bind(cushion.connection);
+
+
 // get tests
 require('fs').readdirSync(__dirname).filter(
   function(element, index, array) {
@@ -51,12 +81,22 @@ var testCaller = function() {
   if (test) {
     callpath = test.callpath.split('.');
 
+    urlCheck = test.url;
+
     it(test.message, function(done) {
       cushion[callpath[0]][callpath[1]].apply(
         cushion[callpath[0]],
         (test.arguments || []).concat([function() {
+          // error have to be null
           expect(arguments[0]).to.be.null;
-          test.callback.apply(null, arguments);
+
+          // test callback
+          test.callback.apply(
+            null,
+            arguments
+          );
+
+          // next test
           done();
           testCaller();
         }])
