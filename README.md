@@ -1,6 +1,6 @@
 ![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-small.png)
 
-cushion
+cushion [![Build Status](https://secure.travis-ci.org/Zoddy/cushion.png?branch=master)](http://travis-ci.org/Zoddy/cushion)
 =========
 
 Node.js CouchDB API
