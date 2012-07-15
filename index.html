@@ -1,0 +1,618 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>cushion by Zoddy</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>cushion</h1>
+        <p>Node.js CouchDB API</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/Zoddy/cushion" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/Zoddy/cushion/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/Zoddy/cushion/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p><img src="https://github.com/downloads/Zoddy/cushion/cushion-small.png" alt="cushion logo"></p>
+
+<h1>cushion <a href="http://travis-ci.org/Zoddy/cushion"><img src="https://secure.travis-ci.org/Zoddy/cushion.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>Node.js CouchDB API</p>
+
+<h2>connection api</h2>
+
+<h3>create new connection</h3>
+
+<p><strong>Description:</strong> Creates a new connection to a CouchDB.</p>
+
+<pre><code>cushion.Connection();
+cushion.Connection(host);
+cushion.Connection(host, port);
+cushion.Connection(host, port, username);
+cushion.Connection(host, port, username, password);
+cushion.Connection(host, port, username, password, additional);
+</code></pre>
+
+<p><strong>host</strong> - host of couchdb instance <strong>[ default: '127.0.0.1' ]</strong><br><strong>port</strong> - port of couchdb instance <strong>[ default: 5984 ]</strong><br><strong>username</strong> - name of couchdb user <strong>[ default: '' ]</strong><br><strong>password</strong> - password for given couchdb user <strong>[ default: '' ]</strong><br><strong>additional</strong> - additional options <strong>[ default: {}]</strong><br><strong>additional.secure</strong> - set to true, if you want to use https requests <strong>[ default: false ]</strong></p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>var cushion = new (require('cushion').Connection)(
+                '127.0.0.1', // host
+                5984, // port
+                'foo', // username
+                'bar' // password
+              );
+</code></pre>
+
+<h3>get a list of databases</h3>
+
+<p><strong>Description:</strong> Get an array of database objects.</p>
+
+<pre><code>cushion.listDatabases(callback)
+cushion.listDatabases(noCouchRelated, callback)
+</code></pre>
+
+<p><strong>noCouchRelated</strong> - if you set this to true, you will only get databases, which are user generated (it simply filters all databases that name begins with '_')<br><strong>callback</strong> - callback function(error, response) for error and response handling  </p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>// getting all databases (couchdb databases included like "_users" or "_replicator")
+cushion.listDatabases(function(error, response) {
+  console.log(error || response);
+});
+
+// getting no couchdb related databases
+// (couchdb databases excluded like "_users" or "_replicator")
+cushion.listDatabases(true, function(error, response) {
+  console.log(error || response);
+});
+</code></pre>
+
+<h3>get version of couchdb</h3>
+
+<p><strong>Description:</strong> Get version of connected couchdb.</p>
+
+<pre><code>cushion.version(callback);
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>cushion.version(function(error, version) {
+  console.log(error || version);
+});
+</code></pre>
+
+<h3>configuration</h3>
+
+<p><strong>Description:</strong> Get or set configuration params. If you set:</p>
+
+<ul>
+<li>one param: you will get the complete configuration</li>
+<li>two params: you will get all options of the specific section</li>
+<li>three params: you will get the content of the specific option</li>
+<li>four params: you set a specific option to the new value, or you delete the given option, if you set value to null</li>
+</ul><pre><code>cushion.config(callback)
+cushion.config(section, callback)
+cushion.config(section, option, callback)
+cushion.config(section, option, value, callback)
+</code></pre>
+
+<p><strong>section</strong> - name of a section (a group of options)<br><strong>option</strong> - name of an option<br><strong>value</strong> - new value for the option: if you set value to null, given option will be deleted<br><strong>callback</strong> - function(error, section<strong>|</strong>option<strong>|</strong>saved) that will be called after getting the informations, or if new value was saved, or if there was an error</p>
+
+<h3>create admin account</h3>
+
+<p><strong>Description:</strong> Creates an admin account. That means the config param will be set and the user document created.</p>
+
+<pre><code>cushion.createAdmin(name, password, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the admin account<br><strong>password</strong> - password of the admin account<br><strong>callback</strong> - function(error, created) that will be called after creating the admin account, or if there was an error</p>
+
+<h3>delete admin account</h3>
+
+<p><strong>Description:</strong> Deletes the admin option at the configuration and the user document.</p>
+
+<pre><code>cushion.deleteAdmin(name, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the admin account<br><strong>callback</strong> - function(error, deleted) that will be called after deleting the admin account, or if there was an error</p>
+
+<h3>list of active tasks</h3>
+
+<p><strong>Description:</strong> Returns a list of active tasks.</p>
+
+<pre><code>cushion.activeTasks(callback);
+</code></pre>
+
+<p><strong>callback</strong> - function(error, activeTasks) that will called, after getting the list of active tasks or if there was an error</p>
+
+<h3>list of generated uuids</h3>
+
+<p><strong>Description:</strong> Returns a list of couchdb generated uuids.</p>
+
+<pre><code>cushion.uuidList(callback);
+cushion.uuidList(count, callback);
+</code></pre>
+
+<p><strong>count</strong> - number of uuids to generate <strong>[ default: 1 ]</strong><br><strong>callback</strong> - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error</p>
+
+<h3>server statistics</h3>
+
+<p><strong>Description:</strong> Returns server statistics.</p>
+
+<pre><code>cushion.stats(callback);
+</code></pre>
+
+<p><strong>callback</strong> - function(error, stats) that will be called, after getting the statistics of if there was an error</p>
+
+<h3>get log</h3>
+
+<p><strong>Description:</strong> Returns the tail of the server's log file. There's also another param <code>offset</code> for the request to the couchdb, but it's not useful, look at the documentation <a href="http://wiki.apache.org/couchdb/HttpGetLog">http://wiki.apache.org/couchdb/HttpGetLog</a>.</p>
+
+<pre><code>cushion.log(callback);
+cushion.log(bytes, callback);
+</code></pre>
+
+<p><strong>bytes</strong> - number of bytes which do you want from the tail <strong>[ default: 1000 ]</strong><br><strong>callback</strong> - function(error, log) that will be called, after getting the log or if there was an error</p>
+
+<h3>restart server</h3>
+
+<p><strong>Description:</strong> Restarts the server.</p>
+
+<pre><code>cushion.restart(callback);
+</code></pre>
+
+<p><strong>callback</strong> - function(error, restart) function that will be called, after initializing the restart or if there was an error</p>
+
+<h3>make a low level request</h3>
+
+<p><strong>Description:</strong> If there is something cushion doesn't offer to you, make a low level request to couchdb.</p>
+
+<pre><code>cushion.request(properties);
+</code></pre>
+
+<p><strong>properties.method</strong> - HTTP method, can be GET, PUT, POST, DELETE, HEAD, COPY <strong>[ default: 'GET' ]</strong><br><strong>properties.path</strong> - uri path after domain  <strong>[ default: '']</strong><br><strong>properties.headers</strong> - key/value-pairs of additional http headers<br><strong>properties.body</strong> - additional request body<br><strong>properties.callback</strong> - callback function(error, response, headers) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>// getting all documents of given database
+cushion.request({
+  'method': 'GET',
+  'path': 'foodb/_all_docs',
+  'callback': function(error, response, headers) {
+    console.log(error || response);
+  }
+});
+
+// creating a new document
+cushion.request({
+  'method': 'PUT',
+  'path': 'foodb/foodoc',
+  'body': {
+    'name': 'John Doe'
+  },
+  'callback': function(error, response, headers) {
+    console.log(error || response);
+  }
+});
+</code></pre>
+
+<h2>database api</h2>
+
+<h3>connect to a specific database</h3>
+
+<p><strong>Description:</strong> Connect to a given database.</p>
+
+<pre><code>cushion.database(name);
+</code></pre>
+
+<p><strong>name:</strong> name of the database</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>var db = cushion.database('foodb');
+</code></pre>
+
+<h3>check if database exists</h3>
+
+<p><strong>Description:</strong> Checks if the database exists.</p>
+
+<pre><code>db.exists(callback);
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.exists(function(error, exist) {
+  console.log(error || exist);
+});
+</code></pre>
+
+<h3>create database</h3>
+
+<p><strong>Description:</strong> Create database.</p>
+
+<pre><code>db.create(callback);
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.create(function(error, response) {
+  console.log(error || response);
+});
+</code></pre>
+
+<h3>delete database</h3>
+
+<p><strong>Description:</strong> Delete database.</p>
+
+<pre><code>db.destroy(callback);
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.destroy(function(error, response) {
+  console.log(error || response);
+});
+</code></pre>
+
+<h3>get informations about the database</h3>
+
+<p><strong>Description:</strong> Get whole information about the database.</p>
+
+<pre><code>db.info(callback);
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.info(function(error, info) {
+  console.log(error || info);
+});
+</code></pre>
+
+<h3>get name of the database</h3>
+
+<p><strong>Description:</strong> Get name of the database.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>var dbName = db.name();
+</code></pre>
+
+<h3>get all documents</h3>
+
+<p><strong>Description:</strong> The additional options that you can set as first parameter, are the same that you can set at the view function, because the getAll function retrieves a special view at the couchdb <code>_all_docs</code>.</p>
+
+<pre><code>db.allDocuments(callback)
+db.allDocuments(params, callback);
+</code></pre>
+
+<p><strong>params</strong> - query parameter (see description) or callback function(error, response) for error and response handling<br><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.allDocuments(function(error, info, allDocs) {
+  console.log(error || allDocs);
+});
+</code></pre>
+
+<h3>retrieving a view</h3>
+
+<pre><code>db.view(designDocument, viewFunction, callback)
+db.view(designDocument, viewFunction, params, callback)
+</code></pre>
+
+<p><strong>designDocument</strong> - name of the design document after the "_design/"<br><strong>viewFunction</strong> - name of the view function<br><strong>params</strong> - additional query params, this are all the query parameters that are documented at the couchdb view api <a href="http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options">http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options</a><br><strong>callback</strong> - callback function(error, info, result) for error and response handling</p>
+
+<pre><code>db.view(
+  'foo',
+  'bar',
+  function(error, info, result) {
+    console.log(error, info, result);
+  }
+);
+</code></pre>
+
+<p><strong>Example (skip first five documents and limits the result to ten):</strong></p>
+
+<pre><code>db.view(
+  'foo',
+  'bar',
+  {'skip': 5, 'limit': 10},
+  function(error, info, result) {
+    console.log(error, info, result);
+  },
+);
+</code></pre>
+
+<h3>retrieving a list</h3>
+
+<pre><code>db.list(design, list, view, callback)
+db.list(design, list, view, params, callback)
+db.list(design, list, otherDesign, view, callback)
+db.list(design, list, otherDesign, view, params, callback)
+</code></pre>
+
+<p><strong>design</strong> - name of the design document without the "_design/"<br><strong>list</strong> - name of the list function<br><strong>otherDesign</strong> - name of another design document without the "_design/"<br><strong>view</strong> - name of the function<br><strong>params</strong> - additional params, the same that you can set at the view requests<br><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.list(
+  'fooDesign',
+  'fooList',
+  'fooView',
+  {'skip': 5, 'limit': 10},
+  function(error, result) {
+    console.log(error || result);
+  }
+);
+</code></pre>
+
+<h3>retrieving show</h3>
+
+<pre><code>db.show(design, show)
+db.show(design, show, params)
+db.show(design, show, documentId)
+db.show(design, show, documentId, params)
+</code></pre>
+
+<p><strong>design</strong> - name of the design document without the "_design/"<br><strong>show</strong> - name of the show function<br><strong>documentId</strong> - id of the document, that will be set as param to the show function<br><strong>params</strong> - additional query params as key-value-pairs</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.show(
+  'fooDesign',
+  'fooShow',
+  'fooDocument',
+  {'format': 'xml'},
+  function(error, result) {
+    console.log(error || result);
+  }
+);
+</code></pre>
+
+<h3>compaction</h3>
+
+<pre><code>db.compact(callback)
+</code></pre>
+
+<p><strong>callback</strong> - function(error, started) that will be called, after compaction was started or if there was an error</p>
+
+<h3>cleanup</h3>
+
+<pre><code>db.cleanup(callback)
+</code></pre>
+
+<p><strong>callback</strong> - function(error, started) that will be called, after cleanup was started or if there was an error</p>
+
+<h2>document api</h2>
+
+<h3>getting document object</h3>
+
+<p><strong>Description:</strong> If you set the ID and it will begin with <code>_design/</code>, then you will get a design document object instead of a normal document. Design documents have the same API as normal document plus some extra functions (look at <code>design document api</code>).</p>
+
+<p><strong>With given ID</strong> <code>var doc = db.document('foo' [, revision]);</code><br><strong>Without ID</strong> (if you want to create it later from the CouchDB) <code>var doc = db.document();</code></p>
+
+<h3>load document</h3>
+
+<pre><code>doc.load(callback)
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
+
+<h3>set content</h3>
+
+<p><strong>Description:</strong> If you only set one argument, you get the content of the object of that name. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.</p>
+
+<pre><code>doc.body(obj)
+doc.body(obj, content)
+doc.body(parent, child, content)
+</code></pre>
+
+<p><strong>obj</strong> - name of the object<br><strong>content</strong> - new content for <strong>obj</strong><br><strong>child</strong> - child object of <strong>obj</strong></p>
+
+<h4>Some examples:</h4>
+
+<pre><code>doc.body('foo', 'bar'); // foo = 'bar'
+doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
+doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
+</code></pre>
+
+<h3>save document</h3>
+
+<p><strong>Description:</strong> Saves the document, if document does not exist, it will be created.</p>
+
+<pre><code>doc.save(callback)
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
+
+<h3>get info</h3>
+
+<p><strong>Description:</strong> Gets some info from the document: revision and size of the document.</p>
+
+<pre><code>doc.info(callback)
+</code></pre>
+
+<p><strong>callback</strong> - callback function that will called, after retrieving information, or if there was an error</p>
+
+<h3>copy document</h3>
+
+<pre><code>doc.copy(targetID, callback)
+doc.copy(targetID, targetRevision, callback)
+</code></pre>
+
+<p><strong>targetID</strong> - id of the target document<br><strong>targetRevision</strong> - revision of the target document<br><strong>callback</strong> - callback function(error, sourceDocument, targetDocument) for error and response handling</p>
+
+<h3>delete document</h3>
+
+<pre><code>doc.destroy(callback)
+</code></pre>
+
+<p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
+
+<h2>attachment api</h2>
+
+<h3>save attachment</h3>
+
+<p><strong>Description:</strong> Files will always opened as UTF-8.</p>
+
+<pre><code>doc.saveAttachment(file, contentType, callback)
+doc.saveAttachment(file, contentType, name, callback)
+</code></pre>
+
+<p><strong>file</strong> - file path to the file<br><strong>contentType</strong> - content type of the file (like <code>image/png</code>)<br><strong>name</strong> - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead<br><strong>callback</strong> - function that will be called, after saving the attachment</p>
+
+<h3>get attachment</h3>
+
+<pre><code>doc.getAttachment(name, callback)
+</code></pre>
+
+<p><strong>name</strong> - attachment name in the document<br><strong>callback</strong> - function that will be called, after the attachment was loaded</p>
+
+<h3>delete attachment</h3>
+
+<pre><code>doc.deleteAttachment(name, callback)
+</code></pre>
+
+<p><strong>name</strong> - attachment name in the document<br><strong>callback</strong> - function that will be called, after the attachment was deleted</p>
+
+<h2>design document api</h2>
+
+<h3>get, create, update or delete views</h3>
+
+<p><strong>Description:</strong> If you only set one argument, you will get the object with the string representation of the map and reduce functions. If you set <code>map</code> and <code>reduce</code>, you will set a view. If there is no views object in the body, it will be created, so you don't have to create it by yourself. If you set map explicitly to <code>null</code>, the view will be deleted.</p>
+
+<pre><code>design.view(name)
+design.view(name, map)
+design.view(name, map, reduce)
+</code></pre>
+
+<p><strong>name</strong> - name of the view<br><strong>map</strong> - string representation of the map function<br><strong>reduce</strong> - string representation of the reduce function</p>
+
+<h3>get, create, update or delete lists</h3>
+
+<p><strong>Description:</strong> If you only set one argument, you will get the string representation of the list function. If you set the <code>content</code>, it will save to the list. If there is no lists object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to <code>null</code>, the list function will be deleted.</p>
+
+<pre><code>design.list(name)
+design.list(name, content)
+</code></pre>
+
+<p><strong>name</strong> - name of the list<br><strong>content</strong> - string representation of the list function</p>
+
+<h3>get, create, update or delete shows</h3>
+
+<p><strong>Description:</strong> If you only set one argument, you will get the string representation of the show function. If you set the <code>content</code>, it will save to the show. If there is no shows object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to <code>null</code>, the show function will be deleted.</p>
+
+<pre><code>design.show(name)
+design.show(name, content)
+</code></pre>
+
+<p><strong>name</strong> - name of the show<br><strong>content</strong> - string representation of the show function</p>
+
+<h3>compaction</h3>
+
+<pre><code>design.compact(callback)
+</code></pre>
+
+<p><strong>callback</strong> - function(error, started) that will be called, after compaction was started or if there was an error</p>
+
+<h2>running tests</h2>
+
+<p>To run the test suite first invoke the following command within the repo, installing the development dependencies:</p>
+
+<pre><code>$ npm install
+</code></pre>
+
+<p>then run the tests:</p>
+
+<pre><code>$ make test
+</code></pre>
+
+<h2>upcoming features</h2>
+
+<ul>
+<li>user management</li>
+<li>bulk updates</li>
+<li>query params api</li>
+</ul><h2>License</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2009-2011 André Kussmann <a href="mailto:zoddy@zoddy.de">zoddy@zoddy.de</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/Zoddy">Zoddy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-32834506-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
