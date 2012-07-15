@@ -8,7 +8,8 @@
   "preferGlobal": false,
   "author": "André Kussmann <zoddy@zoddy.de>",
   "contributors": [
-    "Patrick Venetz <mail@patrickvenetz.com>"
+    "Patrick Venetz <mail@patrickvenetz.com>",
+    "Stefan Judis <stefanjudis@gmail.com>"
   ],
   "scripts": {
     "test": "make test"
