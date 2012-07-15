@@ -4,4 +4,5 @@ node_js:
   - 0.8
 
 before_script:
+  - curl -X PUT http://127.0.0.1:5984/foobar
   - curl -X PUT http://127.0.0.1:5984/_config/admins/zoddy --data '"zoddy"'
