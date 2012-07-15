@@ -3,10 +3,11 @@
 
 /**
  * 1) check for existing
- * 2) create database
- * 3) getting info
- * 4) start compaction
- * 5) start cleanup
+ * 2) get name of database
+ * 3) create database
+ * 4) getting info
+ * 5) start compaction
+ * 6) start cleanup
  */
 
 var expect = require('chai').expect,
@@ -18,6 +19,12 @@ exports.tests = [{
   'url': ['GET', config.database],
   'callback': function(error, exists) {
     expect(exists).to.be.false;
+  }
+}, {
+  'message': 'get name of database',
+  'callpath': 'database.name',
+  'return': function(result) {
+    expect(result).to.be.a('string').and.to.be.equal(config.database);
   }
 }, {
   'message': 'create database',
