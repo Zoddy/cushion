@@ -1,4 +1,4 @@
-![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-small.png)
+![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-page-logo.png)
 
 cushion [![Build Status](https://secure.travis-ci.org/Zoddy/cushion.png?branch=master)](http://travis-ci.org/Zoddy/cushion)
 =========
