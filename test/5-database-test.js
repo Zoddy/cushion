@@ -84,7 +84,7 @@ exports.tests = [{
     expect(result).to.be.a('string').and.to.be.equal(config.document + '_copy');
   }
 }, {
-  'message': 'retireving show',
+  'message': 'retrieving show',
   'callpath': 'database.show',
   'arguments': [config.design, config.show],
   'url': [
@@ -95,7 +95,7 @@ exports.tests = [{
     expect(result).to.be.a('string').and.to.be.equal('Hello {} null');
   }
 }, {
-  'message': 'retireving show with query params',
+  'message': 'retrieving show with query params',
   'callpath': 'database.show',
   'arguments': [config.design, config.show, {'foo': 'foobar'}],
   'url': [
