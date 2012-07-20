@@ -280,7 +280,7 @@ database api
 
 ### get all documents ###
 
-**Description:** The additional options that you can set as first parameter, are the same that you can set at the view function, because the getAll function retrieves a special view at the couchdb `_all_docs`.
+**Description:** The additional options that you can set as first parameter, are the same that you can set at the view function, because the allDocuments function retrieves a special view at the couchdb `_all_docs`.
 
 	db.allDocuments(callback)
     db.allDocuments(params, callback);
