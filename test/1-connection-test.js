@@ -95,7 +95,7 @@ exports.tests = [{
   }
 }, {
   'message': 'generate uuid',
-  'callpath': 'connection.uuidList',
+  'callpath': 'connection.uuids',
   'url': ['GET', '_uuids'],
   'callback': function(error, uuid) {
     expect(uuid).to.be.an('array').and.to.have.length(1);
@@ -103,7 +103,7 @@ exports.tests = [{
   }
 }, {
   'message': 'generate three uuids',
-  'callpath': 'connection.uuidList',
+  'callpath': 'connection.uuids',
   'arguments': [3],
   'url': ['GET', '_uuids?count=3'],
   'callback': function(error, uuids) {

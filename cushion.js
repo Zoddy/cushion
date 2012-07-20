@@ -401,7 +401,7 @@ cushion.prototype.stats = function(callback) {
  * @param {?function(error, uuidList)} callback function that will be called,
  *     after getting the list of uuids or if there was an error
  */
-cushion.prototype.uuidList = function(countOrCallback, callback) {
+cushion.prototype.uuids = function(countOrCallback, callback) {
   var count = (arguments.length > 1) ? countOrCallback : null;
   callback = callback || countOrCallback;
 
