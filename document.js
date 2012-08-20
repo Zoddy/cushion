@@ -222,8 +222,10 @@ Document.prototype.info = function(callback) {
       'method': 'HEAD',
       'path': this._database.name() + '/' + this._id,
       'callback': (function(error, response, headers) {
-        callback(error, (error) ? null: {
-          'revision': headers.etag.substr(1, headers.etag.length - 2),
+        this._revision = headers.etag.substr(1, headers.etag.length - 2);
+
+        callback(error, (error) ? null : {
+          'revision': this._revision,
           'size': headers['content-length']
         });
       }).bind(this)

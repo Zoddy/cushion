@@ -1,6 +1,6 @@
 {
   "name": "cushion",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A CouchDB API for Node.js",
   "keywords": [
     "couchdb"
@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "mocha": "1.2.x",
-    "chai": "1.1.x"
+    "chai": "1.1.x",
+    "http-proxy": "0.8.x"
   },
   "main": "./cushion",
   "engines": {
