@@ -39,7 +39,7 @@
         <ul></ul>
       </nav>
       <section>
-        <p><img src="https://github.com/downloads/Zoddy/cushion/cushion-small.png" alt="cushion logo"></p>
+        <p><img src="https://github.com/downloads/Zoddy/cushion/cushion-page-logo.png" alt="cushion logo"></p>
 
 <h1>cushion <a href="http://travis-ci.org/Zoddy/cushion"><img src="https://secure.travis-ci.org/Zoddy/cushion.png?branch=master" alt="Build Status"></a>
 </h1>
@@ -160,8 +160,8 @@ cushion.config(section, option, value, callback)
 
 <p><strong>Description:</strong> Returns a list of couchdb generated uuids.</p>
 
-<pre><code>cushion.uuidList(callback);
-cushion.uuidList(count, callback);
+<pre><code>cushion.uuids(callback);
+cushion.uuids(count, callback);
 </code></pre>
 
 <p><strong>count</strong> - number of uuids to generate <strong>[ default: 1 ]</strong><br><strong>callback</strong> - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error</p>
@@ -318,7 +318,7 @@ cushion.request({
 
 <h3>get all documents</h3>
 
-<p><strong>Description:</strong> The additional options that you can set as first parameter, are the same that you can set at the view function, because the getAll function retrieves a special view at the couchdb <code>_all_docs</code>.</p>
+<p><strong>Description:</strong> The additional options that you can set as first parameter, are the same that you can set at the view function, because the allDocuments function retrieves a special view at the couchdb <code>_all_docs</code>.</p>
 
 <pre><code>db.allDocuments(callback)
 db.allDocuments(params, callback);
@@ -439,7 +439,7 @@ db.show(design, show, documentId, params)
 
 <h3>set content</h3>
 
-<p><strong>Description:</strong> If you only set one argument, you get the content of the object of that name. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.</p>
+<p><strong>Description:</strong> If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.</p>
 
 <pre><code>doc.body(obj)
 doc.body(obj, content)
@@ -450,7 +450,9 @@ doc.body(parent, child, content)
 
 <h4>Some examples:</h4>
 
-<pre><code>doc.body('foo', 'bar'); // foo = 'bar'
+<pre><code>doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; '456' = 123;
+doc.body('foo', 'bar'); // foo = 'bar';
+doc.body('foo'); // -&gt; 'bar'
 doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
 doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
 </code></pre>
@@ -602,7 +604,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
