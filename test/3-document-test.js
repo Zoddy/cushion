@@ -58,6 +58,15 @@ exports.tests = [{
     expect(result._body).to.be.an('object').and.to.have.property('foo', 'bar');
   }
 }, {
+  'message': 'save complete body',
+  'callpath': 'document.body',
+  'arguments': [{'foo': 'bar', '123': 456}],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property('_body');
+    expect(result._body).to.be.an('object').and.to.have.property('foo', 'bar');
+    expect(result._body).to.be.an('object').and.to.have.property('123', 456);
+  }
+}, {
   'message': 'get content of body',
   'callpath': 'document.body',
   'arguments': ['foo'],
@@ -80,7 +89,8 @@ exports.tests = [{
   'arguments': ['foo', undefined],
   'return': function(result) {
     expect(result).to.be.an('object').and.to.have.property('_body');
-    expect(result._body).to.be.an('object').and.to.be.empty;
+    expect(result._body).to.be.an('object').and.to.not.have.property('foo');
+    expect(result._body).to.be.an('object').and.to.have.property('123', 456);
   }
 }, {
   'message': 'copy document',

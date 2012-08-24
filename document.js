@@ -57,10 +57,17 @@ Document.prototype.body = function() {
 
     returnData = this;
   } else if (obj && arguments.length > 0) {
-    // we don't set anything, but we want a specific body property
-    returnData = (typeof(this._body[data]) === 'object') ?
-      JSON.parse(JSON.stringify(this._body[data])) :
-      this._body[data];
+    if (typeof(data) === 'object') {
+      // we want to set the complete body
+      this._body = JSON.parse(JSON.stringify(data));
+
+      returnData = this;
+    } else {
+      // we don't set anything, but we want a specific body property
+      returnData = (typeof(this._body[data]) === 'object') ?
+        JSON.parse(JSON.stringify(this._body[data])) :
+        this._body[data];
+    }
   } else {
     // we don't set anything, but we want the complete body
     returnData = JSON.parse(JSON.stringify(this._body));
