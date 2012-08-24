@@ -229,12 +229,18 @@ Document.prototype.info = function(callback) {
       'method': 'HEAD',
       'path': this._database.name() + '/' + this._id,
       'callback': (function(error, response, headers) {
-        this._revision = headers.etag.substr(1, headers.etag.length - 2);
+        var info = null;
 
-        callback(error, (error) ? null : {
-          'revision': this._revision,
-          'size': headers['content-length']
-        });
+        if (error === null) {
+          this._revision = headers.etag.substr(1, headers.etag.length - 2);
+
+          info = {
+            'revision': this._revision,
+            'size': headers['content-length']
+          };
+        }
+
+        callback(error, info);
       }).bind(this)
     });
   }
