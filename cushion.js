@@ -1,8 +1,7 @@
 // jshint settings
 /*global require: false, exports: false */
 
-var http = require('http'),
-    crypto = require('crypto');
+var http = require('http');
 
 /**
  * create connection to a couchdb
