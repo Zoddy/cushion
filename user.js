@@ -70,7 +70,7 @@ user.prototype.create = function(
       callback(error, null);
     } else {
       if (lower === true) {
-        salt = this._salt;
+        salt = this._salt();
         password = this._hash(password, salt);
 
         this._connection.database('_users').document(
