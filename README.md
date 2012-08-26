@@ -225,8 +225,32 @@ user api
 	);
 
 
+### add role ###
+**Description** Adds one or more roles to the user
+
+	user.addRole(name, role, callback);
+	user.addRole(name, roles, callback);
+
+**name** - name of the user  
+**role** - role to add to the user  
+**roles** - list of roles to add to the user  
+**callback** - function(error, added) that will be called after adding the role(s), or if there was an error
+
+**Example**
+
+	// add one role
+	user.addRole('fooUser', 'fooRole', function(error, added) {
+	  console.log(error || added);
+	});
+	
+	// add two roles
+	user.addRole('fooUser', ['fooRole', 'barRole'], function(error, added) {
+	  console.log(error || added);
+	});
+
+
 ### change password ###
-**Description** changes the password of an existing user
+**Description** Changes the password of an existing user
 
 	user.password(name, password, callback);
 

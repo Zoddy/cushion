@@ -16,6 +16,30 @@ var user = function(connection) {
 
 
 /**
+ * adds a role
+ *
+ * @param {string} name name of the user
+ * @param {string|array<string>} role a single role or a list of roles
+ * @param {function(error, added)} callback function that will be called after
+ *     saving the role(s), or if there was an error
+ */
+user.prototype.addRole = function(name, role, callback) {
+  var roles = (typeof(role) === 'string') ? [].push(role) : role;
+
+  this._connection.database('_users').document(
+    'org.couchdb.user:' + name
+  ).load(function(error, document) {
+    document.body(
+      'roles',
+      document.body('roles').concat(roles)
+    ).save(function(error, document) {
+      callback(error, (error) ? null : true);
+    });
+  });
+};
+
+
+/**
  * creates a user
  *
  * @param {string} name name of the user

@@ -14,14 +14,17 @@
  *  8) create admin
  *  9) delete admin
  * 10) create user
- * 11) delete user
- * 12) generate uuid
- * 13) generate three uuids
- * 14) get statistics
- * 15) get log
- * 16) get log with specific length of 500
- * 17) get list of databases
- * 18) get list of databases without couchdb related
+ * 11) add role to the user
+ * 12) adding two roles to the user
+ * 13) change password of user
+ * 14) delete user
+ * 15) generate uuid
+ * 16) generate three uuids
+ * 17) get statistics
+ * 18) get log
+ * 19) get log with specific length of 500
+ * 20) get list of databases
+ * 21) get list of databases without couchdb related
  */
 
 var expect = require('chai').expect,
@@ -101,6 +104,20 @@ exports.tests = [{
   'arguments': ['cushion_test_user', 'cushion_test_password'],
   'callback': function(error, created) {
     expect(created).to.be.true;
+  }
+}, {
+  'message': 'add role to the user',
+  'callpath': 'user.addRole',
+  'arguments': ['cushion_test_user', 'foo'],
+  'callback': function(error, added) {
+    expect(added).to.be.true;
+  }
+}, {
+  'message': 'adding two roles to the user',
+  'callpath': 'user.addRole',
+  'arguments': ['cushion_test_user', ['bar', 'baz']],
+  'callback': function(error, added) {
+    expect(added).to.be.true;
   }
 }, {
   'message': 'change password of user',
