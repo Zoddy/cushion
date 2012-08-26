@@ -193,6 +193,57 @@ cushion.config(section, option, value, callback)
 	});
 
 
+user api
+--------
+
+### create new user ###
+**Description** Creates a new user
+
+	user.create(name, password, callback);
+	user.create(name, password, roles, callback);
+
+**name** - name of the user  
+**password** - password of the user  
+**roles** - list of role strings  
+**callback** - function(error, created) that will be called after creating the user, or if there was an error
+
+**Example**
+
+	// create a new user
+	user.create('fooUser', 'fooPassword', function(error, created) {
+	  console.log(error || created);
+	});
+	
+	// create a new user with roles
+	user.create(
+	  'fooUser',
+	  'fooPassword',
+	  ['fooRole', 'barRole'],
+	  function(error, created) {
+	  	console.log(error || created);
+	  }
+	);
+
+
+### change password ###
+**Description** changes the password of an existing user
+
+	user.password(name, password, callback);
+
+**name** - name of the user  
+**password** - password of the user  
+**callback** - function(error, changed) that will be called after changing the password, or if there was an error
+
+
+### delete user ###
+**Description** Deletes an user
+
+	user.delete(name, callback);
+	
+**name** - name of the user  
+**callback** - function(error, deleted) that will be called after deleting the user, or if there was an error
+
+
 database api
 ------------
 
