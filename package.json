@@ -1,6 +1,6 @@
 {
   "name": "cushion",
-  "version": "1.4.2b",
+  "version": "1.5.0",
   "description": "A CouchDB API for Node.js",
   "keywords": [
     "couchdb"
