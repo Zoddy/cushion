@@ -249,6 +249,30 @@ user api
 	});
 
 
+### delete role ###
+**Description** Deletes one or more roles from the user
+
+	user.deleteRole(name, role, callback);
+	user.deleteRole(name, roles, callback);
+
+**name** - name of the user  
+**role** - role to delete from the user  
+**roles** - list of roles to delete from the user  
+**callback** - function(error, deleted) that will be called after deleting the role(s), or if there was an error
+
+**Example**
+
+	// delete one role
+	user.deleteRole('fooUser', 'fooRole', function(error, deleted) {
+	  console.log(error || deleted);
+	});
+	
+	// delete two roles
+	user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
+	  console.log(error || deleted);
+	});
+
+
 ### change password ###
 **Description** Changes the password of an existing user
 

@@ -24,7 +24,7 @@ var user = function(connection) {
  *     saving the role(s), or if there was an error
  */
 user.prototype.addRole = function(name, role, callback) {
-  var roles = (typeof(role) === 'string') ? [].push(role) : role;
+  var roles = (typeof(role) === 'string') ? [role] : role;
 
   this._connection.database('_users').document(
     'org.couchdb.user:' + name
@@ -118,6 +118,38 @@ user.prototype.delete = function(name, callback) {
       callback(error, null);
     } else {
       document.destroy(function(error, document) {
+        callback(error, (error) ? null : true);
+      });
+    }
+  });
+};
+
+
+/**
+ * deletes one or more roles from the user
+ *
+ * @param {string} name name of the user
+ * @param {string|array<string>} role a single role or a list of roles
+ * @param {function(error, deleted)} callback function that will be called after
+ *     deleting the role(s), or if there was an error
+ */
+user.prototype.deleteRole = function(name, role, callback) {
+  var deleteRoles = (typeof(role) === 'string') ? [role] : role;
+
+  this._connection.database('_users').document(
+    'org.couchdb.user:' + name
+  ).load(function(error, document) {
+    if (error) {
+      callback(error, null);
+    } else {
+      document.body(
+        'roles',
+        document.body('roles').filter(function(role, index, roles) {
+          return deleteRoles.some(function(deleteRole, index, allDeleteRoles) {
+            return (deleteRole === role);
+          });
+        })
+      ).save(function(error, document) {
         callback(error, (error) ? null : true);
       });
     }
