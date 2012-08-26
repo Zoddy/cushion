@@ -103,6 +103,13 @@ exports.tests = [{
     expect(created).to.be.true;
   }
 }, {
+  'message': 'change password of user',
+  'callpath': 'user.password',
+  'arguments': ['cushion_test_user', 'cushion_test_password'],
+  'callback': function(error, changed) {
+    expect(changed).to.be.true;
+  }
+}, {
   'message': 'delete user',
   'callpath': 'user.delete',
   'arguments': ['cushion_test_user'],

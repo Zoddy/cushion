@@ -40,20 +40,18 @@ user.prototype.create = function(
   // because with couchdb <1.2.0 we have to create the salt and password hash
   //
   // yes we could always create the sha password and salt, but at couchdb 1.3.0
-  // password generation will change and then we need a third variant
-  this._connection.version((function(error, version) {
+  // password generation will change and then we would need a third variant
+  this._lower120((function(error, lower) {
     if (error) {
       callback(error, null);
     } else {
-      version = version.split('.').map(function(part, index, complete) {
-        return parseInt(part, 10);
-      });
+      if (lower === true) {
+        salt = this._salt;
+        password = this._hash(password, salt);
 
-      if (version[0] < 1 || (version[0] === 1 && version[1] < 2)) {
-        salt = crypto.randomBytes(16).toString('hex');
-        password = crypto.createHash('sha1').update(password + salt).digest('hex');
-
-        this._connection.database('_users').document('org.couchdb.user:' + name).body({
+        this._connection.database('_users').document(
+          'org.couchdb.user:' + name
+        ).body({
           'name': name,
           'type': 'user',
           'roles': roles,
@@ -100,6 +98,93 @@ user.prototype.delete = function(name, callback) {
       });
     }
   });
+};
+
+
+/**
+ * generate password hash
+ *
+ * @private
+ * @param {string} password plain password string
+ * @param {string} salt hexadecimal salt string
+ */
+user.prototype._hash = function(password, salt) {
+  return crypto.createHash('sha1').update(password + salt).digest('hex');
+};
+
+
+/**
+ * generate salt
+ *
+ * @private
+ * @return {string} hexadecimal random string
+ */
+user.prototype._salt = function() {
+  return crypto.randomBytes(16).toString('hex');
+};
+
+
+/**
+ * version lower than 1.2.0?
+ *
+ * @private
+ * @param {function(error, lower)} callback function that will be called after
+ *     looking for lower version or if there was an error
+ */
+user.prototype._lower120 = function(callback) {
+  this._connection.version(function(error, version) {
+    version = version.split('.').map(function(part, index, complete) {
+      return parseInt(part, 10);
+    });
+
+    callback(
+      error,
+      (error) ? null : (version[0] < 1 || (version[0] === 1 && version[1] < 2))
+    );
+  });
+};
+
+
+/**
+ * sets/changes the password
+ *
+ * @param {string} name name of the user
+ * @param {password} password for the user
+ * @param {function(error, changed)} callback function that will be called after
+ *     changing the password, or if there was an error
+ */
+user.prototype.password = function(name, password, callback) {
+  var salt;
+
+  this._connection.database('_users').document('org.couchdb.user:' + name).load(
+    (function(error, document) {
+      if (error) {
+        callback(error, null);
+      } else {
+        this._lower120((function(error, lower) {
+          if (error) {
+            callback(error, null);
+          } else {
+            if (lower === true) {
+              salt = this._salt();
+              password = this._password(password, salt);
+
+              document.body('password_sha', password).body('salt', salt);
+            } else {
+              document
+                .body('password_sha', undefined)
+                .body('salt', undefined)
+                .body('password', password);
+            }
+
+            document.save(function(error, document) {
+              callback(error, (error) ? null : true);
+            });
+          }
+        }).bind(this));
+      }
+    }).bind(this)
+  );
 };
 
 
