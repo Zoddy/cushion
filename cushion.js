@@ -1,7 +1,8 @@
 // jshint settings
 /*global require: false, exports: false */
 
-var http = require('http');
+var http = require('http'),
+    crypto = require('crypto');
 
 /**
  * create connection to a couchdb
@@ -396,6 +397,16 @@ cushion.prototype.stats = function(callback) {
     'path': '_stats',
     'callback': callback
   });
+};
+
+
+/**
+ * get the user object
+ *
+ * @return {cushion.User} the user object
+ */
+cushion.prototype.user = function() {
+  return new (require('./user.js').User)(this);
 };
 
 

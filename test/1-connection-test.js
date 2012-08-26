@@ -13,13 +13,15 @@
  *  7) delete config option
  *  8) create admin
  *  9) delete admin
- * 10) generate uuid
- * 11) generate three uuids
- * 12) get statistics
- * 13) get log
- * 14) get log with specific length of 500
- * 15) get list of databases
- * 16) get list of databases without couchdb related
+ * 10) create user
+ * 11) delete user
+ * 12) generate uuid
+ * 13) generate three uuids
+ * 14) get statistics
+ * 15) get log
+ * 16) get log with specific length of 500
+ * 17) get list of databases
+ * 18) get list of databases without couchdb related
  */
 
 var expect = require('chai').expect,
@@ -90,6 +92,20 @@ exports.tests = [{
   'message': 'delete admin',
   'callpath': 'connection.deleteAdmin',
   'arguments': ['cushion_test_admin'],
+  'callback': function(error, deleted) {
+    expect(deleted).to.be.true;
+  }
+}, {
+  'message': 'create user',
+  'callpath': 'user.create',
+  'arguments': ['cushion_test_user', 'cushion_test_password'],
+  'callback': function(error, created) {
+    expect(created).to.be.true;
+  }
+}, {
+  'message': 'delete user',
+  'callpath': 'user.delete',
+  'arguments': ['cushion_test_user'],
   'callback': function(error, deleted) {
     expect(deleted).to.be.true;
   }

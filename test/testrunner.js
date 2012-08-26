@@ -16,6 +16,7 @@ cushion.connection = new (require('../cushion.js').Connection)(
   config.username,
   config.password
 );
+cushion.user = cushion.connection.user();
 cushion.database = cushion.connection.database(config.database);
 cushion.document = cushion.database.document(config.document);
 cushion.design = cushion.database.document('_design/' + config.design);
