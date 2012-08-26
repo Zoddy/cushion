@@ -286,6 +286,13 @@ cushion.prototype._request = function(callback, response) {
         content = JSON.parse(content);
       }
 
+      if (response.statusCode === 404 && content.length === 0) {
+        content = {
+          'error': 'not_found',
+          'reason': 'missing'
+        };
+      }
+
       callback(
         (content.error) ? content : null,
         (!content.error) ? content : null,
