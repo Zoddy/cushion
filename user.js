@@ -189,14 +189,15 @@ user.prototype._salt = function() {
  */
 user.prototype._lower120 = function(callback) {
   this._connection.version(function(error, version) {
-    version = version.split('.').map(function(part, index, complete) {
-      return parseInt(part, 10);
-    });
+    if (error) {
+      callback(error, null);
+    } else {
+      version = version.split('.').map(function(part, index, complete) {
+        return parseInt(part, 10);
+      });
 
-    callback(
-      error,
-      (error) ? null : (version[0] < 1 || (version[0] === 1 && version[1] < 2))
-    );
+      callback(null, (version[0] < 1 || (version[0] === 1 && version[1] < 2)));
+    }
   });
 };
 
