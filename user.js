@@ -224,7 +224,7 @@ user.prototype.password = function(name, password, callback) {
           } else {
             if (lower === true) {
               salt = this._salt();
-              password = this._password(password, salt);
+              password = this._hash(password, salt);
 
               document.body('password_sha', password).body('salt', salt);
             } else {
