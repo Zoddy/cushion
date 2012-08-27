@@ -16,17 +16,18 @@
  * 10) create user
  * 11) add role to user
  * 12) adding two roles to user
- * 13) delete role from user
- * 14) delete two roles from user
- * 15) change password of user
- * 16) delete user
- * 17) generate uuid
- * 18) generate three uuids
- * 19) get statistics
- * 20) get log
- * 21) get log with specific length of 500
- * 22) get list of databases
- * 23) get list of databases without couchdb related
+ * 13) getting list of roles
+ * 14) delete role from user
+ * 15) delete two roles from user
+ * 16) change password of user
+ * 17) delete user
+ * 18) generate uuid
+ * 19) generate three uuids
+ * 20) get statistics
+ * 21) get log
+ * 22) get log with specific length of 500
+ * 23) get list of databases
+ * 24) get list of databases without couchdb related
  */
 
 var expect = require('chai').expect,
@@ -120,6 +121,13 @@ exports.tests = [{
   'arguments': ['cushion_test_user', ['bar', 'baz']],
   'callback': function(error, added) {
     expect(added).to.be.true;
+  }
+}, {
+  'message': 'getting list of roles',
+  'callpath': 'user.getRoles',
+  'arguments': ['cushion_test_user'],
+  'callback': function(error, roles) {
+    expect(roles).to.be.an('array').and.to.deep.equal(['foo', 'bar', 'baz']);
   }
 }, {
   'message': 'delete role from user',

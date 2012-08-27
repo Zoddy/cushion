@@ -249,6 +249,15 @@ user api
 	});
 
 
+### get roles ###
+**Description** Get list of roles from the user
+
+	user.getRoles(name, callback);
+
+**name** - name of the user  
+**callback** - function(error, roles) that will be called after getting the the list of roles, or if there was an error
+
+
 ### delete role ###
 **Description** Deletes one or more roles from the user
 

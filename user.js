@@ -158,6 +158,22 @@ user.prototype.deleteRole = function(name, role, callback) {
 
 
 /**
+ * getting list of roles
+ *
+ * @param {string} name name of the user
+ * @param {function(error, roles)} callback function that will be called after
+ *     getting the roles, or if there was an error
+ */
+user.prototype.getRoles = function(name, callback) {
+  this._connection.database('_users').document(
+    'org.couchdb.user:' + name
+  ).load(function(error, document) {
+    callback(error, (error) ? null : document.body('roles'));
+  });
+};
+
+
+/**
  * generate password hash
  *
  * @private
