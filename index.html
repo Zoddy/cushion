@@ -227,6 +227,109 @@ cushion.request({
 });
 </code></pre>
 
+<h2>user api</h2>
+
+<h3>create new user</h3>
+
+<p><strong>Description</strong> Creates a new user</p>
+
+<pre><code>user.create(name, password, callback);
+user.create(name, password, roles, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>password</strong> - password of the user<br><strong>roles</strong> - list of role strings<br><strong>callback</strong> - function(error, created) that will be called after creating the user, or if there was an error</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>// create a new user
+user.create('fooUser', 'fooPassword', function(error, created) {
+  console.log(error || created);
+});
+
+// create a new user with roles
+user.create(
+  'fooUser',
+  'fooPassword',
+  ['fooRole', 'barRole'],
+  function(error, created) {
+    console.log(error || created);
+  }
+);
+</code></pre>
+
+<h3>add role</h3>
+
+<p><strong>Description</strong> Adds one or more roles to the user</p>
+
+<pre><code>user.addRole(name, role, callback);
+user.addRole(name, roles, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>role</strong> - role to add to the user<br><strong>roles</strong> - list of roles to add to the user<br><strong>callback</strong> - function(error, added) that will be called after adding the role(s), or if there was an error</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>// add one role
+user.addRole('fooUser', 'fooRole', function(error, added) {
+  console.log(error || added);
+});
+
+// add two roles
+user.addRole('fooUser', ['fooRole', 'barRole'], function(error, added) {
+  console.log(error || added);
+});
+</code></pre>
+
+<h3>get roles</h3>
+
+<p><strong>Description</strong> Get list of roles from the user</p>
+
+<pre><code>user.getRoles(name, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>callback</strong> - function(error, roles) that will be called after getting the the list of roles, or if there was an error</p>
+
+<h3>delete role</h3>
+
+<p><strong>Description</strong> Deletes one or more roles from the user</p>
+
+<pre><code>user.deleteRole(name, role, callback);
+user.deleteRole(name, roles, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>role</strong> - role to delete from the user<br><strong>roles</strong> - list of roles to delete from the user<br><strong>callback</strong> - function(error, deleted) that will be called after deleting the role(s), or if there was an error</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>// delete one role
+user.deleteRole('fooUser', 'fooRole', function(error, deleted) {
+  console.log(error || deleted);
+});
+
+// delete two roles
+user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
+  console.log(error || deleted);
+});
+</code></pre>
+
+<h3>change password</h3>
+
+<p><strong>Description</strong> Changes the password of an existing user</p>
+
+<pre><code>user.password(name, password, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>password</strong> - password of the user<br><strong>callback</strong> - function(error, changed) that will be called after changing the password, or if there was an error</p>
+
+<h3>delete user</h3>
+
+<p><strong>Description</strong> Deletes an user</p>
+
+<pre><code>user.delete(name, callback);
+</code></pre>
+
+<p><strong>name</strong> - name of the user<br><strong>callback</strong> - function(error, deleted) that will be called after deleting the user, or if there was an error</p>
+
 <h2>database api</h2>
 
 <h3>connect to a specific database</h3>
