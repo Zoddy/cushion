@@ -656,7 +656,8 @@ then run the tests:
 upcoming features
 -----------------
 
-* user management
+* browser support
+* session support
 * bulk updates
 * query params api
 
