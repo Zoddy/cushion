@@ -1,7 +1,10 @@
 // jshint settings
 /*global require: false, exports: false */
 
-var http = require('http');
+var http = require('http'),
+    defaultOptions = require('./config.js'),
+    Database = require('./database.js').Database,
+    UserApi = require('./user.js').User;
 
 /**
  * create connection to a couchdb
@@ -12,9 +15,10 @@ var http = require('http');
  * @param {string} [password=this._options.password] password for authorization
  * @param {object} additional additional options:
  *     {boolean} [secure=false] set this to true, if you want https-connections
+ *     {string} [path=''] set an additional path, if you want to connect through
+ *         this (e.g. a proxy, because of connecting from browser)
  */
 var cushion = function(host, port, username, password, additional) {
-  var defaultOptions = require('./config.js');
   additional = additional || {};
 
   this._methodMatch = /^GET|PUT|POST|DELETE|HEAD|COPY$/i;
@@ -23,7 +27,8 @@ var cushion = function(host, port, username, password, additional) {
     'port': port || defaultOptions.port,
     'username': username || defaultOptions.username,
     'password': password || defaultOptions.password,
-    'secure': additional.secure || defaultOptions.secure
+    'secure': additional.secure || defaultOptions.secure,
+    'path': (additional.path) ? additional.path + '/' : defaultOptions.path
   };
 
   if (this._options.secure === true) {
@@ -160,7 +165,7 @@ cushion.prototype.createAdmin = function(name, password, callback) {
  * @return {Object} the database object
  */
 cushion.prototype.database = function(name) {
-  return new (require('./database.js').Database)(name, this);
+  return new Database(name, this);
 };
 
 
@@ -271,8 +276,6 @@ cushion.prototype.log = function(bytesOrCallback, callback) {
 cushion.prototype._request = function(callback, response) {
   var content = '';
 
-  response.setEncoding('utf8');
-
   response.on('data', function(chunk) {
     content += chunk;
   });
@@ -326,7 +329,7 @@ cushion.prototype.request = function(properties) {
                   ) ?
                   properties.method :
                   'GET',
-        'path': '/' + (properties.path || ''),
+        'path': '/' + this._options.path + (properties.path || ''),
         'auth': this._options.username + ':' + this._options.password,
         'headers': properties.headers || {}
       },
@@ -405,7 +408,7 @@ cushion.prototype.stats = function(callback) {
  * @return {cushion.User} the user object
  */
 cushion.prototype.user = function() {
-  return new (require('./user.js').User)(this);
+  return new UserApi(this);
 };
 
 

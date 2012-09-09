@@ -24,7 +24,8 @@ connection api
 **username** - name of couchdb user **[ default: '' ]**  
 **password** - password for given couchdb user **[ default: '' ]**  
 **additional** - additional options **[ default: {}]**  
-**additional.secure** - set to true, if you want to use https requests **[ default: false ]**
+**additional.secure** - set to true, if you want to use https requests **[ default: false ]**  
+**additional.path** - an additional path after ther host and port (e.g. you want to use a proxy) **[ default: '' ]**
 
 **Example:**
 
@@ -641,6 +642,21 @@ design document api
 **callback** - function(error, started) that will be called, after compaction was started or if there was an error
 
 
+browser version
+---------------
+Cushion is also available in the browser. All you have to do is to load the `cushion.min.js`. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. 
+
+    var connection = new (require('/cushion').Connection)(
+      'localhost', // host
+      8080, // port
+      'zoddy', // username
+      'zoddy', // password
+      {'path': 'couchdb'} // so all requests go to localhost:8080/couchdb <- proxy
+    );	
+
+After that all is the same and you have the full power of cushion in the browser.
+
+
 running tests
 -------------
 
@@ -656,7 +672,6 @@ then run the tests:
 upcoming features
 -----------------
 
-* browser support
 * session support
 * bulk updates
 * query params api

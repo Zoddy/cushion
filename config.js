@@ -6,3 +6,4 @@ exports.port = 5984;
 exports.username = '';
 exports.password = '';
 exports.secure = false;
+exports.path = '';
