@@ -661,9 +661,9 @@ design.show(name, content)
 
 <h2>browser version</h2>
 
-<p>Cushion is also available in the browser. All you have to do is to load the <code>cushion.min.js</code>. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. </p>
+<p>Cushion is also available in the browser. All you have to do is to load the <code>cushion.browser.min.js</code>. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. </p>
 
-<pre><code>var connection = new (require('/cushion').Connection)(
+<pre><code>var connection = new cushion.Connection(
   'localhost', // host
   8080, // port
   'zoddy', // username
@@ -696,7 +696,7 @@ design.show(name, content)
 
 <p>(The MIT License)</p>
 
-<p>Copyright (c) 2009-2011 André Kussmann <a href="mailto:zoddy@zoddy.de">zoddy@zoddy.de</a></p>
+<p>Copyright (c) 2009-2012 André Kussmann <a href="mailto:zoddy@zoddy.de">zoddy@zoddy.de</a></p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
