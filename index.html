@@ -60,7 +60,7 @@ cushion.Connection(host, port, username, password);
 cushion.Connection(host, port, username, password, additional);
 </code></pre>
 
-<p><strong>host</strong> - host of couchdb instance <strong>[ default: '127.0.0.1' ]</strong><br><strong>port</strong> - port of couchdb instance <strong>[ default: 5984 ]</strong><br><strong>username</strong> - name of couchdb user <strong>[ default: '' ]</strong><br><strong>password</strong> - password for given couchdb user <strong>[ default: '' ]</strong><br><strong>additional</strong> - additional options <strong>[ default: {}]</strong><br><strong>additional.secure</strong> - set to true, if you want to use https requests <strong>[ default: false ]</strong></p>
+<p><strong>host</strong> - host of couchdb instance <strong>[ default: '127.0.0.1' ]</strong><br><strong>port</strong> - port of couchdb instance <strong>[ default: 5984 ]</strong><br><strong>username</strong> - name of couchdb user <strong>[ default: '' ]</strong><br><strong>password</strong> - password for given couchdb user <strong>[ default: '' ]</strong><br><strong>additional</strong> - additional options <strong>[ default: {}]</strong><br><strong>additional.secure</strong> - set to true, if you want to use https requests <strong>[ default: false ]</strong><br><strong>additional.path</strong> - an additional path after ther host and port (e.g. you want to use a proxy) <strong>[ default: '' ]</strong></p>
 
 <p><strong>Example:</strong></p>
 
@@ -659,6 +659,21 @@ design.show(name, content)
 
 <p><strong>callback</strong> - function(error, started) that will be called, after compaction was started or if there was an error</p>
 
+<h2>browser version</h2>
+
+<p>Cushion is also available in the browser. All you have to do is to load the <code>cushion.min.js</code>. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. </p>
+
+<pre><code>var connection = new (require('/cushion').Connection)(
+  'localhost', // host
+  8080, // port
+  'zoddy', // username
+  'zoddy', // password
+  {'path': 'couchdb'} // so all requests go to localhost:8080/couchdb &lt;- proxy
+);  
+</code></pre>
+
+<p>After that all is the same and you have the full power of cushion in the browser.</p>
+
 <h2>running tests</h2>
 
 <p>To run the test suite first invoke the following command within the repo, installing the development dependencies:</p>
@@ -674,7 +689,6 @@ design.show(name, content)
 <h2>upcoming features</h2>
 
 <ul>
-<li>browser support</li>
 <li>session support</li>
 <li>bulk updates</li>
 <li>query params api</li>
