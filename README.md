@@ -644,9 +644,9 @@ design document api
 
 browser version
 ---------------
-Cushion is also available in the browser. All you have to do is to load the `cushion.min.js`. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. 
+Cushion is also available in the browser. All you have to do is to load the `cushion.browser.min.js`. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. 
 
-    var connection = new (require('/cushion').Connection)(
+    var connection = new cushion.Connection(
       'localhost', // host
       8080, // port
       'zoddy', // username
