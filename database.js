@@ -87,8 +87,8 @@ Database.prototype.cleanup = function(callback) {
  *     after compaction was started or if there was an error
  */
 Database.prototype.compact = function(designOrCallback, callback) {
-  var design = (callback) ? designOrCallback : undefined,
-      callback = callback || designOrCallback;
+  var design = (callback) ? designOrCallback : undefined;
+  callback = callback || designOrCallback;
 
   this._connection.request({
     'method': 'POST',
