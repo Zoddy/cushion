@@ -326,7 +326,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
     'path': path + params,
     'callback': (function(error, response) {
       var info = null,
-          documents = {},
+          documents = null,
           i;
 
       if (error === null) {
@@ -335,12 +335,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
           'offset': response.offset
         };
 
-        for (i = 0; response.rows[i]; ++i) {
-          documents[response.rows[i].key] = {
-            'id': response.rows[i].id,
-            'value': response.rows[i].value
-          };
-        }
+        documents = response.rows;
       }
 
       callback(error, info, documents);

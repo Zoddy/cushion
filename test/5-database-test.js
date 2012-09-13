@@ -50,8 +50,11 @@ exports.tests = [{
   'callback': function(error, info, result) {
     expect(info).to.be.an('object').and.to.have.property('total', 1);
     expect(result)
+      .to.be.an('array')
+      .and.to.have.length(1);
+    expect(result[0])
       .to.be.an('object')
-      .and.to.have.property(config.document + '_copy');
+      .and.to.have.property('id', config.document + '_copy');
   }
 }, {
   'message': 'retrieving view with query params',
@@ -67,7 +70,7 @@ exports.tests = [{
   'callback': function(error, info, result) {
     expect(info).to.be.an('object').and.to.have.property('total', 1);
     expect(info).to.have.property('offset', 1);
-    expect(result).to.be.an('object').and.to.be.empty;
+    expect(result).to.be.an('array').and.to.be.empty;
   }
 }, {
   'message': 'retrieving list',
