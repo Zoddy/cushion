@@ -308,10 +308,10 @@ Database.prototype.show = function(
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} view name of the view
- * @param {object|function(error, info, object)} paramsOrCallback query
+ * @param {object|function(error, info, array)} paramsOrCallback query
  *     parameters for the view, or function that will be call, after getting
  *     response from the view, or if there was an error
- * @param {?function(error, info, object)} callback function that will be
+ * @param {?function(error, info, array)} callback function that will be
  *     called, after getting response from the view, or if there was an error
  */
 Database.prototype.view = function(design, view, paramsOrCallback, callback) {
