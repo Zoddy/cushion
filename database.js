@@ -259,6 +259,43 @@ Database.prototype.name = function() {
 
 
 /**
+ * sets or gets the document revision limit
+ * if you set two arguments (limit and callback) it will use as a setter
+ * only with one argument (callback) it's a getter
+ *
+ * @param {number|function(error, limit)} limitOrCallback positive integer as a
+ *     new setting for the revision limit or function that will be called, after
+ *     getting the revision limit or if there was an error
+ * @param {?function(error, saved)} callback function that will be called, after
+ *     setting the new revision limit or if there was an error
+ */
+Database.prototype.revisionLimit = function(limitOrCallback, callback) {
+  var limit = (callback) ? limitOrCallback : null,
+      options = {
+        'method': (limit !== null) ? 'PUT' : 'GET',
+        'path': this._name + '/_revs_limit'
+      };
+  callback = callback || limitOrCallback;
+
+  if (limit !== null) {
+    options.body = '' + limit;
+  }
+
+  options.callback = function(error, response) {
+    if (error) {
+      callback(error, null);
+    } else if (limit === null) {
+      callback(null, response);
+    } else {
+      callback(null, true);
+    }
+  };
+
+  this._connection.request(options);
+};
+
+
+/**
  * retrieving a show function
  *
  * @param {string} design name of the design document, after the '_design/',

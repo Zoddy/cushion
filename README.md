@@ -500,6 +500,28 @@ database api
 **callback** - function(error, started) that will be called, after cleanup was started or if there was an error
 
 
+### revision limit ###
+**Description** Sets or gets the revision limit for documents (default is 1000).
+
+    db.revisionLimit(callback);
+    db.revisionLimit(limit, callback);
+
+**limit** - number of the new limit  
+**callback** - function(error, limitOrSaved) that will be called after setting the limit (you will get a true as second parameter) or after getting the current limit or if there was an error
+
+**Example:**
+
+    // get the current limit
+    db.revisionLimit(function(error, limit) {
+      console.log(error || limit);
+    });
+    
+    // set the limit
+    db.revision(1500, function(error, saved) {
+      console.log(error || saved);
+    });
+
+
 document api
 ------------
 
