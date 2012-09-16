@@ -398,10 +398,10 @@ Database.prototype.temporaryView = function(
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} view name of the view
- * @param {object|function(error, info, array)} paramsOrCallback query
+ * @param {object|function(error, info, rows)} paramsOrCallback query
  *     parameters for the view, or function that will be call, after getting
  *     response from the view, or if there was an error
- * @param {?function(error, info, array)} callback function that will be
+ * @param {?function(error, info, rows)} callback function that will be
  *     called, after getting response from the view, or if there was an error
  */
 Database.prototype.view = function(design, view, paramsOrCallback, callback) {
@@ -416,8 +416,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
     'path': path + params,
     'callback': (function(error, response) {
       var info = null,
-          documents = null,
-          i;
+          rows = null;
 
       if (error === null) {
         info = {
@@ -425,10 +424,10 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
           'offset': response.offset
         };
 
-        documents = response.rows;
+        rows = response.rows;
       }
 
-      callback(error, info, documents);
+      callback(error, info, rows);
     }).bind(this)
   });
 };

@@ -412,13 +412,13 @@ database api
 **designDocument** - name of the design document after the "_design/"  
 **viewFunction** - name of the view function  
 **params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options  
-**callback** - callback function(error, info, result) for error and response handling
+**callback** - callback function(error, info, rows) for error and response handling
 
     db.view(
       'foo',
       'bar',
-      function(error, info, result) {
-        console.log(error, info, result);
+      function(error, info, rows) {
+        console.log(error, info, rows);
       }
     );
 
@@ -428,8 +428,8 @@ database api
       'foo',
       'bar',
       {'skip': 5, 'limit': 10},
-      function(error, info, result) {
-        console.log(error, info, result);
+      function(error, info, rows) {
+        console.log(error, info, rows);
       },
     );
 
@@ -445,6 +445,25 @@ database api
 **map** - map function as a string and not as a function  
 **reduce** - reduce function as a string and not as a function  
 **callback** - function(error, info, rows) that will be called, after getting the result or if there was an error
+
+**Example**
+
+    // only map function
+    db.temporaryView(
+      'function(doc) {emit(doc._id, doc);}',
+      function(error, info, rows) {
+        console.log(error, info, rows);
+      }
+    );
+    
+    // map function and params
+    db.temporaryView(
+      'function(doc) {emit(doc._id, doc);}',
+      {'skip': 1, 'limit': 1}
+      function(error, info, rows) {
+        console.log(error, info, rows);
+      }
+    );
 
 
 ### retrieving a list ###
