@@ -341,6 +341,59 @@ Database.prototype.show = function(
 
 
 /**
+ * requests a temporary view
+ *
+ * @param {string} map map function for the view as a string not as a function
+ * @param {string|function(error, info, rows)} reduceOrCallback reduce function
+ *     for the view as a string not as a function or function that will be
+ *     called after retrieving the view or if there was an error
+ * @param {?function(error, info, rows)} callback function that will be called,
+ *     after retrieving the view or if there was an error
+ */
+Database.prototype.temporaryView = function(
+  map,
+  reduceOrParamsOrCallback,
+  paramsOrCallback,
+  callback
+) {
+  var reduce = (typeof(reduceOrParamsOrCallback) === 'string') ?
+               reduceOrParamsOrCallback :
+               null,
+      params = (typeof(reduceOrParamsOrCallback) === 'object') ?
+               reduceOrParamsOrCallback :
+               paramsOrCallback,
+      body = {'map': map};
+  callback = callback || paramsOrCallback || reduceOrParamsOrCallback;
+  params = querystring.stringify(params, '&', '=');
+
+  if (reduce !== null) {
+    body.reduce = reduce;
+  }
+
+  this._connection.request({
+    'method': 'POST',
+    'path': this.name() + '/_temp_view' + ((params) ? '?' + params : ''),
+    'body': body,
+    'callback': function(error, response) {
+      var info = null,
+          rows = null;
+
+      if (error === null) {
+        info = {
+          'total': response.total_rows,
+          'offset': response.offset
+        };
+
+        rows = response.rows
+      }
+
+      callback(error, info, rows);
+    }
+  });
+};
+
+
+/**
  * requests a view
  *
  * @param {string} design name of the design document, after the '_design/'

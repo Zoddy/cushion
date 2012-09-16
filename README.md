@@ -434,6 +434,19 @@ database api
     );
 
 
+### retrieving a temporary view ###
+**Description** Retrieves a temporary view on the database.
+
+    db.temporaryView(map, callback);
+    db.temporaryView(map, reduce, callback);
+    db.temporaryView(map, params, callback);
+    db.temporaryView(map, reduce, params, callback);
+
+**map** - map function as a string and not as a function  
+**reduce** - reduce function as a string and not as a function  
+**callback** - function(error, info, rows) that will be called, after getting the result or if there was an error
+
+
 ### retrieving a list ###
 
     db.list(design, list, view, callback)

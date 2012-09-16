@@ -10,6 +10,9 @@
  * 6) start cleanup
  * 7) set revision limit
  * 8) get revision limit
+ * 9) request temporary view
+ * 10) request temporary view with query params
+ * 11) request temporary view with reduce function and query params
  */
 
 var expect = require('chai').expect,
@@ -70,5 +73,35 @@ exports.tests = [{
   'url': ['GET', config.database + '/_revs_limit'],
   'callback': function(error, limit) {
     expect(limit).to.be.a('number').and.to.be.equal(1500);
+  }
+}, {
+  'message': 'request temporary view with query params',
+  'callpath': 'database.temporaryView',
+  'arguments': ['function(doc) {emit(doc._id, doc);}'],
+  'url': ['POST', config.database + '/_temp_view'],
+  'callback': function(error, info, rows) {
+    expect(info).to.be.an('object').and.to.be.deep.equal({
+      'total': 0,
+      'offset': 0
+    });
+
+    expect(rows).to.be.an('array').and.to.be.empty;
+  }
+}, {
+  'message': 'request temporary view with reduce function',
+  'callpath': 'database.temporaryView',
+  'arguments': [
+    'function(doc) {emit(doc._id, doc);}',
+    'function(keys, values) {return sum(values);}',
+    {'skip': 1, 'reduce': false}
+  ],
+  'url': ['POST', config.database + '/_temp_view?skip=1&reduce=false'],
+  'callback': function(error, info, rows) {
+    expect(info).to.be.an('object').and.to.be.deep.equal({
+      'total': 0,
+      'offset': 0
+    });
+
+    expect(rows).to.be.an('array').and.to.be.empty;
   }
 }];
