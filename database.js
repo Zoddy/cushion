@@ -384,7 +384,7 @@ Database.prototype.temporaryView = function(
           'offset': response.offset
         };
 
-        rows = response.rows
+        rows = response.rows;
       }
 
       callback(error, info, rows);
