@@ -105,4 +105,20 @@ Design.prototype.view = function(name, map, reduce) {
   );
 };
 
+
+/**
+ * returns some infos about the design document and the views
+ *
+ * @param {function(error, info)} callback function that will be called, after
+ *     getting the infos or if there was an error
+ */
+Design.prototype.viewInfo = function(callback) {
+  this._connection.request({
+    'method': 'GET',
+    'path': this._database.name() + '/' + this._id + '/_info',
+    'callback': callback
+  });
+};
+
+
 exports.Design = Design;

@@ -689,6 +689,19 @@ design document api
 **content** - string representation of the show function
 
 
+### getting view info ###
+
+    design.viewInfo(callback)
+
+**callback** - function(error, info) that will be called, after getting the infos or if there was an error
+
+**Example:**
+
+    design.viewInfo(function(error, info) {
+      console.log(error || info);
+    });
+
+
 ### compaction ###
 
 	design.compact(callback)

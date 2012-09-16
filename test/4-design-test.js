@@ -3,7 +3,8 @@
 
 /**
  * 1) save design document
- * 2) starting compaction
+ * 2) get view info
+ * 3) starting compaction
  */
 
 var expect = require('chai').expect,
@@ -36,6 +37,13 @@ exports.tests = [{
   ],
   'callback': function(error, document) {
     expect(document).to.be.an('object').and.to.respondTo('view');
+  }
+}, {
+  'message': 'get view info',
+  'callpath': 'design.viewInfo',
+  'url': ['GET', config.database + '/_design/' + config.design + '/_info'],
+  'callback': function(error, info) {
+    expect(info).to.be.an('object').and.to.have.property('name', config.design);
   }
 }, {
   'message': 'starting compaction',
