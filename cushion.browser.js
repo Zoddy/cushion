@@ -25,35 +25,35 @@ require._core = {
 require.resolve = (function () {
     return function (x, cwd) {
         if (!cwd) cwd = '/';
-
+        
         if (require._core[x]) return x;
         var path = require.modules.path();
         cwd = path.resolve('/', cwd);
         var y = cwd || '/';
-
+        
         if (x.match(/^(?:\.\.?\/|\/)/)) {
             var m = loadAsFileSync(path.resolve(y, x))
                 || loadAsDirectorySync(path.resolve(y, x));
             if (m) return m;
         }
-
+        
         var n = loadNodeModulesSync(x, y);
         if (n) return n;
-
+        
         throw new Error("Cannot find module '" + x + "'");
-
+        
         function loadAsFileSync (x) {
             x = path.normalize(x);
             if (require.modules[x]) {
                 return x;
             }
-
+            
             for (var i = 0; i < require.extensions.length; i++) {
                 var ext = require.extensions[i];
                 if (require.modules[x + ext]) return x + ext;
             }
         }
-
+        
         function loadAsDirectorySync (x) {
             x = x.replace(/\/+$/, '');
             var pkgfile = path.normalize(x + '/package.json');
@@ -73,10 +73,10 @@ require.resolve = (function () {
                     if (m) return m;
                 }
             }
-
+            
             return loadAsFileSync(x + '/index');
         }
-
+        
         function loadNodeModulesSync (x, start) {
             var dirs = nodeModulesPathsSync(start);
             for (var i = 0; i < dirs.length; i++) {
@@ -86,23 +86,23 @@ require.resolve = (function () {
                 var n = loadAsDirectorySync(dir + '/' + x);
                 if (n) return n;
             }
-
+            
             var m = loadAsFileSync(x);
             if (m) return m;
         }
-
+        
         function nodeModulesPathsSync (start) {
             var parts;
             if (start === '/') parts = [ '' ];
             else parts = path.normalize(start).split('/');
-
+            
             var dirs = [];
             for (var i = parts.length - 1; i >= 0; i--) {
                 if (parts[i] === 'node_modules') continue;
                 var dir = parts.slice(0, i + 1).join('/') + '/node_modules';
                 dirs.push(dir);
             }
-
+            
             return dirs;
         }
     };
@@ -118,13 +118,13 @@ require.alias = function (from, to) {
         res = require.resolve(from, '/');
     }
     var basedir = path.dirname(res);
-
+    
     var keys = (Object.keys || function (obj) {
         var res = [];
         for (var key in obj) res.push(key);
         return res;
     })(require.modules);
-
+    
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
         if (key.slice(0, basedir.length + 1) === basedir + '/') {
@@ -139,17 +139,17 @@ require.alias = function (from, to) {
 
 (function () {
     var process = {};
-
+    
     require.define = function (filename, fn) {
         if (require.modules.__browserify_process) {
             process = require.modules.__browserify_process();
         }
-
+        
         var dirname = require._core[filename]
             ? ''
             : require.modules.path().dirname(filename)
         ;
-
+        
         var require_ = function (file) {
             var requiredModule = require(file, dirname);
             var cached = require.cache[require.resolve(file, dirname)];
@@ -173,7 +173,7 @@ require.alias = function (from, to) {
             loaded : false,
             parent: null
         };
-
+        
         require.modules[filename] = function () {
             require.cache[filename] = module_;
             fn.call(
@@ -282,7 +282,7 @@ path = normalizeArray(filter(path.split('/'), function(p) {
   if (path && trailingSlash) {
     path += '/';
   }
-
+  
   return (isAbsolute ? '/' : '') + path;
 };
 
@@ -869,7 +869,7 @@ http.request = function (params, cb) {
     if (!params) params = {};
     if (!params.host) params.host = window.location.host.split(':')[0];
     if (!params.port) params.port = window.location.port;
-
+    
     var req = new Request(new xhrHttp, params);
     if (cb) req.on('response', cb);
     return req;
@@ -1105,15 +1105,15 @@ var Request = module.exports = function (xhr, params) {
     var self = this;
     self.xhr = xhr;
     self.body = concatStream()
-
+    
     var uri = params.host + ':' + params.port + (params.path || '/');
-
+    
     xhr.open(
         params.method || 'GET',
         (params.scheme || 'http') + '://' + uri,
         true
     );
-
+    
     if (params.headers) {
         Object.keys(params.headers).forEach(function (key) {
             if (!self.isSafeRequestHeader(key)) return;
@@ -1126,12 +1126,12 @@ var Request = module.exports = function (xhr, params) {
             else xhr.setRequestHeader(key, value)
         });
     }
-
+    
     var res = new Response;
     res.on('ready', function () {
         self.emit('response', res);
     });
-
+    
     xhr.onreadystatechange = function () {
         res.handle(xhr);
     };
@@ -1212,11 +1212,11 @@ function parseHeaders (res) {
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (line === '') continue;
-
+        
         var m = line.match(/^([^:]+):\s*(.*)/);
         if (m) {
             var key = m[1].toLowerCase(), value = m[2];
-
+            
             if (headers[key] !== undefined) {
                 if ((Array.isArray && Array.isArray(headers[key]))
                 || headers[key] instanceof Array) {
@@ -1257,7 +1257,7 @@ Response.prototype.handle = function (res) {
         catch (err) {
             capable.status2 = false;
         }
-
+        
         if (capable.status2) {
             this.emit('ready');
         }
@@ -1271,7 +1271,7 @@ Response.prototype.handle = function (res) {
             }
         }
         catch (err) {}
-
+        
         try {
             this.write(res);
         }
@@ -1285,7 +1285,7 @@ Response.prototype.handle = function (res) {
             this.emit('ready');
         }
         this.write(res);
-
+        
         if (res.error) {
             this.emit('error', this.getResponse(res));
         }
@@ -2072,6 +2072,43 @@ Database.prototype.name = function() {
 
 
 /**
+ * sets or gets the document revision limit
+ * if you set two arguments (limit and callback) it will use as a setter
+ * only with one argument (callback) it's a getter
+ *
+ * @param {number|function(error, limit)} limitOrCallback positive integer as a
+ *     new setting for the revision limit or function that will be called, after
+ *     getting the revision limit or if there was an error
+ * @param {?function(error, saved)} callback function that will be called, after
+ *     setting the new revision limit or if there was an error
+ */
+Database.prototype.revisionLimit = function(limitOrCallback, callback) {
+  var limit = (callback) ? limitOrCallback : null,
+      options = {
+        'method': (limit !== null) ? 'PUT' : 'GET',
+        'path': this._name + '/_revs_limit'
+      };
+  callback = callback || limitOrCallback;
+
+  if (limit !== null) {
+    options.body = '' + limit;
+  }
+
+  options.callback = function(error, response) {
+    if (error) {
+      callback(error, null);
+    } else if (limit === null) {
+      callback(null, response);
+    } else {
+      callback(null, true);
+    }
+  };
+
+  this._connection.request(options);
+};
+
+
+/**
  * retrieving a show function
  *
  * @param {string} design name of the design document, after the '_design/',
@@ -2117,14 +2154,67 @@ Database.prototype.show = function(
 
 
 /**
+ * requests a temporary view
+ *
+ * @param {string} map map function for the view as a string not as a function
+ * @param {string|function(error, info, rows)} reduceOrCallback reduce function
+ *     for the view as a string not as a function or function that will be
+ *     called after retrieving the view or if there was an error
+ * @param {?function(error, info, rows)} callback function that will be called,
+ *     after retrieving the view or if there was an error
+ */
+Database.prototype.temporaryView = function(
+  map,
+  reduceOrParamsOrCallback,
+  paramsOrCallback,
+  callback
+) {
+  var reduce = (typeof(reduceOrParamsOrCallback) === 'string') ?
+               reduceOrParamsOrCallback :
+               null,
+      params = (typeof(reduceOrParamsOrCallback) === 'object') ?
+               reduceOrParamsOrCallback :
+               paramsOrCallback,
+      body = {'map': map};
+  callback = callback || paramsOrCallback || reduceOrParamsOrCallback;
+  params = querystring.stringify(params, '&', '=');
+
+  if (reduce !== null) {
+    body.reduce = reduce;
+  }
+
+  this._connection.request({
+    'method': 'POST',
+    'path': this.name() + '/_temp_view' + ((params) ? '?' + params : ''),
+    'body': body,
+    'callback': function(error, response) {
+      var info = null,
+          rows = null;
+
+      if (error === null) {
+        info = {
+          'total': response.total_rows,
+          'offset': response.offset
+        };
+
+        rows = response.rows
+      }
+
+      callback(error, info, rows);
+    }
+  });
+};
+
+
+/**
  * requests a view
  *
  * @param {string} design name of the design document, after the '_design/'
  * @param {string} view name of the view
- * @param {object|function(error, info, array)} paramsOrCallback query
+ * @param {object|function(error, info, rows)} paramsOrCallback query
  *     parameters for the view, or function that will be call, after getting
  *     response from the view, or if there was an error
- * @param {?function(error, info, array)} callback function that will be
+ * @param {?function(error, info, rows)} callback function that will be
  *     called, after getting response from the view, or if there was an error
  */
 Database.prototype.view = function(design, view, paramsOrCallback, callback) {
@@ -2139,8 +2229,7 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
     'path': path + params,
     'callback': (function(error, response) {
       var info = null,
-          documents = null,
-          i;
+          rows = null;
 
       if (error === null) {
         info = {
@@ -2148,10 +2237,10 @@ Database.prototype.view = function(design, view, paramsOrCallback, callback) {
           'offset': response.offset
         };
 
-        documents = response.rows;
+        rows = response.rows;
       }
 
-      callback(error, info, documents);
+      callback(error, info, rows);
     }).bind(this)
   });
 };
@@ -2220,7 +2309,7 @@ exports.parse = function(str){
   return String(str)
     .split('&')
     .reduce(function(ret, pair){
-      try{
+      try{ 
         pair = decodeURIComponent(pair.replace(/\+/g, ' '));
       } catch(e) {
         // ignore
@@ -2927,6 +3016,22 @@ Design.prototype.view = function(name, map, reduce) {
     (this._body.views) ? this._body.views[name] : undefined
   );
 };
+
+
+/**
+ * returns some infos about the design document and the views
+ *
+ * @param {function(error, info)} callback function that will be called, after
+ *     getting the infos or if there was an error
+ */
+Design.prototype.viewInfo = function(callback) {
+  this._connection.request({
+    'method': 'GET',
+    'path': this._database.name() + '/' + this._id + '/_info',
+    'callback': callback
+  });
+};
+
 
 exports.Design = Design;
 
@@ -3996,5 +4101,5 @@ cushion.prototype.version = function(callback) {
 exports.Connection = cushion;
 
 });
-window.cushion = require("/cushion.js");
+require("/cushion.js");
 })();
