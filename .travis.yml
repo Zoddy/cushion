@@ -3,6 +3,7 @@ node_js:
   - 0.6
   - 0.7
   - 0.8
+  - 0.9
 
 before_script:
   - curl -X PUT http://127.0.0.1:5984/foobar
