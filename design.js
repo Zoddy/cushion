@@ -54,6 +54,25 @@ Design.prototype.list = function(name, content) {
 
 
 /**
+ * get or set rewrites
+ * if you want to get the
+ *
+ * @param {?array.<object>} rewrites list ob rewrite objects
+ *     {string} from url source
+ *     {string} to url source
+ *     {?string} method http method
+ *     {?object} query url query params
+ */
+Design.prototype.rewrites = function(rewrites) {
+  if (rewrites) {
+    this.body('rewrites', rewrites);
+  }
+
+  return ((rewrites) ? this : (this.body().rewrites || []));
+};
+
+
+/**
  * get, create, update or delete a show function
  *
  * @param {string} name name of the show function

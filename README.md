@@ -411,7 +411,7 @@ database api
 
 **designDocument** - name of the design document after the "_design/"  
 **viewFunction** - name of the view function  
-**params** - additional query params, this are all the query parameters that are documented at the couchdb view api http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options  
+**params** - additional query params, this are all the query parameters that are documented at the [couchdb view api](http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options)  
 **callback** - callback function(error, info, rows) for error and response handling
 
     db.view(
@@ -687,6 +687,15 @@ design document api
 
 **name** - name of the show  
 **content** - string representation of the show function
+
+
+### getting or setting rewrites ###
+**Description** With this you can set rewrite rules or get the current list of them. If you set no argument, you will get the current list of rewrites. If you set one argument, you will set the new rewrite list.
+
+    design.rewrites()
+    design.rewrites(rewrites)
+
+**rewrites** - list (array.\<object\>) of rewrite rule objects. For further information look at the documentation [CouchDB Rewriting URLs](http://wiki.apache.org/couchdb/Rewriting_urls)
 
 
 ### getting view info ###
