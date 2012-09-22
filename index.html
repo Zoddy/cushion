@@ -442,13 +442,13 @@ db.allDocuments(params, callback);
 db.view(designDocument, viewFunction, params, callback)
 </code></pre>
 
-<p><strong>designDocument</strong> - name of the design document after the "_design/"<br><strong>viewFunction</strong> - name of the view function<br><strong>params</strong> - additional query params, this are all the query parameters that are documented at the couchdb view api <a href="http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options">http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options</a><br><strong>callback</strong> - callback function(error, info, result) for error and response handling</p>
+<p><strong>designDocument</strong> - name of the design document after the "_design/"<br><strong>viewFunction</strong> - name of the view function<br><strong>params</strong> - additional query params, this are all the query parameters that are documented at the <a href="http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options">couchdb view api</a><br><strong>callback</strong> - callback function(error, info, rows) for error and response handling</p>
 
 <pre><code>db.view(
   'foo',
   'bar',
-  function(error, info, result) {
-    console.log(error, info, result);
+  function(error, info, rows) {
+    console.log(error, info, rows);
   }
 );
 </code></pre>
@@ -459,9 +459,41 @@ db.view(designDocument, viewFunction, params, callback)
   'foo',
   'bar',
   {'skip': 5, 'limit': 10},
-  function(error, info, result) {
-    console.log(error, info, result);
+  function(error, info, rows) {
+    console.log(error, info, rows);
   },
+);
+</code></pre>
+
+<h3>retrieving a temporary view</h3>
+
+<p><strong>Description</strong> Retrieves a temporary view on the database.</p>
+
+<pre><code>db.temporaryView(map, callback);
+db.temporaryView(map, reduce, callback);
+db.temporaryView(map, params, callback);
+db.temporaryView(map, reduce, params, callback);
+</code></pre>
+
+<p><strong>map</strong> - map function as a string and not as a function<br><strong>reduce</strong> - reduce function as a string and not as a function<br><strong>callback</strong> - function(error, info, rows) that will be called, after getting the result or if there was an error</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>// only map function
+db.temporaryView(
+  'function(doc) {emit(doc._id, doc);}',
+  function(error, info, rows) {
+    console.log(error, info, rows);
+  }
+);
+
+// map function and params
+db.temporaryView(
+  'function(doc) {emit(doc._id, doc);}',
+  {'skip': 1, 'limit': 1}
+  function(error, info, rows) {
+    console.log(error, info, rows);
+  }
 );
 </code></pre>
 
@@ -524,6 +556,58 @@ db.show(design, show, documentId, params)
 </code></pre>
 
 <p><strong>callback</strong> - function(error, started) that will be called, after cleanup was started or if there was an error</p>
+
+<h3>revision limit</h3>
+
+<p><strong>Description</strong> Sets or gets the revision limit for documents (default is 1000).</p>
+
+<pre><code>db.revisionLimit(callback);
+db.revisionLimit(limit, callback);
+</code></pre>
+
+<p><strong>limit</strong> - number of the new limit<br><strong>callback</strong> - function(error, limitOrSaved) that will be called after setting the limit (you will get a true as second parameter) or after getting the current limit or if there was an error</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>// get the current limit
+db.revisionLimit(function(error, limit) {
+  console.log(error || limit);
+});
+
+// set the limit
+db.revision(1500, function(error, saved) {
+  console.log(error || saved);
+});
+</code></pre>
+
+<h3>purging</h3>
+
+<p><strong>Description:</strong> With this you can delete not only the document revision as itself, also the history will be removed. But be careful, purging can have bad side effects, so please look at the <a href="http://wiki.apache.org/couchdb/Purge_Documents">CouchDB Purge Documentation</a>. The second argument <code>purged</code> on the callback give you feedback, which document revision could be purged.</p>
+
+<pre><code>db.purge(documents, callback);
+</code></pre>
+
+<p><strong>documents</strong> - An object with keys that are the document id's and values that are arrays with revisions of the documents.
+<strong>callback</strong> - function(error, purged) that will be called, after calling the purge command on the couchdb or if there was an error</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>db.purge(
+  {'foo': ['34-a663dff69f1c48a25a431e05c31f9c05']},
+  function(error, purged) {
+    console.log(error || purged);
+  }
+);
+</code></pre>
+
+<h3>ensure full commit</h3>
+
+<p><strong>Description:</strong> Saves all uncommited stuff to the disk.</p>
+
+<pre><code>db.ensureFullCommit(callback);
+</code></pre>
+
+<p><strong>callback</strong> - function(error, success) that will be called, after successfully started the save operation, or if there was an error</p>
 
 <h2>document api</h2>
 
@@ -593,6 +677,16 @@ doc.copy(targetID, targetRevision, callback)
 
 <p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
 
+<h3>purging</h3>
+
+<p><strong>Description:</strong> Look for more details at the purge command on database context. In document context this command works as a shortcut. But there's a difference: The second argument at the callback is only a boolean, that says if the document was purged (true) or not (false).</p>
+
+<pre><code>doc.purge(callback);
+doc.purge(complete, callback);
+</code></pre>
+
+<p><strong>complete</strong> - if you set this to true, it will purge the complete document (it makes a purge on the head revision)<br><strong>callback</strong> - function(error, purged) callback that will be called, if the purge command was done, or if there was an error</p>
+
 <h2>attachment api</h2>
 
 <h3>save attachment</h3>
@@ -651,6 +745,51 @@ design.show(name, content)
 </code></pre>
 
 <p><strong>name</strong> - name of the show<br><strong>content</strong> - string representation of the show function</p>
+
+<h3>getting or setting validation handler</h3>
+
+<p><strong>Description:</strong> If you set no arguments, you will get the current validation handler, otherwise you will set it and get the design document. Look at the <a href="http://wiki.apache.org/couchdb/Document_Update_Validation">CouchDB Validation Doc Update Documentation</a>.</p>
+
+<pre><code>design.validateHandler();
+design.validateHandler(handler);
+</code></pre>
+
+<p><strong>handler</strong>  string representation of the validation function.</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>design.validateHandler(
+  'function(newDoc, oldDoc, userCtx, secObj) {' +
+    'if (newDoc.address === undefined) {' +
+      'throw({forbidden: "Document must have an address."});' +
+    '}' +
+  '}'
+);
+</code></pre>
+
+<h3>getting or setting rewrites</h3>
+
+<p><strong>Description</strong> With this you can set rewrite rules or get the current list of them. If you set no argument, you will get the current list of rewrites. If you set one argument, you will set the new rewrite list.</p>
+
+<pre><code>design.rewrites()
+design.rewrites(rewrites)
+</code></pre>
+
+<p><strong>rewrites</strong> - list (array.&lt;object&gt;) of rewrite rule objects. For further information look at the documentation <a href="http://wiki.apache.org/couchdb/Rewriting_urls">CouchDB Rewriting URLs</a></p>
+
+<h3>getting view info</h3>
+
+<pre><code>design.viewInfo(callback)
+</code></pre>
+
+<p><strong>callback</strong> - function(error, info) that will be called, after getting the infos or if there was an error</p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>design.viewInfo(function(error, info) {
+  console.log(error || info);
+});
+</code></pre>
 
 <h3>compaction</h3>
 
