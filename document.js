@@ -280,6 +280,59 @@ Document.prototype.load = function(callback) {
 
 
 /**
+ * purge this document
+ *
+ * @param {boolean|function(error, purged)} completeOrCallback set this to true,
+ *     if you want to purge the complete document (the head revision), or
+ *     function that will be called, after purging the document, or if there
+ *     was an error
+ * @param {?function(error, purged)} callback function that will be called,
+ *     after purging the document, or if there was an error
+ */
+Document.prototype.purge = function(completeOrCallback, callback) {
+  var complete = (typeof(completeOrCallback) === 'boolean') ?
+        completeOrCallback :
+        null,
+      document = {};
+  callback = callback || completeOrCallback;
+
+  if (this._id === null) {
+    process.nextTick(callback(
+      {'error': 'no_purge', 'reason': this._error.noId},
+      null
+    ));
+  } else if (this._revision === null && complete !== true) {
+    process.nextTick(callback(
+      {'error': 'no_purge', 'reason': this._error.noRevision},
+      null
+    ));
+  } else {
+    if (complete === true) {
+      // purge the complete document
+      this._database.document(this._id).info((function(error, info) {
+        if (error) {
+          process.nextTick(callback(error, false));
+        } else {
+          document[this._id] = [info.revision];
+
+          this._database.purge(document, (function(error, purged) {
+            callback(error, (error === null && purged[this._id]));
+          }).bind(this));
+        }
+      }).bind(this));
+    } else {
+      // purge the current revision
+      document[this._id] = [this._revision];
+
+      this._database.purge(document, (function(error, purged) {
+        callback(error, (error === null && purged[this._id]));
+      }).bind(this));
+    }
+  }
+};
+
+
+/**
  * get the revision of the document
  *
  * @return {string} revision of the document

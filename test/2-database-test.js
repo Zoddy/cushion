@@ -13,9 +13,11 @@
  * 9) request temporary view
  * 10) request temporary view with query params
  * 11) request temporary view with reduce function and query params
+ * 12) purging
  */
 
-var expect = require('chai').expect,
+var crypto = require('crypto'),
+    expect = require('chai').expect,
     config = require('./config.js');
 
 exports.tests = [{
@@ -103,5 +105,12 @@ exports.tests = [{
     });
 
     expect(rows).to.be.an('array').and.to.be.empty;
+  }
+}, {
+  'message': 'purging',
+  'callpath': 'database.purge',
+  'arguments': [{'foo': ['1-' + crypto.randomBytes(16).toString('hex')]}],
+  'callback': function(error, purged) {
+    expect(purged).to.be.an('object').and.to.be.empty;
   }
 }];

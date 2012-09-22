@@ -554,6 +554,24 @@ database api
     });
 
 
+### purging ###
+**Description:** With this you can delete not only the document revision as itself, also the history will be removed. But be careful, purging can have bad side effects, so please look at the [CouchDB Purge Documentation](http://wiki.apache.org/couchdb/Purge_Documents). The second argument `purged` on the callback give you feedback, which document revision could be purged.
+
+    db.purge(documents, callback);
+
+**documents** - An object with keys that are the document id's and values that are arrays with revisions of the documents.
+**callback** - function(error, purged) that will be called, after calling the purge command on the couchdb or if there was an error
+
+**Example:**
+
+    db.purge(
+	  {'foo': ['34-a663dff69f1c48a25a431e05c31f9c05']},
+	  function(error, purged) {
+	    console.log(error || purged);
+	  }
+    );
+
+
 document api
 ------------
 
@@ -621,6 +639,16 @@ document api
     doc.destroy(callback)
 
 **callback** - callback function(error, document) for error and response handling
+
+
+### purging ###
+**Description:** Look for more details at the purge command on database context. In document context this command works as a shortcut. But there's a difference: The second argument at the callback is only a boolean, that says if the document was purged (true) or not (false).
+
+    doc.purge(callback);
+    doc.purge(complete, callback);
+
+**complete** - if you set this to true, it will purge the complete document (it makes a purge on the head revision)  
+**callback** - function(error, purged) callback that will be called, if the purge command was done, or if there was an error
 
 
 attachment api

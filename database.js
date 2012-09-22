@@ -259,6 +259,26 @@ Database.prototype.name = function() {
 
 
 /**
+ * makes a purge operation
+ *
+ * @param {object} documents key-value-object with document-id's as keys and
+ *     an array with document revisions as value
+ * @param {function(error, purged)} callback function that will be called, after
+ *     successfully purging the document, or if there was an error
+ */
+Database.prototype.purge = function(documents, callback) {
+  this._connection.request({
+    'method': 'POST',
+    'path': this._name + '/_purge',
+    'body': documents,
+    'callback': function(error, response) {
+      callback(error, (error) ? null : response.purged);
+    }
+  });
+};
+
+
+/**
  * sets or gets the document revision limit
  * if you set two arguments (limit and callback) it will use as a setter
  * only with one argument (callback) it's a getter
