@@ -14,6 +14,7 @@
  * 10) request temporary view with query params
  * 11) request temporary view with reduce function and query params
  * 12) purging
+ * 13) ensure full commit
  */
 
 var crypto = require('crypto'),
@@ -112,5 +113,11 @@ exports.tests = [{
   'arguments': [{'foo': ['1-' + crypto.randomBytes(16).toString('hex')]}],
   'callback': function(error, purged) {
     expect(purged).to.be.an('object').and.to.be.empty;
+  }
+}, {
+  'message': 'ensure full commit',
+  'callpath': 'database.ensureFullCommit',
+  'callback': function(error, success) {
+    expect(success).to.be.true;
   }
 }];

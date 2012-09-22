@@ -572,6 +572,14 @@ database api
     );
 
 
+### ensure full commit ###
+**Description:** Saves all uncommited stuff to the disk.
+
+    db.ensureFullCommit(callback);
+
+**callback** - function(error, success) that will be called, after successfully started the save operation, or if there was an error
+
+
 document api
 ------------
 

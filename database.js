@@ -162,6 +162,23 @@ Database.prototype.document = function(docId, revision) {
 
 
 /**
+ * saves all uncommited stuff to the disk
+ *
+ * @param {function(error, success)} callback function that will be called,
+ *     after successfully started the save operation, or if there was an error
+ */
+Database.prototype.ensureFullCommit = function(callback) {
+  this._connection.request({
+    'method': 'POST',
+    'path': this._name + '/_ensure_full_commit',
+    'callback': function(error, response) {
+      callback(error, (error === null && response.ok === true));
+    }
+  });
+};
+
+
+/**
  * check if database exists
  *
  * @param {function(error, exists)} callback function that will be called, after
