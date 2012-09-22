@@ -105,7 +105,7 @@ Design.prototype.show = function(name, content) {
  *     handler
  */
 Design.prototype.validateHandler = function(handler) {
-  if (handler) {
+  if (arguments.length > 0) {
     this.body('validate_doc_update', handler);
 
     return this;
