@@ -4,7 +4,9 @@
 /**
  * 1) save design document
  * 2) get view info
- * 3) starting compaction
+ * 3) create rewrite
+ * 4) get rewrite list
+ * 5) starting compaction
  */
 
 var expect = require('chai').expect,
@@ -44,6 +46,26 @@ exports.tests = [{
   'url': ['GET', config.database + '/_design/' + config.design + '/_info'],
   'callback': function(error, info) {
     expect(info).to.be.an('object').and.to.have.property('name', config.design);
+  }
+}, {
+  'message': 'create rewrite',
+  'callpath': 'design.rewrites',
+  'arguments': [[{'from': '/foo/bar', 'to': '/bar/foo'}]],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property(
+      '_id',
+      '_design/' + config.design
+    );
+  }
+}, {
+  'message': 'get rewrite list',
+  'callpath': 'design.rewrites',
+  'return': function(result) {
+    expect(result).to.be.an('array').and.to.have.length(1);
+    expect(result).to.be.deep.equal([{
+      'from': '/foo/bar',
+      'to': '/bar/foo'
+    }]);
   }
 }, {
   'message': 'starting compaction',
