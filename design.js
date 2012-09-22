@@ -95,6 +95,27 @@ Design.prototype.show = function(name, content) {
 
 
 /**
+ * sets or get the validate doc update handler
+ * if you set the handler argument, you will set the handler, otherwise you will
+ * get the source
+ *
+ * @param {?string} handler validate doc update function as string
+ * @return {cushion.Design|string} if you set the handler, you will get the
+ *     design document, otherwise the string representation of the validation
+ *     handler
+ */
+Design.prototype.validateHandler = function(handler) {
+  if (handler) {
+    this.body('validate_doc_update', handler);
+
+    return this;
+  }
+
+  return this.body('validate_doc_update');
+};
+
+
+/**
  * get, create, update or delete a view
  *
  * @param {string} name name of the view

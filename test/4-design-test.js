@@ -4,9 +4,11 @@
 /**
  * 1) save design document
  * 2) get view info
- * 3) create rewrite
- * 4) get rewrite list
- * 5) starting compaction
+ * 3) set validation handler
+ * 4) get validation handler
+ * 5) create rewrite
+ * 6) get rewrite list
+ * 7) starting compaction
  */
 
 var expect = require('chai').expect,
@@ -46,6 +48,19 @@ exports.tests = [{
   'url': ['GET', config.database + '/_design/' + config.design + '/_info'],
   'callback': function(error, info) {
     expect(info).to.be.an('object').and.to.have.property('name', config.design);
+  }
+}, {
+  'message': 'set validation handler',
+  'callpath': 'design.validateHandler',
+  'arguments': ['function() {}'],
+  'return': function(result) {
+    expect(result).to.be.an('object').and.to.have.property('_body');
+  }
+}, {
+  'message': 'get validation handler',
+  'callpath': 'design.validateHandler',
+  'return': function(result) {
+    expect(result).to.be.an('string').and.to.be.equal('function() {}');
   }
 }, {
   'message': 'create rewrite',

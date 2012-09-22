@@ -725,6 +725,25 @@ design document api
 **content** - string representation of the show function
 
 
+### getting or setting validation handler
+**Description:** If you set no arguments, you will get the current validation handler, otherwise you will set it and get the design document. Look at the [CouchDB Validation Doc Update Documentation](http://wiki.apache.org/couchdb/Document_Update_Validation).
+
+    design.validateHandler();
+    design.validateHandler(handler);
+
+**handler**  string representation of the validation function.
+
+**Example:**
+
+    design.validateHandler(
+      'function(newDoc, oldDoc, userCtx, secObj) {' +
+        'if (newDoc.address === undefined) {' +
+          'throw({forbidden: "Document must have an address."});' +
+        '}' +
+      '}'
+    );
+
+
 ### getting or setting rewrites ###
 **Description** With this you can set rewrite rules or get the current list of them. If you set no argument, you will get the current list of rewrites. If you set one argument, you will set the new rewrite list.
 
