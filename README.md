@@ -559,7 +559,7 @@ database api
 
     db.purge(documents, callback);
 
-**documents** - An object with keys that are the document id's and values that are arrays with revisions of the documents.
+**documents** - An object with keys that are the document id's and values that are arrays with revisions of the documents.  
 **callback** - function(error, purged) that will be called, after calling the purge command on the couchdb or if there was an error
 
 **Example:**
