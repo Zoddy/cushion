@@ -442,7 +442,8 @@ cushion.prototype.uuids = function(countOrCallback, callback) {
 /**
  * gets the version of the couchdb
  *
- * @param {Function(version)} callback function that will be called after
+ * @param {function(error, version)} callback function that will be called after
+ *     getting the version, of if there was an error
  */
 cushion.prototype.version = function(callback) {
   this.request({
