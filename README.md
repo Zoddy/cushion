@@ -407,7 +407,7 @@ database api
     });
     
     // get all documents with parameters
-    var params = { limit: '3', starkey: '"_design/entries"' };
+    var params = { limit: '3', starkey: '_design/entries' };
     
     db.allDocuments(params, function(error, info, allDocs) {
       console.log(error || allDocs);
