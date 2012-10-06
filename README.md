@@ -211,7 +211,7 @@ user api
 **Example**
 
 	// create a new user
-	var user = cushion.user();
+	var user = cushion.user
 
 	user.create('fooUser', 'fooPassword', function(error, created) {
 	  console.log(error || created);
@@ -396,12 +396,20 @@ database api
 	db.allDocuments(callback)
     db.allDocuments(params, callback);
 
-**params** - query parameter (see description) or callback function(error, response) for error and response handling  
+**params** - query parameter object (see description) or callback function(error, response) for error and response handling  
 **callback** - callback function(error, response) for error and response handling
 
 **Example:**
 
+	// get all documents without parameters
     db.allDocuments(function(error, info, allDocs) {
+      console.log(error || allDocs);
+    });
+    
+    // get all documents with parameters
+    var params = { limit: '3', starkey: '"_design/entries"' };
+    
+    db.allDocuments(params, function(error, info, allDocs) {
       console.log(error || allDocs);
     });
 
