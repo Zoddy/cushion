@@ -242,6 +242,8 @@ user.create(name, password, roles, callback);
 <p><strong>Example</strong></p>
 
 <pre><code>// create a new user
+var user = cushion.user();
+
 user.create('fooUser', 'fooPassword', function(error, created) {
   console.log(error || created);
 });
@@ -427,11 +429,19 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 db.allDocuments(params, callback);
 </code></pre>
 
-<p><strong>params</strong> - query parameter (see description) or callback function(error, response) for error and response handling<br><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+<p><strong>params</strong> - query parameter object (see description) or callback function(error, response) for error and response handling<br><strong>callback</strong> - callback function(error, response) for error and response handling</p>
 
 <p><strong>Example:</strong></p>
 
-<pre><code>db.allDocuments(function(error, info, allDocs) {
+<pre><code>// get all documents without parameters
+db.allDocuments(function(error, info, allDocs) {
+  console.log(error || allDocs);
+});
+
+// get all documents with parameters
+var params = { limit: '3', starkey: '_design/entries' };
+
+db.allDocuments(params, function(error, info, allDocs) {
   console.log(error || allDocs);
 });
 </code></pre>
@@ -587,8 +597,7 @@ db.revision(1500, function(error, saved) {
 <pre><code>db.purge(documents, callback);
 </code></pre>
 
-<p><strong>documents</strong> - An object with keys that are the document id's and values that are arrays with revisions of the documents.
-<strong>callback</strong> - function(error, purged) that will be called, after calling the purge command on the couchdb or if there was an error</p>
+<p><strong>documents</strong> - An object with keys that are the document id's and values that are arrays with revisions of the documents.<br><strong>callback</strong> - function(error, purged) that will be called, after calling the purge command on the couchdb or if there was an error</p>
 
 <p><strong>Example:</strong></p>
 
