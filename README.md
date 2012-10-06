@@ -211,7 +211,7 @@ user api
 **Example**
 
 	// create a new user
-	var user = cushion.user
+	var user = cushion.user();
 
 	user.create('fooUser', 'fooPassword', function(error, created) {
 	  console.log(error || created);
