@@ -445,7 +445,7 @@ database api
 
 
 ### retrieving a temporary view ###
-**Description** Retrieves a temporary view on the database.
+**Description:** Retrieves a temporary view on the database.
 
     db.temporaryView(map, callback);
     db.temporaryView(map, reduce, callback);
