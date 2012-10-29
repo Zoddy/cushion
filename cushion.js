@@ -281,6 +281,8 @@ cushion.prototype._request = function(callback, response) {
   });
 
   response.on('end', (function() {
+    var validJson = false;
+
     try {
       if (
         response.headers['content-type'] === 'application/json' &&
@@ -289,6 +291,12 @@ cushion.prototype._request = function(callback, response) {
         content = JSON.parse(content);
       }
 
+      validJson = true;
+    } catch(error) {
+      callback(error, null, null);
+    }
+
+    if (validJson === true) {
       if (response.statusCode === 404 && content.length === 0) {
         content = {
           'error': 'not_found',
@@ -301,8 +309,6 @@ cushion.prototype._request = function(callback, response) {
         (!content.error) ? content : null,
         response.headers || null
       );
-    } catch(error) {
-      callback(error, null, null);
     }
   }).bind(this));
 };
