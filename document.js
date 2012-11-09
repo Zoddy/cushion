@@ -1,5 +1,4 @@
-// jshint settings
-/*global require: false, exports: false, process: false */
+'use strict';
 
 var fs = require('fs');
 
@@ -441,10 +440,8 @@ Document.prototype._saveContent = function(body) {
   this._body = {};
 
   for (key in body) {
-    if (key[0] === '_') {
-      if (key === '_rev') {
-        this._revision = body[key];
-      }
+    if (key === '_rev') {
+      this._revision = body[key];
     } else {
       this._body[key] = body[key];
     }

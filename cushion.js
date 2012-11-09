@@ -1,5 +1,4 @@
-// jshint settings
-/*global require: false, exports: false */
+'use strict';
 
 var http = require('http'),
     defaultOptions = require('./config.js'),
@@ -144,7 +143,7 @@ cushion.prototype.createAdmin = function(name, password, callback) {
       document.body('name', name);
       document.body('type', 'user');
       document.body('roles', []);
-      document.save(function(error, document) {
+      document.save(function(error) {
         if (error) {
           callback(error, null);
         } else {
@@ -229,7 +228,7 @@ cushion.prototype.listDatabases = function(noCouchRelatedOrCallback, callback) {
       if (error === null && response !== null) {
         // filter couch related databases, if user want's so
         if (noCouchRelated === true) {
-          response = response.filter(function(dbName, index, list) {
+          response = response.filter(function(dbName) {
             return (dbName[0] !== '_');
           });
         }
@@ -280,8 +279,8 @@ cushion.prototype.log = function(bytesOrCallback, callback) {
  *     value of option or undefined, if option does not exist
  */
 cushion.prototype.option = function(option, value) {
-  var option = (arguments.length > 0) ? option : null,
-      response;
+  var response;
+  option = (arguments.length > 0) ? option : null;
 
   if (option) {
     if (value && this._options[option]) {
