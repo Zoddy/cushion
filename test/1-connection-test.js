@@ -3,37 +3,71 @@
 
 /**
  * Connection tests
- *
- *  1) get version
- *  2) list of active tasks
- *  3) get complete config
- *  4) get config section
- *  5) get config option
- *  6) set config option to new value
- *  7) delete config option
- *  8) create admin
- *  9) delete admin
- * 10) create user
- * 11) add role to user
- * 12) adding two roles to user
- * 13) getting list of roles
- * 14) delete role from user
- * 15) delete two roles from user
- * 16) change password of user
- * 17) delete user
- * 18) generate uuid
- * 19) generate three uuids
- * 20) get statistics
- * 21) get log
- * 22) get log with specific length of 500
- * 23) get list of databases
- * 24) get list of databases without couchdb related
+ *  1) get options
+ *  2) get option
+ *  3) set option
+ *  4) set illegal option
+ *  5) get version
+ *  6) list of active tasks
+ *  7) get complete config
+ *  8) get config section
+ *  9) get config option
+ * 10) set config option to new value
+ * 11) delete config option
+ * 12) create admin
+ * 13) delete admin
+ * 14) create user
+ * 15) add role to user
+ * 16) adding two roles to user
+ * 17) getting list of roles
+ * 18) delete role from user
+ * 19) delete two roles from user
+ * 20) change password of user
+ * 21) delete user
+ * 22) generate uuid
+ * 23) generate three uuids
+ * 24) get statistics
+ * 25) get log
+ * 26) get log with specific length of 500
+ * 27) get list of databases
+ * 28) get list of databases without couchdb related
  */
 
 var expect = require('chai').expect,
     config = require('./config.js');
 
 exports.tests = [{
+  'message': 'get options',
+  'callpath': 'connection.option',
+  'return': function(result) {
+    expect(result).to.be.an('object');
+    expect(result.host).to.be.a('string').and.to.be.equal(config.host);
+    expect(result.port).to.be.a('number').and.to.be.equal(config.port);
+    expect(result.username).to.be.a('string').and.to.be.equal(config.username);
+    expect(result.password).to.be.a('string').and.to.be.equal(config.password);
+  }
+}, {
+  'message': 'get option',
+  'callpath': 'connection.option',
+  'arguments': ['host'],
+  'return': function(result) {
+    expect(result).to.be.a('string').and.to.be.equal(config.host);
+  }
+}, {
+  'message': 'set option',
+  'callpath': 'connection.option',
+  'arguments': ['host', '0.0.0.0'],
+  'return': function(result) {
+    expect(result).to.be.a('string').and.to.be.equal('0.0.0.0');
+  }
+}, {
+  'message': 'set illegal option',
+  'callpath': 'connection.option',
+  'arguments': ['illegal_option', 'illegal_option_value'],
+  'return': function(result) {
+    expect(result).to.be.undefined;
+  }
+}, {
   'message': 'get version',
   'callpath': 'connection.version',
   'url': ['GET', ''],
