@@ -72,6 +72,26 @@ cushion.Connection(host, port, username, password, additional);
               );
 </code></pre>
 
+<h3>get or set option</h3>
+
+<p><strong>Description:</strong> Get or set options.If you set:</p>
+
+<ul>
+<li>no param: you will get all options</li>
+<li>one param: you will get one particular option</li>
+<li>two params: you will set one particular option</li>
+</ul><pre><code>cushion.option()
+cushion.option(option)
+cuhsion.option(option, value)
+</code></pre>
+
+<p><strong>option</strong> - name of an option<br><strong>value</strong> - value of an option  </p>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>var host = cushion.option('host');
+</code></pre>
+
 <h3>get a list of databases</h3>
 
 <p><strong>Description:</strong> Get an array of database objects.</p>
@@ -127,7 +147,7 @@ cushion.config(section, option, callback)
 cushion.config(section, option, value, callback)
 </code></pre>
 
-<p><strong>section</strong> - name of a section (a group of options)<br><strong>option</strong> - name of an option<br><strong>value</strong> - new value for the option: if you set value to null, given option will be deleted<br><strong>callback</strong> - function(error, section<strong>|</strong>option<strong>|</strong>saved) that will be called after getting the informations, or if new value was saved, or if there was an error</p>
+<p><strong>section</strong> - name of a section (a group of options)<br><strong>option</strong> - name of an option<br><strong>value</strong> - new value for the option: if you set value to null, given option will be deleted<br><strong>callback</strong> - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error</p>
 
 <h3>create admin account</h3>
 
@@ -477,7 +497,7 @@ db.view(designDocument, viewFunction, params, callback)
 
 <h3>retrieving a temporary view</h3>
 
-<p><strong>Description</strong> Retrieves a temporary view on the database.</p>
+<p><strong>Description:</strong> Retrieves a temporary view on the database.</p>
 
 <pre><code>db.temporaryView(map, callback);
 db.temporaryView(map, reduce, callback);
