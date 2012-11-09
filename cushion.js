@@ -275,10 +275,9 @@ cushion.prototype.log = function(bytesOrCallback, callback) {
  *   two params: you will set one particular option
  *
  * @param  {?string} option name of option
- * @param  {?string} value  value of option
- *
- * @return {object|string|undefined} object representing all options or value of
- *     option or undefined, if option does not exist
+ * @param  {?string|number} value  value of option
+ * @return {object|string|number|undefined} object representing all options or
+ *     value of option or undefined, if option does not exist
  */
 cushion.prototype.option = function(option, value) {
   var option = (arguments.length > 0) ? option : null,
