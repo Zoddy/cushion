@@ -268,6 +268,37 @@ cushion.prototype.log = function(bytesOrCallback, callback) {
 
 
 /**
+ * set or get connection options
+ * if you set:
+ *   no param: you will get all options
+ *   one params: you will get one particular option
+ *   two params: you will set one particular option
+ *
+ * @param  {?string} option name of option
+ * @param  {?string} value  value of option
+ *
+ * @return {object|string|undefined} object representing all options or value of
+ *     option or undefined, if option does not exist
+ */
+cushion.prototype.option = function(option, value) {
+  var option = (arguments.length > 0) ? option : null,
+      response;
+
+  if (option) {
+    if (value && this._options[option]) {
+      this._options[option] = value;
+    }
+
+    response = this._options[option];
+  } else {
+    response = this._options;
+  }
+
+  return response;
+};
+
+
+/**
  * wrapper function for any request to the couchdb
  *
  * @param {Function} callback function that will be called after all data events
@@ -463,22 +494,6 @@ cushion.prototype.version = function(callback) {
       callback(error, response);
     }
   });
-};
-
-
-/**
- * gets the set option of connection
- *
- * @param  {string|function(option)} optionOrCallback string representing
- *     the particular option or function that will be called with option
- * @param  {?function} callback function that will be called with option
- */
-cushion.prototype.option = function(optionOrCallback, callback) {
-  var option = (arguments.length > 1) ? optionOrCallback : null,
-      response = (option) ? this._options[option] : this._options;
-  callback = callback || optionOrCallback;
-
-  callback(response);
 };
 
 exports.Connection = cushion;
