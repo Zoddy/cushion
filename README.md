@@ -36,6 +36,26 @@ connection api
                     'bar' // password
                   );
 
+### get or set option ###
+
+**Description:** Get or set options.If you set:
+
+* no param: you will get all options
+* one param: you will get one particular option
+* two params: you will set one particular option
+
+```
+cushion.option()
+cushion.option(option)
+cuhsion.option(option, value)
+```
+
+**option** - name of an option  
+**value** - value of an option  
+
+**Example:**
+
+	var host = cushion.option('host');
 
 ### get a list of databases ###
 
