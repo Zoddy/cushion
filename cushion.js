@@ -466,4 +466,19 @@ cushion.prototype.version = function(callback) {
 };
 
 
+/**
+ * gets the set option of connection
+ *
+ * @param  {string|function(option)} optionOrCallback string representing
+ *     the particular option or function that will be called with option
+ * @param  {?function} callback function that will be called with option
+ */
+cushion.prototype.option = function(optionOrCallback, callback) {
+  var option = (arguments.length > 1) ? optionOrCallback : null,
+      response = (option) ? this._options[option] : this._options;
+  callback = callback || optionOrCallback;
+
+  callback(response);
+};
+
 exports.Connection = cushion;
