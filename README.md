@@ -659,7 +659,7 @@ document api
 
 	doc.info(callback)
 	
-**callback** - callback function that will called, after retrieving information, or if there was an error
+**callback** - callback function(error, info) that will called, after retrieving information, or if there was an error
 
 
 ### copy document ###
