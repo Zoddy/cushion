@@ -1,5 +1,4 @@
-// jshint settings
-/*global require: false, exports: false */
+'use strict';
 
 var querystring = require('querystring'),
     Document = require('./document.js').Document,
@@ -188,7 +187,7 @@ Database.prototype.exists = function(callback) {
   this._connection.request({
     'method': 'GET',
     'path': this._name,
-    'callback': function(error, response) {
+    'callback': function(error) {
       var exists = true;
 
       if (error && error.error === 'not_found') {

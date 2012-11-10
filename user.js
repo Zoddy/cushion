@@ -1,5 +1,4 @@
-// jshint settings
-/*global require: false, exports: false */
+'use strict';
 
 var crypto = require('crypto');
 
@@ -32,7 +31,7 @@ user.prototype.addRole = function(name, role, callback) {
     document.body(
       'roles',
       document.body('roles').concat(roles)
-    ).save(function(error, document) {
+    ).save(function(error) {
       callback(error, (error) ? null : true);
     });
   });
@@ -57,8 +56,8 @@ user.prototype.create = function(
   callback
 ) {
   var roles = (typeof(rolesOrCallback) === 'object') ? rolesOrCallback : [],
-      callback = callback || rolesOrCallback,
       salt;
+  callback = callback || rolesOrCallback;
 
   // first we have to check the couchdb version
   // because with couchdb <1.2.0 we have to create the salt and password hash
@@ -81,7 +80,7 @@ user.prototype.create = function(
           'roles': roles,
           'password_sha': password,
           'salt': salt
-        }).save(function(error, document) {
+        }).save(function(error) {
           callback(error, (error) ? null : true);
         });
       } else {
@@ -92,7 +91,7 @@ user.prototype.create = function(
           'type': 'user',
           'roles': roles,
           'password': password
-        }).save(function(error, document) {
+        }).save(function(error) {
           callback(error, (error) ? null : true);
         });
       }
@@ -113,11 +112,11 @@ user.prototype.delete = function(name, callback) {
         'org.couchdb.user:' + name
       );
 
-  document.info(function(error, info) {
+  document.info(function(error) {
     if (error) {
       callback(error, null);
     } else {
-      document.destroy(function(error, document) {
+      document.destroy(function(error) {
         callback(error, (error) ? null : true);
       });
     }
@@ -144,12 +143,12 @@ user.prototype.deleteRole = function(name, role, callback) {
     } else {
       document.body(
         'roles',
-        document.body('roles').filter(function(role, index, roles) {
-          return deleteRoles.some(function(deleteRole, index, allDeleteRoles) {
+        document.body('roles').filter(function(role) {
+          return deleteRoles.some(function(deleteRole) {
             return (deleteRole === role);
           });
         })
-      ).save(function(error, document) {
+      ).save(function(error) {
         callback(error, (error) ? null : true);
       });
     }
@@ -208,7 +207,7 @@ user.prototype._lower120 = function(callback) {
     if (error) {
       callback(error, null);
     } else {
-      version = version.split('.').map(function(part, index, complete) {
+      version = version.split('.').map(function(part) {
         return parseInt(part, 10);
       });
 
@@ -250,7 +249,7 @@ user.prototype.password = function(name, password, callback) {
                 .body('password', password);
             }
 
-            document.save(function(error, document) {
+            document.save(function(error) {
               callback(error, (error) ? null : true);
             });
           }
