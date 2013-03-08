@@ -144,8 +144,8 @@ user.prototype.deleteRole = function(name, role, callback) {
       document.body(
         'roles',
         document.body('roles').filter(function(role) {
-          return deleteRoles.some(function(deleteRole) {
-            return (deleteRole !== role);
+          return !deleteRoles.some(function(deleteRole) {
+            return (deleteRole === role);
           });
         })
       ).save(function(error) {
