@@ -626,9 +626,10 @@ document api
 
 **callback** - callback function(error, document) for error and response handling
 
-### set content ###
-**Description:** If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.
+### get / set content ###
+**Description:** If you call `body` without arguments, you will retrieve the whole document content. If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.
 
+	doc.body()
 	doc.body(obj)
 	doc.body(obj, content)
 	doc.body(parent, child, content)
@@ -639,11 +640,12 @@ document api
 
 ####Some examples:####
 
-	doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; '456' = 123;
+	doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; 456 = '123';
 	doc.body('foo', 'bar'); // foo = 'bar';
 	doc.body('foo'); // -> 'bar'
 	doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
 	doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
+	doc.body(); // foo.bar.baz = 'foobar'; 456 = '123';
 
 
 ### save document ###
