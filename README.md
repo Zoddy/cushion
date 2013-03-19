@@ -474,6 +474,7 @@ database api
 
 **map** - map function as a string and not as a function  
 **reduce** - reduce function as a string and not as a function  
+**params** - additional query params, this are all the query parameters that are documented at the [couchdb view api](http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options)  
 **callback** - function(error, info, rows) that will be called, after getting the result or if there was an error
 
 **Example**
