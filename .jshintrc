@@ -7,7 +7,6 @@
   "debug": false, // not using debugger for production code
   "eqeqeq": true, // always use === and !== and not == and !=
   "eqnull": false, // always check to null with == and not ===
-  "es5": true, // ecmascript 5 compatibility
   "esnext": false, // not use ES.next features like "const"
   "evil": false, // never user eval (because it's evil)
   "forin": true, // for in loops have to filter for Object.hasOwnProperty
