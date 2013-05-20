@@ -783,7 +783,7 @@ design document api
     design.rewrites()
     design.rewrites(rewrites)
 
-**rewrites** - list (array.\<object\>) of rewrite rule objects. For further information look at the documentation [CouchDB Rewriting URLs](http://wiki.apache.org/couchdb/Rewriting_urls)
+**rewrites** - Array of rewrite rule objects. For further information look at the documentation [CouchDB Rewriting URLs](http://wiki.apache.org/couchdb/Rewriting_urls)
 
 
 ### getting view info ###
