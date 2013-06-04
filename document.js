@@ -365,6 +365,7 @@ Document.prototype.save = function(callback) {
       if (error === null) {
         this._id = response.id;
         this._revision = response.rev;
+        this._body._id = response.id;
       }
 
       callback(error, this);
