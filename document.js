@@ -343,7 +343,7 @@ Document.prototype.revision = function() {
 
 /**
  * saves content at the document
- * try to creates a new document, if there's no revision
+ * tries to create a new document, if there's no revision
  * if you want to save an existing document, you have to .load() it before, so
  * the revision id will be saved here
  *
