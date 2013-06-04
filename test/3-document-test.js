@@ -40,7 +40,8 @@ exports.tests = [{
   'url': ['PUT', config.database + '/' + config.document, {}],
   'callback': function(error, document) {
     expect(document).to.be.an('object').and.to.have.property('_id');
-    expect(document._body).to.be.an('object').and.to.have.property('_id');
+    expect(document._body).to.be.an('object').and.to.not.have.property('_id');
+    expect(document._body).to.be.an('object').and.to.not.have.property('_rev');
   },
 }, {
   'message': 'load document',
