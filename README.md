@@ -1,6 +1,6 @@
 ![cushion logo](https://github.com/downloads/Zoddy/cushion/cushion-page-logo.png)
 
-cushion [![Build Status](https://secure.travis-ci.org/Zoddy/cushion.png?branch=master)](http://travis-ci.org/Zoddy/cushion)
+cushion [![Build Status](https://secure.travis-ci.org/Zoddy/cushion.png?branch=master)](http://travis-ci.org/Zoddy/cushion) [![NPM version](https://badge.fury.io/js/cushion.png)](http://badge.fury.io/js/cushion)
 =========
 
 Node.js CouchDB API
@@ -474,6 +474,7 @@ database api
 
 **map** - map function as a string and not as a function  
 **reduce** - reduce function as a string and not as a function  
+**params** - additional query params, this are all the query parameters that are documented at the [couchdb view api](http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options)  
 **callback** - function(error, info, rows) that will be called, after getting the result or if there was an error
 
 **Example**
@@ -626,9 +627,10 @@ document api
 
 **callback** - callback function(error, document) for error and response handling
 
-### set content ###
-**Description:** If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.
+### get / set content ###
+**Description:** If you call `body` without arguments, you will retrieve the whole document content. If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.
 
+	doc.body()
 	doc.body(obj)
 	doc.body(obj, content)
 	doc.body(parent, child, content)
@@ -639,11 +641,12 @@ document api
 
 ####Some examples:####
 
-	doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; '456' = 123;
+	doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; 456 = '123';
 	doc.body('foo', 'bar'); // foo = 'bar';
 	doc.body('foo'); // -> 'bar'
 	doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
 	doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
+	doc.body(); // foo.bar.baz = 'foobar'; 456 = '123';
 
 
 ### save document ###
@@ -780,7 +783,7 @@ design document api
     design.rewrites()
     design.rewrites(rewrites)
 
-**rewrites** - list (array.\<object\>) of rewrite rule objects. For further information look at the documentation [CouchDB Rewriting URLs](http://wiki.apache.org/couchdb/Rewriting_urls)
+**rewrites** - Array of rewrite rule objects. For further information look at the documentation [CouchDB Rewriting URLs](http://wiki.apache.org/couchdb/Rewriting_urls)
 
 
 ### getting view info ###

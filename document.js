@@ -343,7 +343,7 @@ Document.prototype.revision = function() {
 
 /**
  * saves content at the document
- * try to creates a new document, if there's no revision
+ * tries to create a new document, if there's no revision
  * if you want to save an existing document, you have to .load() it before, so
  * the revision id will be saved here
  *
@@ -442,6 +442,8 @@ Document.prototype._saveContent = function(body) {
   for (key in body) {
     if (key === '_rev') {
       this._revision = body[key];
+    } else if (key === '_id') {
+      this._id = body[key];
     } else {
       this._body[key] = body[key];
     }
