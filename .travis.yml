@@ -12,3 +12,6 @@ services:
 before_script:
   - curl -X PUT http://127.0.0.1:5984/foobar
   - curl -X PUT http://127.0.0.1:5984/_config/admins/zoddy --data '"zoddy"'
+
+notifications:
+  webhooks: http://limitless-badlands-1553.herokuapp.com/builds
