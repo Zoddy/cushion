@@ -442,6 +442,8 @@ Document.prototype._saveContent = function(body) {
   for (key in body) {
     if (key === '_rev') {
       this._revision = body[key];
+    } else if (key === '_id') {
+      this._id = body[key];
     } else {
       this._body[key] = body[key];
     }
