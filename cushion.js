@@ -134,22 +134,18 @@ cushion.prototype.createAdmin = function(name, password, callback) {
   // first we have to create a new option at the config
   this.config('admins', name, password, (function(error, created) {
     // after that we have to create a user document
-    var database,
-        document;
-
     if (created === true) {
-      database = this.database('_users');
-      document = database.document('org.couchdb.user:' + name);
-      document.body('name', name);
-      document.body('type', 'user');
-      document.body('roles', []);
-      document.save(function(error) {
-        if (error) {
-          callback(error, null);
-        } else {
-          callback(error, true);
-        }
-      });
+      this.database('_users').document('org.couchdb.user:' + name)
+        .body('name', name)
+        .body('type', 'user')
+        .body('roles', [])
+        .save(function(error) {
+          if (error) {
+            callback(error, null);
+          } else {
+            callback(error, true);
+          }
+        });
     } else {
       callback(error, null);
     }
