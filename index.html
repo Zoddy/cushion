@@ -41,14 +41,17 @@
       <section>
         <p><img src="https://github.com/downloads/Zoddy/cushion/cushion-page-logo.png" alt="cushion logo"></p>
 
-<h1>cushion <a href="http://travis-ci.org/Zoddy/cushion"><img src="https://secure.travis-ci.org/Zoddy/cushion.png?branch=master" alt="Build Status"></a>
+<h1>
+<a name="cushion--" class="anchor" href="#cushion--"><span class="octicon octicon-link"></span></a>cushion <a href="http://travis-ci.org/Zoddy/cushion"><img src="https://secure.travis-ci.org/Zoddy/cushion.png?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/cushion"><img src="https://badge.fury.io/js/cushion.png" alt="NPM version"></a>
 </h1>
 
 <p>Node.js CouchDB API</p>
 
-<h2>connection api</h2>
+<h2>
+<a name="connection-api" class="anchor" href="#connection-api"><span class="octicon octicon-link"></span></a>connection api</h2>
 
-<h3>create new connection</h3>
+<h3>
+<a name="create-new-connection" class="anchor" href="#create-new-connection"><span class="octicon octicon-link"></span></a>create new connection</h3>
 
 <p><strong>Description:</strong> Creates a new connection to a CouchDB.</p>
 
@@ -72,7 +75,8 @@ cushion.Connection(host, port, username, password, additional);
               );
 </code></pre>
 
-<h3>get or set option</h3>
+<h3>
+<a name="get-or-set-option" class="anchor" href="#get-or-set-option"><span class="octicon octicon-link"></span></a>get or set option</h3>
 
 <p><strong>Description:</strong> Get or set options.If you set:</p>
 
@@ -92,7 +96,8 @@ cuhsion.option(option, value)
 <pre><code>var host = cushion.option('host');
 </code></pre>
 
-<h3>get a list of databases</h3>
+<h3>
+<a name="get-a-list-of-databases" class="anchor" href="#get-a-list-of-databases"><span class="octicon octicon-link"></span></a>get a list of databases</h3>
 
 <p><strong>Description:</strong> Get an array of database objects.</p>
 
@@ -116,7 +121,8 @@ cushion.listDatabases(true, function(error, response) {
 });
 </code></pre>
 
-<h3>get version of couchdb</h3>
+<h3>
+<a name="get-version-of-couchdb" class="anchor" href="#get-version-of-couchdb"><span class="octicon octicon-link"></span></a>get version of couchdb</h3>
 
 <p><strong>Description:</strong> Get version of connected couchdb.</p>
 
@@ -132,7 +138,8 @@ cushion.listDatabases(true, function(error, response) {
 });
 </code></pre>
 
-<h3>configuration</h3>
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>configuration</h3>
 
 <p><strong>Description:</strong> Get or set configuration params. If you set:</p>
 
@@ -149,7 +156,8 @@ cushion.config(section, option, value, callback)
 
 <p><strong>section</strong> - name of a section (a group of options)<br><strong>option</strong> - name of an option<br><strong>value</strong> - new value for the option: if you set value to null, given option will be deleted<br><strong>callback</strong> - function(error, section**|**option**|**saved) that will be called after getting the informations, or if new value was saved, or if there was an error</p>
 
-<h3>create admin account</h3>
+<h3>
+<a name="create-admin-account" class="anchor" href="#create-admin-account"><span class="octicon octicon-link"></span></a>create admin account</h3>
 
 <p><strong>Description:</strong> Creates an admin account. That means the config param will be set and the user document created.</p>
 
@@ -158,7 +166,8 @@ cushion.config(section, option, value, callback)
 
 <p><strong>name</strong> - name of the admin account<br><strong>password</strong> - password of the admin account<br><strong>callback</strong> - function(error, created) that will be called after creating the admin account, or if there was an error</p>
 
-<h3>delete admin account</h3>
+<h3>
+<a name="delete-admin-account" class="anchor" href="#delete-admin-account"><span class="octicon octicon-link"></span></a>delete admin account</h3>
 
 <p><strong>Description:</strong> Deletes the admin option at the configuration and the user document.</p>
 
@@ -167,7 +176,8 @@ cushion.config(section, option, value, callback)
 
 <p><strong>name</strong> - name of the admin account<br><strong>callback</strong> - function(error, deleted) that will be called after deleting the admin account, or if there was an error</p>
 
-<h3>list of active tasks</h3>
+<h3>
+<a name="list-of-active-tasks" class="anchor" href="#list-of-active-tasks"><span class="octicon octicon-link"></span></a>list of active tasks</h3>
 
 <p><strong>Description:</strong> Returns a list of active tasks.</p>
 
@@ -176,7 +186,8 @@ cushion.config(section, option, value, callback)
 
 <p><strong>callback</strong> - function(error, activeTasks) that will called, after getting the list of active tasks or if there was an error</p>
 
-<h3>list of generated uuids</h3>
+<h3>
+<a name="list-of-generated-uuids" class="anchor" href="#list-of-generated-uuids"><span class="octicon octicon-link"></span></a>list of generated uuids</h3>
 
 <p><strong>Description:</strong> Returns a list of couchdb generated uuids.</p>
 
@@ -186,7 +197,8 @@ cushion.uuids(count, callback);
 
 <p><strong>count</strong> - number of uuids to generate <strong>[ default: 1 ]</strong><br><strong>callback</strong> - function(error, uuidList) that will be called, after getting the list of uuids or if there was an error</p>
 
-<h3>server statistics</h3>
+<h3>
+<a name="server-statistics" class="anchor" href="#server-statistics"><span class="octicon octicon-link"></span></a>server statistics</h3>
 
 <p><strong>Description:</strong> Returns server statistics.</p>
 
@@ -195,7 +207,8 @@ cushion.uuids(count, callback);
 
 <p><strong>callback</strong> - function(error, stats) that will be called, after getting the statistics of if there was an error</p>
 
-<h3>get log</h3>
+<h3>
+<a name="get-log" class="anchor" href="#get-log"><span class="octicon octicon-link"></span></a>get log</h3>
 
 <p><strong>Description:</strong> Returns the tail of the server's log file. There's also another param <code>offset</code> for the request to the couchdb, but it's not useful, look at the documentation <a href="http://wiki.apache.org/couchdb/HttpGetLog">http://wiki.apache.org/couchdb/HttpGetLog</a>.</p>
 
@@ -205,7 +218,8 @@ cushion.log(bytes, callback);
 
 <p><strong>bytes</strong> - number of bytes which do you want from the tail <strong>[ default: 1000 ]</strong><br><strong>callback</strong> - function(error, log) that will be called, after getting the log or if there was an error</p>
 
-<h3>restart server</h3>
+<h3>
+<a name="restart-server" class="anchor" href="#restart-server"><span class="octicon octicon-link"></span></a>restart server</h3>
 
 <p><strong>Description:</strong> Restarts the server.</p>
 
@@ -214,7 +228,8 @@ cushion.log(bytes, callback);
 
 <p><strong>callback</strong> - function(error, restart) function that will be called, after initializing the restart or if there was an error</p>
 
-<h3>make a low level request</h3>
+<h3>
+<a name="make-a-low-level-request" class="anchor" href="#make-a-low-level-request"><span class="octicon octicon-link"></span></a>make a low level request</h3>
 
 <p><strong>Description:</strong> If there is something cushion doesn't offer to you, make a low level request to couchdb.</p>
 
@@ -247,9 +262,11 @@ cushion.request({
 });
 </code></pre>
 
-<h2>user api</h2>
+<h2>
+<a name="user-api" class="anchor" href="#user-api"><span class="octicon octicon-link"></span></a>user api</h2>
 
-<h3>create new user</h3>
+<h3>
+<a name="create-new-user" class="anchor" href="#create-new-user"><span class="octicon octicon-link"></span></a>create new user</h3>
 
 <p><strong>Description</strong> Creates a new user</p>
 
@@ -279,7 +296,8 @@ user.create(
 );
 </code></pre>
 
-<h3>add role</h3>
+<h3>
+<a name="add-role" class="anchor" href="#add-role"><span class="octicon octicon-link"></span></a>add role</h3>
 
 <p><strong>Description</strong> Adds one or more roles to the user</p>
 
@@ -302,7 +320,8 @@ user.addRole('fooUser', ['fooRole', 'barRole'], function(error, added) {
 });
 </code></pre>
 
-<h3>get roles</h3>
+<h3>
+<a name="get-roles" class="anchor" href="#get-roles"><span class="octicon octicon-link"></span></a>get roles</h3>
 
 <p><strong>Description</strong> Get list of roles from the user</p>
 
@@ -311,7 +330,8 @@ user.addRole('fooUser', ['fooRole', 'barRole'], function(error, added) {
 
 <p><strong>name</strong> - name of the user<br><strong>callback</strong> - function(error, roles) that will be called after getting the the list of roles, or if there was an error</p>
 
-<h3>delete role</h3>
+<h3>
+<a name="delete-role" class="anchor" href="#delete-role"><span class="octicon octicon-link"></span></a>delete role</h3>
 
 <p><strong>Description</strong> Deletes one or more roles from the user</p>
 
@@ -334,7 +354,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 });
 </code></pre>
 
-<h3>change password</h3>
+<h3>
+<a name="change-password" class="anchor" href="#change-password"><span class="octicon octicon-link"></span></a>change password</h3>
 
 <p><strong>Description</strong> Changes the password of an existing user</p>
 
@@ -343,7 +364,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 
 <p><strong>name</strong> - name of the user<br><strong>password</strong> - password of the user<br><strong>callback</strong> - function(error, changed) that will be called after changing the password, or if there was an error</p>
 
-<h3>delete user</h3>
+<h3>
+<a name="delete-user" class="anchor" href="#delete-user"><span class="octicon octicon-link"></span></a>delete user</h3>
 
 <p><strong>Description</strong> Deletes an user</p>
 
@@ -352,9 +374,11 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 
 <p><strong>name</strong> - name of the user<br><strong>callback</strong> - function(error, deleted) that will be called after deleting the user, or if there was an error</p>
 
-<h2>database api</h2>
+<h2>
+<a name="database-api" class="anchor" href="#database-api"><span class="octicon octicon-link"></span></a>database api</h2>
 
-<h3>connect to a specific database</h3>
+<h3>
+<a name="connect-to-a-specific-database" class="anchor" href="#connect-to-a-specific-database"><span class="octicon octicon-link"></span></a>connect to a specific database</h3>
 
 <p><strong>Description:</strong> Connect to a given database.</p>
 
@@ -368,7 +392,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 <pre><code>var db = cushion.database('foodb');
 </code></pre>
 
-<h3>check if database exists</h3>
+<h3>
+<a name="check-if-database-exists" class="anchor" href="#check-if-database-exists"><span class="octicon octicon-link"></span></a>check if database exists</h3>
 
 <p><strong>Description:</strong> Checks if the database exists.</p>
 
@@ -384,7 +409,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 });
 </code></pre>
 
-<h3>create database</h3>
+<h3>
+<a name="create-database" class="anchor" href="#create-database"><span class="octicon octicon-link"></span></a>create database</h3>
 
 <p><strong>Description:</strong> Create database.</p>
 
@@ -400,7 +426,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 });
 </code></pre>
 
-<h3>delete database</h3>
+<h3>
+<a name="delete-database" class="anchor" href="#delete-database"><span class="octicon octicon-link"></span></a>delete database</h3>
 
 <p><strong>Description:</strong> Delete database.</p>
 
@@ -416,7 +443,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 });
 </code></pre>
 
-<h3>get informations about the database</h3>
+<h3>
+<a name="get-informations-about-the-database" class="anchor" href="#get-informations-about-the-database"><span class="octicon octicon-link"></span></a>get informations about the database</h3>
 
 <p><strong>Description:</strong> Get whole information about the database.</p>
 
@@ -432,7 +460,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 });
 </code></pre>
 
-<h3>get name of the database</h3>
+<h3>
+<a name="get-name-of-the-database" class="anchor" href="#get-name-of-the-database"><span class="octicon octicon-link"></span></a>get name of the database</h3>
 
 <p><strong>Description:</strong> Get name of the database.</p>
 
@@ -441,7 +470,8 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 <pre><code>var dbName = db.name();
 </code></pre>
 
-<h3>get all documents</h3>
+<h3>
+<a name="get-all-documents" class="anchor" href="#get-all-documents"><span class="octicon octicon-link"></span></a>get all documents</h3>
 
 <p><strong>Description:</strong> The additional options that you can set as first parameter, are the same that you can set at the view function, because the allDocuments function retrieves a special view at the couchdb <code>_all_docs</code>.</p>
 
@@ -449,7 +479,7 @@ user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 db.allDocuments(params, callback);
 </code></pre>
 
-<p><strong>params</strong> - query parameter object (see description) or callback function(error, response) for error and response handling<br><strong>callback</strong> - callback function(error, response) for error and response handling</p>
+<p><strong>params</strong> - query parameter object (see description) or callback function(error, response) for error and response handling<br><strong>callback</strong> - callback function(error, info, allDocs) for error and response handling</p>
 
 <p><strong>Example:</strong></p>
 
@@ -466,7 +496,8 @@ db.allDocuments(params, function(error, info, allDocs) {
 });
 </code></pre>
 
-<h3>retrieving a view</h3>
+<h3>
+<a name="retrieving-a-view" class="anchor" href="#retrieving-a-view"><span class="octicon octicon-link"></span></a>retrieving a view</h3>
 
 <pre><code>db.view(designDocument, viewFunction, callback)
 db.view(designDocument, viewFunction, params, callback)
@@ -495,7 +526,8 @@ db.view(designDocument, viewFunction, params, callback)
 );
 </code></pre>
 
-<h3>retrieving a temporary view</h3>
+<h3>
+<a name="retrieving-a-temporary-view" class="anchor" href="#retrieving-a-temporary-view"><span class="octicon octicon-link"></span></a>retrieving a temporary view</h3>
 
 <p><strong>Description:</strong> Retrieves a temporary view on the database.</p>
 
@@ -505,7 +537,7 @@ db.temporaryView(map, params, callback);
 db.temporaryView(map, reduce, params, callback);
 </code></pre>
 
-<p><strong>map</strong> - map function as a string and not as a function<br><strong>reduce</strong> - reduce function as a string and not as a function<br><strong>callback</strong> - function(error, info, rows) that will be called, after getting the result or if there was an error</p>
+<p><strong>map</strong> - map function as a string and not as a function<br><strong>reduce</strong> - reduce function as a string and not as a function<br><strong>params</strong> - additional query params, this are all the query parameters that are documented at the <a href="http://wiki.apache.org/couchdb/HTTP_view_API#Querying_Options">couchdb view api</a><br><strong>callback</strong> - function(error, info, rows) that will be called, after getting the result or if there was an error</p>
 
 <p><strong>Example</strong></p>
 
@@ -527,7 +559,8 @@ db.temporaryView(
 );
 </code></pre>
 
-<h3>retrieving a list</h3>
+<h3>
+<a name="retrieving-a-list" class="anchor" href="#retrieving-a-list"><span class="octicon octicon-link"></span></a>retrieving a list</h3>
 
 <pre><code>db.list(design, list, view, callback)
 db.list(design, list, view, params, callback)
@@ -550,7 +583,8 @@ db.list(design, list, otherDesign, view, params, callback)
 );
 </code></pre>
 
-<h3>retrieving show</h3>
+<h3>
+<a name="retrieving-show" class="anchor" href="#retrieving-show"><span class="octicon octicon-link"></span></a>retrieving show</h3>
 
 <pre><code>db.show(design, show)
 db.show(design, show, params)
@@ -573,21 +607,24 @@ db.show(design, show, documentId, params)
 );
 </code></pre>
 
-<h3>compaction</h3>
+<h3>
+<a name="compaction" class="anchor" href="#compaction"><span class="octicon octicon-link"></span></a>compaction</h3>
 
 <pre><code>db.compact(callback)
 </code></pre>
 
 <p><strong>callback</strong> - function(error, started) that will be called, after compaction was started or if there was an error</p>
 
-<h3>cleanup</h3>
+<h3>
+<a name="cleanup" class="anchor" href="#cleanup"><span class="octicon octicon-link"></span></a>cleanup</h3>
 
 <pre><code>db.cleanup(callback)
 </code></pre>
 
 <p><strong>callback</strong> - function(error, started) that will be called, after cleanup was started or if there was an error</p>
 
-<h3>revision limit</h3>
+<h3>
+<a name="revision-limit" class="anchor" href="#revision-limit"><span class="octicon octicon-link"></span></a>revision limit</h3>
 
 <p><strong>Description</strong> Sets or gets the revision limit for documents (default is 1000).</p>
 
@@ -610,7 +647,8 @@ db.revision(1500, function(error, saved) {
 });
 </code></pre>
 
-<h3>purging</h3>
+<h3>
+<a name="purging" class="anchor" href="#purging"><span class="octicon octicon-link"></span></a>purging</h3>
 
 <p><strong>Description:</strong> With this you can delete not only the document revision as itself, also the history will be removed. But be careful, purging can have bad side effects, so please look at the <a href="http://wiki.apache.org/couchdb/Purge_Documents">CouchDB Purge Documentation</a>. The second argument <code>purged</code> on the callback give you feedback, which document revision could be purged.</p>
 
@@ -629,7 +667,8 @@ db.revision(1500, function(error, saved) {
 );
 </code></pre>
 
-<h3>ensure full commit</h3>
+<h3>
+<a name="ensure-full-commit" class="anchor" href="#ensure-full-commit"><span class="octicon octicon-link"></span></a>ensure full commit</h3>
 
 <p><strong>Description:</strong> Saves all uncommited stuff to the disk.</p>
 
@@ -638,42 +677,50 @@ db.revision(1500, function(error, saved) {
 
 <p><strong>callback</strong> - function(error, success) that will be called, after successfully started the save operation, or if there was an error</p>
 
-<h2>document api</h2>
+<h2>
+<a name="document-api" class="anchor" href="#document-api"><span class="octicon octicon-link"></span></a>document api</h2>
 
-<h3>getting document object</h3>
+<h3>
+<a name="getting-document-object" class="anchor" href="#getting-document-object"><span class="octicon octicon-link"></span></a>getting document object</h3>
 
 <p><strong>Description:</strong> If you set the ID and it will begin with <code>_design/</code>, then you will get a design document object instead of a normal document. Design documents have the same API as normal document plus some extra functions (look at <code>design document api</code>).</p>
 
 <p><strong>With given ID</strong> <code>var doc = db.document('foo' [, revision]);</code><br><strong>Without ID</strong> (if you want to create it later from the CouchDB) <code>var doc = db.document();</code></p>
 
-<h3>load document</h3>
+<h3>
+<a name="load-document" class="anchor" href="#load-document"><span class="octicon octicon-link"></span></a>load document</h3>
 
 <pre><code>doc.load(callback)
 </code></pre>
 
 <p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
 
-<h3>set content</h3>
+<h3>
+<a name="get--set-content" class="anchor" href="#get--set-content"><span class="octicon octicon-link"></span></a>get / set content</h3>
 
-<p><strong>Description:</strong> If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.</p>
+<p><strong>Description:</strong> If you call <code>body</code> without arguments, you will retrieve the whole document content. If you only set one argument, and this argument is a string, you will set the complete body and overwrites all settings before. Otherwise you get the content of the given porperty. If you set 2 or more (you can set how much do you want) it will work as setter. If you set the body and the content argument (the last one) was explicitly set to 'undefined', the property will be deleted.</p>
 
-<pre><code>doc.body(obj)
+<pre><code>doc.body()
+doc.body(obj)
 doc.body(obj, content)
 doc.body(parent, child, content)
 </code></pre>
 
 <p><strong>obj</strong> - name of the object<br><strong>content</strong> - new content for <strong>obj</strong><br><strong>child</strong> - child object of <strong>obj</strong></p>
 
-<h4>Some examples:</h4>
+<h4>
+<a name="some-examples" class="anchor" href="#some-examples"><span class="octicon octicon-link"></span></a>Some examples:</h4>
 
-<pre><code>doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; '456' = 123;
+<pre><code>doc.body({'foo': 'bar', '456': 123}) // foo = 'bar'; 456 = '123';
 doc.body('foo', 'bar'); // foo = 'bar';
 doc.body('foo'); // -&gt; 'bar'
 doc.body('foo', 'bar', 'baz'); // foo.bar = 'baz';
 doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
+doc.body(); // foo.bar.baz = 'foobar'; 456 = '123';
 </code></pre>
 
-<h3>save document</h3>
+<h3>
+<a name="save-document" class="anchor" href="#save-document"><span class="octicon octicon-link"></span></a>save document</h3>
 
 <p><strong>Description:</strong> Saves the document, if document does not exist, it will be created.</p>
 
@@ -682,16 +729,18 @@ doc.body('foo', 'bar', 'baz', 'foobar'); // foo.bar.baz = 'foobar';
 
 <p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
 
-<h3>get info</h3>
+<h3>
+<a name="get-info" class="anchor" href="#get-info"><span class="octicon octicon-link"></span></a>get info</h3>
 
 <p><strong>Description:</strong> Gets some info from the document: revision and size of the document.</p>
 
 <pre><code>doc.info(callback)
 </code></pre>
 
-<p><strong>callback</strong> - callback function that will called, after retrieving information, or if there was an error</p>
+<p><strong>callback</strong> - callback function(error, info) that will called, after retrieving information, or if there was an error</p>
 
-<h3>copy document</h3>
+<h3>
+<a name="copy-document" class="anchor" href="#copy-document"><span class="octicon octicon-link"></span></a>copy document</h3>
 
 <pre><code>doc.copy(targetID, callback)
 doc.copy(targetID, targetRevision, callback)
@@ -699,14 +748,16 @@ doc.copy(targetID, targetRevision, callback)
 
 <p><strong>targetID</strong> - id of the target document<br><strong>targetRevision</strong> - revision of the target document<br><strong>callback</strong> - callback function(error, sourceDocument, targetDocument) for error and response handling</p>
 
-<h3>delete document</h3>
+<h3>
+<a name="delete-document" class="anchor" href="#delete-document"><span class="octicon octicon-link"></span></a>delete document</h3>
 
 <pre><code>doc.destroy(callback)
 </code></pre>
 
 <p><strong>callback</strong> - callback function(error, document) for error and response handling</p>
 
-<h3>purging</h3>
+<h3>
+<a name="purging-1" class="anchor" href="#purging-1"><span class="octicon octicon-link"></span></a>purging</h3>
 
 <p><strong>Description:</strong> Look for more details at the purge command on database context. In document context this command works as a shortcut. But there's a difference: The second argument at the callback is only a boolean, that says if the document was purged (true) or not (false).</p>
 
@@ -716,9 +767,11 @@ doc.purge(complete, callback);
 
 <p><strong>complete</strong> - if you set this to true, it will purge the complete document (it makes a purge on the head revision)<br><strong>callback</strong> - function(error, purged) callback that will be called, if the purge command was done, or if there was an error</p>
 
-<h2>attachment api</h2>
+<h2>
+<a name="attachment-api" class="anchor" href="#attachment-api"><span class="octicon octicon-link"></span></a>attachment api</h2>
 
-<h3>save attachment</h3>
+<h3>
+<a name="save-attachment" class="anchor" href="#save-attachment"><span class="octicon octicon-link"></span></a>save attachment</h3>
 
 <p><strong>Description:</strong> Files will always opened as UTF-8.</p>
 
@@ -728,23 +781,27 @@ doc.saveAttachment(file, contentType, name, callback)
 
 <p><strong>file</strong> - file path to the file<br><strong>contentType</strong> - content type of the file (like <code>image/png</code>)<br><strong>name</strong> - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead<br><strong>callback</strong> - function that will be called, after saving the attachment</p>
 
-<h3>get attachment</h3>
+<h3>
+<a name="get-attachment" class="anchor" href="#get-attachment"><span class="octicon octicon-link"></span></a>get attachment</h3>
 
 <pre><code>doc.getAttachment(name, callback)
 </code></pre>
 
 <p><strong>name</strong> - attachment name in the document<br><strong>callback</strong> - function that will be called, after the attachment was loaded</p>
 
-<h3>delete attachment</h3>
+<h3>
+<a name="delete-attachment" class="anchor" href="#delete-attachment"><span class="octicon octicon-link"></span></a>delete attachment</h3>
 
 <pre><code>doc.deleteAttachment(name, callback)
 </code></pre>
 
 <p><strong>name</strong> - attachment name in the document<br><strong>callback</strong> - function that will be called, after the attachment was deleted</p>
 
-<h2>design document api</h2>
+<h2>
+<a name="design-document-api" class="anchor" href="#design-document-api"><span class="octicon octicon-link"></span></a>design document api</h2>
 
-<h3>get, create, update or delete views</h3>
+<h3>
+<a name="get-create-update-or-delete-views" class="anchor" href="#get-create-update-or-delete-views"><span class="octicon octicon-link"></span></a>get, create, update or delete views</h3>
 
 <p><strong>Description:</strong> If you only set one argument, you will get the object with the string representation of the map and reduce functions. If you set <code>map</code> and <code>reduce</code>, you will set a view. If there is no views object in the body, it will be created, so you don't have to create it by yourself. If you set map explicitly to <code>null</code>, the view will be deleted.</p>
 
@@ -755,7 +812,8 @@ design.view(name, map, reduce)
 
 <p><strong>name</strong> - name of the view<br><strong>map</strong> - string representation of the map function<br><strong>reduce</strong> - string representation of the reduce function</p>
 
-<h3>get, create, update or delete lists</h3>
+<h3>
+<a name="get-create-update-or-delete-lists" class="anchor" href="#get-create-update-or-delete-lists"><span class="octicon octicon-link"></span></a>get, create, update or delete lists</h3>
 
 <p><strong>Description:</strong> If you only set one argument, you will get the string representation of the list function. If you set the <code>content</code>, it will save to the list. If there is no lists object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to <code>null</code>, the list function will be deleted.</p>
 
@@ -765,7 +823,8 @@ design.list(name, content)
 
 <p><strong>name</strong> - name of the list<br><strong>content</strong> - string representation of the list function</p>
 
-<h3>get, create, update or delete shows</h3>
+<h3>
+<a name="get-create-update-or-delete-shows" class="anchor" href="#get-create-update-or-delete-shows"><span class="octicon octicon-link"></span></a>get, create, update or delete shows</h3>
 
 <p><strong>Description:</strong> If you only set one argument, you will get the string representation of the show function. If you set the <code>content</code>, it will save to the show. If there is no shows object in the body, it will be created, so you don't have to create it by yourself. If you set content explicitly to <code>null</code>, the show function will be deleted.</p>
 
@@ -775,7 +834,8 @@ design.show(name, content)
 
 <p><strong>name</strong> - name of the show<br><strong>content</strong> - string representation of the show function</p>
 
-<h3>getting or setting validation handler</h3>
+<h3>
+<a name="getting-or-setting-validation-handler" class="anchor" href="#getting-or-setting-validation-handler"><span class="octicon octicon-link"></span></a>getting or setting validation handler</h3>
 
 <p><strong>Description:</strong> If you set no arguments, you will get the current validation handler, otherwise you will set it and get the design document. Look at the <a href="http://wiki.apache.org/couchdb/Document_Update_Validation">CouchDB Validation Doc Update Documentation</a>.</p>
 
@@ -796,7 +856,8 @@ design.validateHandler(handler);
 );
 </code></pre>
 
-<h3>getting or setting rewrites</h3>
+<h3>
+<a name="getting-or-setting-rewrites" class="anchor" href="#getting-or-setting-rewrites"><span class="octicon octicon-link"></span></a>getting or setting rewrites</h3>
 
 <p><strong>Description</strong> With this you can set rewrite rules or get the current list of them. If you set no argument, you will get the current list of rewrites. If you set one argument, you will set the new rewrite list.</p>
 
@@ -804,9 +865,10 @@ design.validateHandler(handler);
 design.rewrites(rewrites)
 </code></pre>
 
-<p><strong>rewrites</strong> - list (array.&lt;object&gt;) of rewrite rule objects. For further information look at the documentation <a href="http://wiki.apache.org/couchdb/Rewriting_urls">CouchDB Rewriting URLs</a></p>
+<p><strong>rewrites</strong> - Array of rewrite rule objects. For further information look at the documentation <a href="http://wiki.apache.org/couchdb/Rewriting_urls">CouchDB Rewriting URLs</a></p>
 
-<h3>getting view info</h3>
+<h3>
+<a name="getting-view-info" class="anchor" href="#getting-view-info"><span class="octicon octicon-link"></span></a>getting view info</h3>
 
 <pre><code>design.viewInfo(callback)
 </code></pre>
@@ -820,14 +882,16 @@ design.rewrites(rewrites)
 });
 </code></pre>
 
-<h3>compaction</h3>
+<h3>
+<a name="compaction-1" class="anchor" href="#compaction-1"><span class="octicon octicon-link"></span></a>compaction</h3>
 
 <pre><code>design.compact(callback)
 </code></pre>
 
 <p><strong>callback</strong> - function(error, started) that will be called, after compaction was started or if there was an error</p>
 
-<h2>browser version</h2>
+<h2>
+<a name="browser-version" class="anchor" href="#browser-version"><span class="octicon octicon-link"></span></a>browser version</h2>
 
 <p>Cushion is also available in the browser. All you have to do is to load the <code>cushion.browser.min.js</code>. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. </p>
 
@@ -842,7 +906,8 @@ design.rewrites(rewrites)
 
 <p>After that all is the same and you have the full power of cushion in the browser.</p>
 
-<h2>running tests</h2>
+<h2>
+<a name="running-tests" class="anchor" href="#running-tests"><span class="octicon octicon-link"></span></a>running tests</h2>
 
 <p>To run the test suite first invoke the following command within the repo, installing the development dependencies:</p>
 
@@ -854,13 +919,15 @@ design.rewrites(rewrites)
 <pre><code>$ make test
 </code></pre>
 
-<h2>upcoming features</h2>
+<h2>
+<a name="upcoming-features" class="anchor" href="#upcoming-features"><span class="octicon octicon-link"></span></a>upcoming features</h2>
 
 <ul>
 <li>session support</li>
 <li>bulk updates</li>
 <li>query params api</li>
-</ul><h2>License</h2>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>(The MIT License)</p>
 
