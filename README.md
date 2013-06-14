@@ -417,7 +417,7 @@ database api
     db.allDocuments(params, callback);
 
 **params** - query parameter object (see description) or callback function(error, response) for error and response handling  
-**callback** - callback function(error, response) for error and response handling
+**callback** - callback function(error, info, allDocs) for error and response handling
 
 **Example:**
 
