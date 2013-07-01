@@ -103,7 +103,7 @@ exports.tests = [{
   'arguments': ['admins', config.username],
   'url': ['GET', '_config/admins/' + config.username],
   'callback': function(error, option) {
-    expect(option).to.be.a('string').and.to.have.string('-hashed-');
+    expect(option).to.be.a('string').and.to.match(/^-(hashed|pbkdf2)-/);
   }
 }, {
   'message': 'set config option to new value',
