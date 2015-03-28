@@ -236,7 +236,7 @@ user api
 	user.create('fooUser', 'fooPassword', function(error, created) {
 	  console.log(error || created);
 	});
-	
+
 	// create a new user with roles
 	user.create(
 	  'fooUser',
@@ -265,7 +265,7 @@ user api
 	user.addRole('fooUser', 'fooRole', function(error, added) {
 	  console.log(error || added);
 	});
-	
+
 	// add two roles
 	user.addRole('fooUser', ['fooRole', 'barRole'], function(error, added) {
 	  console.log(error || added);
@@ -298,7 +298,7 @@ user api
 	user.deleteRole('fooUser', 'fooRole', function(error, deleted) {
 	  console.log(error || deleted);
 	});
-	
+
 	// delete two roles
 	user.deleteRole('fooUser', ['fooRole', 'barRole'], function(error, deleted) {
 	  console.log(error || deleted);
@@ -319,7 +319,7 @@ user api
 **Description** Deletes an user
 
 	user.delete(name, callback);
-	
+
 **name** - name of the user  
 **callback** - function(error, deleted) that will be called after deleting the user, or if there was an error
 
@@ -425,10 +425,10 @@ database api
     db.allDocuments(function(error, info, allDocs) {
       console.log(error || allDocs);
     });
-    
+
     // get all documents with parameters
     var params = { limit: '3', starkey: '_design/entries' };
-    
+
     db.allDocuments(params, function(error, info, allDocs) {
       console.log(error || allDocs);
     });
@@ -486,7 +486,7 @@ database api
         console.log(error, info, rows);
       }
     );
-    
+
     // map function and params
     db.temporaryView(
       'function(doc) {emit(doc._id, doc);}',
@@ -578,7 +578,7 @@ database api
     db.revisionLimit(function(error, limit) {
       console.log(error || limit);
     });
-    
+
     // set the limit
     db.revision(1500, function(error, saved) {
       console.log(error || saved);
@@ -634,7 +634,7 @@ document api
 	doc.body(obj)
 	doc.body(obj, content)
 	doc.body(parent, child, content)
-	
+
 **obj** - name of the object  
 **content** - new content for **obj**  
 **child** - child object of **obj**
@@ -661,7 +661,7 @@ document api
 **Description:** Gets some info from the document: revision and size of the document.
 
 	doc.info(callback)
-	
+
 **callback** - callback function(error, info) that will called, after retrieving information, or if there was an error
 
 
@@ -700,7 +700,7 @@ attachment api
 
 	doc.saveAttachment(file, contentType, callback)
 	doc.saveAttachment(file, contentType, name, callback)
-	
+
 **file** - file path to the file  
 **contentType** - content type of the file (like `image/png`)  
 **name** - name of the file it will have at the document. if you don't set it by yourself, cushion will use the filename instead  
@@ -743,7 +743,7 @@ design document api
 
 	design.list(name)
 	design.list(name, content)
-	
+
 **name** - name of the list  
 **content** - string representation of the list function
 
@@ -808,7 +808,7 @@ design document api
 
 browser version
 ---------------
-Cushion is also available in the browser. All you have to do is to load the `cushion.browser.min.js`. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB. 
+Cushion is also available in the browser. All you have to do is to load the `cushion.browser.min.js`. The initialization is a little bit different. In this example I use a proxy to connect to the CouchDB.
 
     var connection = new cushion.Connection(
       'localhost', // host
@@ -816,7 +816,7 @@ Cushion is also available in the browser. All you have to do is to load the `cus
       'zoddy', // username
       'zoddy', // password
       {'path': 'couchdb'} // so all requests go to localhost:8080/couchdb <- proxy
-    );	
+    );
 
 After that all is the same and you have the full power of cushion in the browser.
 
@@ -846,7 +846,7 @@ License
 
 (The MIT License)
 
-Copyright (c) 2009-2014 André Kussmann <zoddy@zoddy.de>
+Copyright (c) 2009-2015 André Kussmann <zoddy@zoddy.de>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
