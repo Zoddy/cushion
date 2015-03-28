@@ -20,22 +20,20 @@ cushion.user = cushion.connection.user();
 cushion.database = cushion.connection.database(config.database);
 cushion.document = cushion.database.document(config.document);
 cushion.design = cushion.database.document('_design/' + config.design);
-cushion.design.list(
-  config.list,
-  'function(head, request) {' +
-    'var row;' +
-    'start({"headers": {"Content-Type": "text/plain"}});' +
-    'while(row = getRow()) {send(row.value._id);}' +
+cushion.design.list(config.list, [
+  'function(head, request) {',
+    'var row;',
+    'start({"headers": {"Content-Type": "text/plain"}});',
+    'while(row = getRow()) {send(row.value._id);}',
   '}'
-);
-cushion.design.show(
-  config.show,
-  'function(document, request) {' +
-    'return {' +
-      'body: "Hello " + JSON.stringify(request.query) + " " + request.id' +
-    '};' +
+].join(' '));
+cushion.design.show(config.show, [
+  'function(document, request) {',
+    'return {',
+      'body: "Hello " + JSON.stringify(request.query) + " " + request.id',
+    '};',
   '}'
-);
+].join(' '));
 cushion.design.view(config.view, 'function(doc) {emit(doc._id, doc);}');
 
 
@@ -65,59 +63,36 @@ cushion.connection.request = (function(properties) {
 
 
 // get tests
-require('fs').readdirSync(__dirname).filter(
-  function(element, index, array) {
-    return (element.match(/^\d{1}-[a-z]{1,}-test\.js$/) !== null);
-  }
-).sort().forEach(function(fileName, index, files) {
+require('fs').readdirSync(__dirname).filter(function(element) {
+  return (element.match(/^\d{1}-[a-z]{1,}-test\.js$/) !== null);
+}).sort().forEach(function(fileName) {
   tests = tests.concat(require(__dirname + '/' + fileName).tests);
 });
 
 
-// run tests
-var testCaller = function() {
-  var test = tests.shift(),
-      callpath;
+tests.forEach(function(test) {
+  var callpath = test.callpath.split('.');
 
-  if (test) {
-    callpath = test.callpath.split('.');
+  if (test.callback) {
+    it(test.message, function(done) {
+      cushion[callpath[0]][callpath[1]].apply(
+        cushion[callpath[0]],
+        (test['arguments'] || []).concat([function() {
+          expect(arguments[0]).to.be.null; // error have to be null
+          test.callback.apply(null, arguments);// test callback
+          done(); // next test
+        }])
+      );
+    });
+  } else if (test['return']) {
+    it(test.message, function(done) {
+      // test callback
+      test['return'](cushion[callpath[0]][callpath[1]].apply(
+        cushion[callpath[0]],
+        test['arguments'] || []
+      ));
 
-    if (test.callback) {
-      it(test.message, function(done) {
-        cushion[callpath[0]][callpath[1]].apply(
-          cushion[callpath[0]],
-          (test['arguments'] || []).concat([function() {
-            // error have to be null
-            expect(arguments[0]).to.be.null;
-
-            // test callback
-            test.callback.apply(
-              null,
-              arguments
-            );
-
-            // next test
-            done();
-            testCaller();
-          }])
-        );
-      });
-    } else if (test['return']) {
-      it(test.message, function(done) {
-        // test callback
-        test['return'](cushion[callpath[0]][callpath[1]].apply(
-          cushion[callpath[0]],
-          test['arguments'] || []
-        ));
-
-        // next test
-        done();
-        testCaller();
-      });
-    }
+      done(); // next test
+    });
   }
-};
-
-
-// start testing
-testCaller();
+});

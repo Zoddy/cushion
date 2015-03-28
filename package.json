@@ -21,15 +21,16 @@
   "bugs": {
     "url": "http://github.com/zoddy/cushion/issues"
   },
-  "devDependencies": {
-    "mocha": "1.2.x",
-    "chai": "1.1.x"
-  },
   "main": "./cushion",
   "engines": {
     "node": ">=0.6"
   },
   "license": "MIT",
-  "dependencies": {},
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "jshint": "^2.6.3",
+    "jshint-stylish": "^1.0.1",
+    "mocha": "^2.2.1"
+  },
   "homepage": "http://zoddy.github.com/cushion"
 }

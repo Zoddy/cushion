@@ -1,48 +1,42 @@
 {
-  "asi": true, // always use semicolons
-  "bitwise": true, // not using bitwise operators
-  "boss": true, // no use of assignments, where comparisons are expected
-  "camelcase": true, // always camelcasing
-  "curly": true, // never use blocks without the curly braces
-  "debug": false, // not using debugger for production code
-  "eqeqeq": true, // always use === and !== and not == and !=
-  "eqnull": false, // always check to null with == and not ===
-  "esnext": false, // not use ES.next features like "const"
-  "evil": false, // never user eval (because it's evil)
-  "forin": true, // for in loops have to filter for Object.hasOwnProperty
-  "funcscope": false, // never declare variables in blocks othen than functions
-  "globalstrict": true, // use global strict mode
-  "immed": false, // parens around functions are ok
-  "indent": 2, // 2 spaces indentation
-  "iterator": true, // because we are in nodejs, we can use __iterator__
-  "lastsemic": false, // don't miss semicolons
-  "latedef": true, // explicitely define variables
-  "laxbreak": false, // warn us about unsafe line breaks
-  "laxcomma": false, // do not use comma-first style
-  "loopfunc": false, // do not define functions inside of a loop block
-  "maxdepth": 2, // maximum nesting blocks
-  "maxlen": 80, // no line longer than this
-  "multistr": false, // correct using of multiline strings
-  "newcap": true, // constructor name always begins with an uppercase letter
-  "noarg": true, // not using arguments.callee and arguments.caller
-  "node": true, // we are using nodejs
-  "noempty": true, // no empty blocks
-  "nomen": false, // using dangling _ for "private" things is allowed
-  "nonew": true, // no new MyConstructor without assigning to a variable
-  "onecase": false, // do not use switch, if an if-block will be better
-  "onevar": true, // only use one var statement per function
-  "plusplus": false, // we allow ++ and --
-  "proto": true, // we are in nodejs, so we can use __proto__
-  "quotmark": "single", // only using single quotes for strings
-  "regexdash": false, // not use unescaped - at the end of regular expressions
-  "shadow": false, // do not redeclare a variable
-  "smarttabs": false, // do not use tabs and spaces for indentation
-  "strict": true, // ecmascript strict mode for function scopes
-  "sub": false, // dot notation over braces notation
-  "supernew": false, // do not use new Object or new function or something like
-  "trailing": true, // no trailing whitespaces
-  "undef": true, // always declare variables
-  "unused": true, // mark variables that will never used
-  "validthis": false, // correct using of this, especially in strict mode
-  "white": false // strict whitespace would be cool, but it has errors
+  "asi": false,
+  "bitwise": true,
+  "boss": false,
+  "curly": true,
+  "debug": false,
+  "elision": false,
+  "eqeqeq": true,
+  "eqnull": false,
+  "es3": false,
+  "esnext": true,
+  "evil": false,
+  "expr": false,
+  "forin": true,
+  "freeze": true,
+  "funcscope": false,
+  "futurehostile": true,
+  "globalstrict": true,
+  "iterator": false,
+  "lastsemic": true,
+  "latedef": true,
+  "loopfunc": false,
+  "maxdepth": 3,
+  "maxparams": 8,
+  "maxstatements": 20,
+  "noarg": true,
+  "nocomma": true,
+  "node": true,
+  "nonbsp": true,
+  "nonew": true,
+  "notypeof": true,
+  "noyield": false,
+  "plusplus": false,
+  "proto": false,
+  "shadow": false,
+  "singleGroups": false,
+  "supernew": false,
+  "undef": true,
+  "unused": true,
+  "validthis": false,
+  "withstmt": false
 }
