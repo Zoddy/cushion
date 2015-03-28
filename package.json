@@ -27,10 +27,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "chai": "^2.2.0",
-    "jshint": "^2.6.3",
-    "jshint-stylish": "^1.0.1",
-    "mocha": "^2.2.1"
+    "chai": "2.2.0",
+    "jshint": "2.6.3",
+    "jshint-stylish": "1.0.1",
+    "mocha": "2.2.1"
   },
   "homepage": "http://zoddy.github.com/cushion"
 }
