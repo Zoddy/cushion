@@ -1,7 +1,7 @@
 'use strict';
 
 var http = require('http'),
-    https = require('https),
+    https = require('https'),
     defaultOptions = require('./config.js'),
     Database = require('./database.js').Database,
     UserApi = require('./user.js').User;
