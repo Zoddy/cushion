@@ -1,6 +1,7 @@
 'use strict';
 
 var http = require('http'),
+    https = require('https'),
     defaultOptions = require('./config.js'),
     Database = require('./database.js').Database,
     UserApi = require('./user.js').User;
@@ -31,7 +32,9 @@ var cushion = function(host, port, username, password, additional) {
   };
 
   if (this._options.secure === true) {
-    http = require('https');
+    this._http = https;
+  } else {
+    this._http = http;
   }
 };
 
@@ -372,7 +375,7 @@ cushion.prototype.request = function(properties) {
     'application/json';
 
   // set up request object
-  request = http.request(
+  request = this._http.request(
     options,
     this._request.bind(this, properties.callback)
   );
